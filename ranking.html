@@ -1237,7 +1237,8 @@ function getRanking(topN, api, s){
 				"x-rapidapi-host": "tennis-live-data.p.rapidapi.com",
 				"x-rapidapi-key": APIkey
 				},
-			 success: function(output, status, xhr) { 		 
+			 success: function(output, status, xhr) { 
+				alert('success!')	
 				//////////api = output;//////////////
 				headers = xhr.getAllResponseHeaders("application/json");			
 				// Convert the header string into an array of individual headers
@@ -1263,7 +1264,7 @@ function getRanking(topN, api, s){
 				getRanking(200, output, s)
 			 },
 			 error: function(output) {
-				  console.log("Error in API call");
+					alert('Error in API call!')					  
 			 }		
 		  });
  }
