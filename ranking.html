@@ -1236,7 +1236,9 @@ function getRanking(topN, api, s){
 				var testata = {};				
 				arr.forEach(function (line) {
 				  var parts = line.split(': ');
-				  var header = parts.shift().replaceAll('-', '_');
+				  //var header = parts.shift().replaceAll('-', '_');				  				  
+				  var header_sh = parts.shift().replaceAll('-', '_');
+				  var header = header_sh.replaceAll('-', '_');				  				
 				  var value = parts.join(': ');
 				  testata[header] = value;
 				});
