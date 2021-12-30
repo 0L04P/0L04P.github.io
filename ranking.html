@@ -1014,7 +1014,7 @@
 	<label id="calls" style="float: right;"></label>
 	<br/>
 <div class="col-xs-12" styel="height:25px;">
-	<button onclick="alert('clear cache!'); window.location.reload(true);">CLAER CACHE</button>
+	<button onclick="//alert('clear cache!'); window.location.reload(true);">CLAER CACHE</button>
 </div>
 	<div id="btnATP" class="ATPWTA col-xs-5 col-sm-6" style="text-align: center;" onclick="VisualizzaRank('ATP');">
 		 <svg id="svgATP" class="svgATPWTA" version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -1089,49 +1089,61 @@
  var testata = '';
  
  function RankATP(){
- alert('rnk atp') 
+ //alert('rnk atp') 
 	//svuoto e appendo l'HTML
 	$('#rnk').html('');
 	$('#rnk').append(localStorage['olo_HtmlATP']);
  }
   function RankWTA(){
-  alert('wta rnk') 
+  //alert('wta rnk') 
 	//svuoto e appendo l'HTML
 	$('#rnk').html('');
 	$('#rnk').append(localStorage['olo_HtmlWTA']);
  }
  function VisualizzaRank(s){
- alert('VisualizzaRank') 	
-	if(localStorage["olo_API_" + s.toUpperCase()] != undefined){		 
+	if(localStorage["olo_API_" + s.toUpperCase()] != undefined){	
+		alert('VisualizzaRank 1') 	
 		//svuoto e appendo l'HTML
 		$('#rnk').html('');
+		alert('VisualizzaRank 1.1') 	
 		$('#rnk').append(localStorage['olo_Html' + s ]);
+			alert('VisualizzaRank 1.2') 
 		SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
+			alert('VisualizzaRank 1.3') 
 		$('.ATPWTA').removeClass('selected');
+			alert('VisualizzaRank 1.4') 
 		$('#btn' + s).addClass('selected');
+			alert('VisualizzaRank 1.5') 
 		$('.svgATPWTA').removeClass('shadow');
+			alert('VisualizzaRank 1.6') 
 		$('#svg' + s).addClass('shadow');
+			alert('VisualizzaRank 1.7') 
 	}
-	else{
+	else{alert('VisualizzaRank 2') 	
 		setTimeout(function(){
-		
+		alert('VisualizzaRank 2 fine timeout') 	
 			//svuoto e appendo l'HTML
 			$('#rnk').html('');
-			$('#rnk').append(localStorage['olo_Html' + s ]);
-			SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
-			$('.ATPWTA').removeClass('selected');
-			$('#btn' + s).addClass('selected');
-			$('.svgATPWTA').removeClass('shadow');
-			$('#svg' + s).addClass('shadow');
+		$('#rnk').append(localStorage['olo_Html' + s ]);
+			alert('VisualizzaRank 2.2') 
+		SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
+			alert('VisualizzaRank 2.3') 
+		$('.ATPWTA').removeClass('selected');
+			alert('VisualizzaRank 2.4') 
+		$('#btn' + s).addClass('selected');
+			alert('VisualizzaRank 2.5') 
+		$('.svgATPWTA').removeClass('shadow');
+			alert('VisualizzaRank 2.6') 
+		$('#svg' + s).addClass('shadow');
+			alert('VisualizzaRank 2.7') 
 			
 		}, 2000);
 	}
-	
-		 
+	alert('VisualizzaRank 3') 					
  }
 
  $(document).ready(function(){	
-alert('ready') 
+//alert('ready') 
 	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
 	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
 	SalvaData();
@@ -1144,7 +1156,7 @@ alert('ready')
 
 /// Prende in input s i valori "atp" o "wta"
 function getRanking(topN, api, s){
-alert('getrnk')
+//alert('getrnk')
 	let sHTML = '<table style="border-collapse: separate; text-indent: initial; border-spacing: 2px;">';
 	
 	for(let i = 0; i<=topN; ++i){
@@ -1166,7 +1178,7 @@ alert('getrnk')
 }
  
  function SetFlag(api, topN){
- alert('SetFlag');
+ //alert('SetFlag');
 	for(let i = 0; i<=topN; ++i){
 		const parentElement = document.getElementById("band"+i);
 		const flag = new CountryFlag(parentElement).selectByName(api.results.rankings[i].country);
@@ -1177,44 +1189,44 @@ alert('getrnk')
  }
  
  function SalvaData(){
-  alert('SalvaData');
+  //alert('SalvaData');
 	if(localStorage['olo_SavedMonday'] == undefined){
 		localStorage['olo_SavedMonday'] = '20-12-2021';
-		////alert('SalvaData: savedMon=' + localStorage['olo_SavedMonday']);
+		//////alert('SalvaData: savedMon=' + localStorage['olo_SavedMonday']);
 	 }
 	 else{	
 		elapsed = (new Date().getDay() - 1)*24*60*60*1000
 		savedMonday = new Date().getTime() - elapsed
 		dateSavedMonday  = new Date(savedMonday )					
 		localStorage['olo_SavedMonday'] = dateSavedMonday.getDate()+'-'+(dateSavedMonday.getMonth()+1)+'-'+dateSavedMonday.getFullYear();
-		////alert('SalvaData: savedMon= ' +localStorage['olo_SavedMonday']);
+		//////alert('SalvaData: savedMon= ' +localStorage['olo_SavedMonday']);
 	}
  
  }
  
  function VerificaData(APIkey){	
-alert('verificadata') 
+//alert('verificadata') 
 	elapsed = (new Date().getDay() - 1)*24*60*60*1000
 	lastMonday = new Date().getTime() - elapsed
 	dateLastMonday  = new Date(lastMonday)
  
 	if(localStorage['olo_SavedMonday'] == dateLastMonday.getDate()+'-'+(dateLastMonday.getMonth()+1)+'-'+dateLastMonday.getFullYear()){
 		//non chiamo le API, uso i dati salvati
-		//alert('uso i dati salvati')
+		////alert('uso i dati salvati')
 	}else{
-	//alert('ottengo nuovi dati')
+	////alert('ottengo nuovi dati')
 	
 		//chiamo le API per entrambi i ranking e salvo i dati (= il codice HTML)
 		SetHtml("atp", APIkey);
 		SetHtml("wta", APIkey);
 		localStorage['olo_SavedMonday'] = dateLastMonday.getDate()+'-'+(dateLastMonday.getMonth()+1)+'-'+dateLastMonday.getFullYear();	
-		////alert('VerificaData: savedMon ='+localStorage['olo_SavedMonday']);		
+		//////alert('VerificaData: savedMon ='+localStorage['olo_SavedMonday']);		
 	} 
  }
  
 	// Prende in input "atp" o "wta"
  function SetHtml(s, APIkey){
- alert('setHTML')
+ //alert('setHTML')
 	 $.ajax({
 			"async": true,
 			"crossDomain": true,
@@ -1243,7 +1255,7 @@ alert('verificadata')
 				//salvo le API
 				//
 				localStorage["olo_API_" + s.toUpperCase()] = JSON.stringify(output);
-				//alert('olo_API_'+ s.toUpperCase() + '  creato!')
+				////alert('olo_API_'+ s.toUpperCase() + '  creato!')
 				//salvo il codice HTML
 				getRanking(200, output, s)
 			 },
