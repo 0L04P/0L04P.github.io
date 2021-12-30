@@ -1014,7 +1014,7 @@
 	<label id="calls" style="float: right;"></label>
 	<br/>
 <div class="col-xs-12" styel="height:25px;">
-	<button onclick="window.location.reload(true);">CLEAR CACHE</button>
+	<button class="btn btn-success" onclick="window.location.reload(true);">CLEAR CACHE</button>
 </div>
 	<div id="btnATP" class="ATPWTA col-xs-5 col-sm-6" style="text-align: center;" onclick="$('body').css('background-color','#123456').css('color','white');VisualizzaRank('ATP');">
 		 <svg id="svgATP" class="svgATPWTA" version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -1108,7 +1108,9 @@
 		//alert('VisualizzaRank 1.1') 	
 		$('#rnk').append(localStorage['olo_Html' + s ]);
 			
-		SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
+		//SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
+		$('#titolo').text(' ');
+		$('#titolo').css('margin-top', '25px')
 		localStorage['current'] = s
 		$('.ATPWTA').removeClass('selected');
 		
@@ -1159,9 +1161,9 @@ function getRanking(topN, api, s){
  
  document.addEventListener("DOMContentLoaded", function(){
  if(localStorage['current'] != undefined){
-	SetFlag(localStorage['current'], 200)
+	//SetFlag(localStorage['current'], 200)
  }else{
-	SetFlag('ATP', 200)
+	//SetFlag('ATP', 200)
  }
    
 });
@@ -1264,8 +1266,11 @@ function getRanking(topN, api, s){
      */
     constructor (parent) {
         const element = document.createElement("div");
-        parent.appendChild(element);
-        this.element = element;
+		if (parent != null && parent != undefined){
+			parent.appendChild(element);
+			this.element = element;
+		}        
+        
     }
 
     // noinspection JSUnusedGlobalSymbols
