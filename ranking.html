@@ -1087,17 +1087,19 @@
  var testata = '';
  
  function RankATP(){
+ alert('rnk atp') 
 	//svuoto e appendo l'HTML
 	$('#rnk').html('');
 	$('#rnk').append(localStorage['olo_HtmlATP']);
  }
   function RankWTA(){
+  alert('wta rnk') 
 	//svuoto e appendo l'HTML
 	$('#rnk').html('');
 	$('#rnk').append(localStorage['olo_HtmlWTA']);
  }
  function VisualizzaRank(s){
-	 debugger;
+ alert('VisualizzaRank') 	
 	if(localStorage["olo_API_" + s.toUpperCase()] != undefined){		 
 		//svuoto e appendo l'HTML
 		$('#rnk').html('');
@@ -1126,7 +1128,8 @@
 		 
  }
 
- $(document).ready(function(){		
+ $(document).ready(function(){	
+alert('ready') 
 	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
 	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
 	SalvaData();
@@ -1140,6 +1143,7 @@
 
 /// Prende in input s i valori "atp" o "wta"
 function getRanking(topN, api, s){
+alert('getrnk')
 	let sHTML = '<table style="border-collapse: separate; text-indent: initial; border-spacing: 2px;">';
 	
 	for(let i = 0; i<=topN; ++i){
@@ -1161,6 +1165,7 @@ function getRanking(topN, api, s){
 }
  
  function SetFlag(api, topN){
+ alert('SetFlag');
 	for(let i = 0; i<=topN; ++i){
 		const parentElement = document.getElementById("band"+i);
 		const flag = new CountryFlag(parentElement).selectByName(api.results.rankings[i].country);
@@ -1171,6 +1176,7 @@ function getRanking(topN, api, s){
  }
  
  function SalvaData(){
+  alert('SalvaData');
 	if(localStorage['olo_SavedMonday'] == undefined){
 		localStorage['olo_SavedMonday'] = '20-12-2021';
 		////alert('SalvaData: savedMon=' + localStorage['olo_SavedMonday']);
@@ -1185,7 +1191,8 @@ function getRanking(topN, api, s){
  
  }
  
- function VerificaData(APIkey){	 
+ function VerificaData(APIkey){	
+alert('verificadata') 
 	elapsed = (new Date().getDay() - 1)*24*60*60*1000
 	lastMonday = new Date().getTime() - elapsed
 	dateLastMonday  = new Date(lastMonday)
@@ -1206,6 +1213,7 @@ function getRanking(topN, api, s){
  
 	// Prende in input "atp" o "wta"
  function SetHtml(s, APIkey){
+ alert('setHTML')
 	 $.ajax({
 			"async": true,
 			"crossDomain": true,
