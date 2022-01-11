@@ -888,5 +888,11 @@ Lato JS:
 Lato VB.NET
 			ToLower, toUpper
 Le Regex con flag i sono case insensitive		
-ITEM <label class="argomento VB JS"></label> 	
+ITEM <label class="argomento JS"></label> Self-Invoking Functions
+Function expressions can be made "self-invoking".
+ - Function expressions will execute automatically if the expression is followed by ().
+ - You have to add parentheses around the function to indicate that it is a function expression:	
+ (function () {
+ 
+})();
 `
