@@ -887,7 +887,11 @@ Lato JS:
 		.toUpperCase(); .toLowerCase();
 Lato VB.NET
 			ToLower, toUpper
-Le Regex con flag i sono case insensitive		
+Le Regex con flag i sono case insensitive
+
+Un replace javascript insensitive è
+	let auxRegex = new RegExp(TestoRicerca, "ig")
+	let new_str = aux_str.replaceAll(auxRegex, newText);	
 ITEM <label class="argomento JS"></label> Self-Invoking Functions
 Function expressions can be made "self-invoking".
  - Function expressions will execute automatically if the expression is followed by ().

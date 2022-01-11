@@ -62,7 +62,8 @@ function Ricerca(){
 				let str = array[i];
 				//splitto la stringa				
 				let aux_str = str.substring(/label>/.exec(str).index+6).trim()
-				let new_str = `<b>${i})</b> ` + aux_str.replaceAll(TestoRicerca, '<b class="evidenziato">' + TestoRicerca +'</b>');
+				let auxRegex = new RegExp(TestoRicerca, "ig")
+				let new_str = `<b>${i})</b> ` + aux_str.replaceAll(auxRegex, '<b class="evidenziato">' + TestoRicerca +'</b>');
 				$(`#sp${i}`).html(new_str)					
 			}
 		}	
@@ -91,8 +92,10 @@ function Ricerca2(){debugger;
 			let str = array[arrTrovati[i]];
 			//splitto la stringa				
 			let aux_str = str.substring(/label>/.exec(str).index+6).trim()
-			let aux_str_postRicerca1 = aux_str.replaceAll($('#txtCerca').val(), '<b class="evidenziato">' + $('#txtCerca').val() +'</b>');
-			let new_str = `<b>${i})</b> ` + aux_str_postRicerca1.replaceAll(TestoRicerca, '<b class="evidenziato2">' + TestoRicerca +'</b>');
+			let auxRegex0 = new RegExp($('#txtCerca').val(), "ig");
+			let auxRegex1 = new RegExp(TestoRicerca, "ig");
+			let aux_str_postRicerca1 = aux_str.replaceAll(auxRegex0, '<b class="evidenziato">' + $('#txtCerca').val() +'</b>');
+			let new_str = `<b>${i})</b> ` + aux_str_postRicerca1.replaceAll(auxRegex1, '<b class="evidenziato2">' + TestoRicerca +'</b>');
 			$(`#sp${arrTrovati[i]}`).html(new_str);				
 		}
 		else{
