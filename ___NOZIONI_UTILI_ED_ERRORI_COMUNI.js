@@ -835,4 +835,58 @@ backdrop-filter: blur(5px);
 Fare attenzione al fatto che sfoca lo sfondo quindi impostare per l'oggetto 'sopra' z-index:99, altrimenti sarebbero sullo stesso livello e non si avrebbe il blurring
 ITEM <label class="argomento JS"></label> Sostiyuire testo tramite Regex:
 p.replace(regex, 'testo')
+ITEM <label class="argomento telefono"></label> NUMERI DI TELEFONO RAPIDI:
+Migliorini (Lercari):	0105446690 / 3385802066
+De Caro (CF genova): 3427789387
+Morlacchi (CF milano): 3357788179
+Ferretti Luca (CBOX genova): 0104074238
+INVAT : 010823358
+ARDES : 0109643197
+
+ANDREA SCALABRINI : 3297786400
+ITEM <label class="argomento VB"></label> 
+UpdatePanel:
+Per scatenare i post back ad ogni click di un pulsante all'interno dell'UpdatePanel devo usare i Triggers e l'attributo UpdateMode="Conditional"
+
+&lt;asp:UpdatePanel ID="pNOME" runat="server" UpdateMode="Conditional"&gt;
+	&lt;ContentTemplate&gt;
+		
+	&lt;/ContentTemplate&gt;
+	&lt;Triggers&gt;
+		&lt;asp:PostBackTrigger ControlID="btnF2_txtCodana" /&gt;	
+		&lt;!--QUI VANNO GLI ID CONTROL ( = quelli presenti in html) dei pulsanti che voglio scatenino il postback,
+		per gli F2 i pulsanti btnF2_txt sono creati dalle CBO--&gt;
+	&lt;/Triggers&gt;  
+&lt;/asp:UpdatePanel&gt;  
+ITEM <label class="argomento VB"></label> Non funziona l'AddFuturePageValue ---> il nome passato non contiene il .aspx
+oppure
+Nella browse è già scritta la screen di destinazione e le CBO sovrascrivono il pagevalue che passo
+ITEM <label class="argomento VB"></label> 
+Da errore il servizio dopo il caricamento di una applicazione in https:
+nel web config per ogni pagina del progetto servizio va scritto nel tag services (li scrive di defualt per l'http in fase di scrittura codice, sono quelli commentati...)
+
+&lt;services&gt;
+      &lt;service name="CityLookWS.Autenticazione"&gt;
+        &lt;!--&lt;endpoint address="" behaviorConfiguration="CityLookWS.AutenticazioneAspNetAjaxBehavior"
+          binding="webHttpBinding" contract="CityLookWS.Autenticazione" /&gt;--&gt;
+		          &lt;endpoint address=""
+                  binding="webHttpBinding"
+                  bindingConfiguration="secureHttpBinding"
+                  contract="CityLookWS.Autenticazione"
+				          behaviorConfiguration="CityLookWS.AutenticazioneAspNetAjaxBehavior"/&gt;
+
+        &lt;endpoint address="mex"
+                  binding="mexHttpsBinding"
+                  contract="IMetadataExchange" /&gt;
+      &lt;/service&gt;
+ITEM <label class="argomento VB JS"></label> 
+Gestione maiuscole/minuscole:
+Lato CSS:
+	text-transform: lowercase;	text-transform: uppercase;
+Lato JS:
+		.toUpperCase(); .toLowerCase();
+Lato VB.NET
+			ToLower, toUpper
+Le Regex con flag i sono case insensitive		
+ITEM <label class="argomento VB JS"></label> 	
 `

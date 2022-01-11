@@ -9,7 +9,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="Errori.js"></script>
-<!--script src="NOZIONI_UTILI_ED_ERRORI_COMUNI.js"></script-->
+<script src="___NOZIONI_UTILI_ED_ERRORI_COMUNI.js"></script>
 
 </head>
  
@@ -44,6 +44,16 @@
 		display: block;
 	}
 	.cercato:hover{
+		background-color: #ffc800;
+		margin-bottom: 10px;
+		color: black;
+		font-size: 16px;
+		padding: 5px;
+		border: solid 1px white;
+		border-radius: 5px;
+		display: block;
+	}
+	.errori:hover{
 		background-color: #ffc800;
 		margin-bottom: 10px;
 		color: black;
@@ -90,11 +100,12 @@
 		<div class="col-xs-6" style="padding-top:10px; margin-bottom:10px; z-index:999;">
 			<!--b style="z-index:999;">Parole chiave</b--><br/>
 			<div class="col-xs-12" style="position: fixed; padding-top: 20px; z-index:999; margin-left: -30px; z-index:999;">
-				<input id="txtCerca" style="color:black" oninput="Ricerca()"></input>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input id="txtCerca2" style="color:black" oninput="Ricerca2()"></input>	
-				<span class="glyphicon glyphicon-erase pulisci" id="btPulisci" onclick="Pulisci();"></span>
-				<label id="btnJS" style="font-size:14px; color:white;" onclick="btnjs();">JS</label>
-				<label id="btnVB" style="font-size:14px; color:white;" onclick="btnvb();">VB</label>
+				<input id="txtCerca" style="color:black;" oninput="Ricerca()"></input>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input id="txtCerca2" style="color:black;" oninput="Ricerca2()"></input>	
+				<span class="glyphicon glyphicon-erase pulisci" id="btPulisci" onclick="Pulisci();"></span>&nbsp;
+				<label id="btnJS" style="font-size:14px; color:white;" onclick="btnjs();">JS</label>&nbsp;
+				<label id="btnVB" style="font-size:14px; color:white;" onclick="btnvb();">VB</label>&nbsp;
+				<label id="btnSQL" style="font-size:14px; color:white;" onclick="btnsql();">SQL</label>
 			</div>
 		</div>
 		
