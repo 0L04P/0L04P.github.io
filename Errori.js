@@ -1,6 +1,9 @@
+var filtro;
+
 $(document).ready(function(){
 	 //non serve
 	//distruggi();
+	filtro = '';
 }());
  
  var array
@@ -71,9 +74,8 @@ function Ricerca(){
 	TogliSpaziWhitePre();
 }
 
-function Ricerca2(){debugger;
+function Ricerca2(){
 	let TestoRicerca = $('#txtCerca2').val();
-
 
 	if(TestoRicerca!=''){
 		$('#txtCerca').attr('disabled', true)
@@ -106,11 +108,30 @@ function Ricerca2(){debugger;
 	$('body').css('opacity', 1);
 	TogliSpaziWhitePre();
 } 
+function SvuotaFiltro(){
+	filtro = '';
+	return true;
+}
+function PulisciCampi(){
+	$('#txtCerca').val('');
+	$('#txtCerca2').val('');
+	Pulisci();
+	return true;
+}
 //filtro rapido js
 function btnjs(){
 	//$('.argomento').parent().css('display','none'); 
 	//$('.JS').parent().css('display','');
-	if($('#btnJS').css('color') != 'rgb(255, 255, 0)')
+	PulisciCampi();	
+	
+	if (filtro != 'JS'){
+		filtro = 'JS';
+	}else{
+		filtro = '';
+	};
+	
+	//if($('#btnJS').css('color') != 'rgb(255, 255, 0)')	//old
+	if(filtro == 'JS')
 	{
 		$('#btnJS').css('color','rgb(255, 255, 0)').css('font-size','20px');
 		$('#btnVB').css('color','rgb(255, 255, 255)').css('font-size','14px');
@@ -130,8 +151,14 @@ function btnjs(){
 function btnvb(){
 	//$('.argomento').parent().css('display','none'); 
 	//$('.VB').parent().css('display','');
-		
-	if($('#btnVB').css('color') != 'rgb(255, 255, 0)')
+	PulisciCampi();	
+	if (filtro != 'VB'){
+		filtro = 'VB';
+	}else{
+		filtro = '';
+	};
+	///if($('#btnVB').css('color') != 'rgb(255, 255, 0)')
+	if(filtro == 'VB')
 	{
 		$('#btnVB').css('color','rgb(255, 255, 0)').css('font-size','20px');
 		$('#btnJS').css('color','rgb(255, 255, 255)').css('font-size','14px');
@@ -153,8 +180,14 @@ function btnvb(){
 function btnsql(){
 	//$('.argomento').parent().css('display','none'); 
 	//$('.VB').parent().css('display','');
-		
-	if($('#btnSQL').css('color') != 'rgb(255, 255, 0)')
+	PulisciCampi();	
+	if (filtro != 'SQL'){
+		filtro = 'SQL';
+	}else{
+		filtro = '';
+	};
+	//if($('#btnSQL').css('color') != 'rgb(255, 255, 0)')
+	if(filtro == 'SQL')
 	{
 		$('#btnSQL').css('color','rgb(255, 255, 0)').css('font-size','20px');
 		$('#btnJS').css('color','rgb(255, 255, 255)').css('font-size','14px');

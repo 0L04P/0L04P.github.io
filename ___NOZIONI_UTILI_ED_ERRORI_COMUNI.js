@@ -204,11 +204,14 @@ ITEM <label class="argomento"></label> Per le righe che si esplodono servono:
 		&lt;/NestedViewTemplate&gt;
 	&lt;/MasterTableView&gt;
 &lt;/cbo:GridView&gt;		
-ITEM <label class="argomento"></label> per gestire gli spazi e gli a capo posso usare le proprietà
+ITEM <label class="argomento"></label> Per gestire gli spazi e gli a capo posso usare le proprietà
 	white-space: pre;	
 	white-space: pre-line;
 	white-space: pre-wrap;
 	cfr. <a href='https://developer.mozilla.org/en-US/docs/Web/CSS/white-space' class='Link' style=''>developer.mozilla</a>
+	
+Altresì poso fare
+	Replace(vbCrLf, "<br>")
 ITEM <label class="argomento"></label> USARE UNO USER CONTROL
 
 	1) Private ucInvioMailOrg As ucInvioMailOrg
@@ -276,6 +279,7 @@ ITEM <label class="argomento"></label> Per aggiungere lo showloading, devo aggiu
 	}
 </script>
 ITEM <label class="argomento"></label> Scaricare uno .zip
+Prima creo/copio in una cartella tutti i file da zippare, con path del tipo "...\TMP\..." poi:
 
 	Dim zipPath As String = HttpContext.Current.Request.PhysicalApplicationPath & "Tmp\DownloadZIP_" & sDataOra & ".zip"
 	ZipFile.CreateFromDirectory(sPathTmp, zipPath)
@@ -359,9 +363,9 @@ dal codice:
 	
 ITEM <label class="argomento"></label> FILTRI CON MULTISELEZIONE
 1) lato .ASPX
-	<telerik:RadComboBox ID="cmb" runat="server" Width="100%" LarghezzaColonne="90;250" TypeControl="ComboBox" TypeData="Text" DataValueField="" DataTextField="" AccettaTesto="false"
-                    CheckBoxes="true"  AllowCustomText="false" CheckedItemsTexts="DisplayAllInInput" >                                
-    </telerik:RadComboBox>
+	&lt;telerik:RadComboBox ID="cmb" runat="server" Width="100%" LarghezzaColonne="90;250" TypeControl="ComboBox" TypeData="Text" DataValueField="" DataTextField="" AccettaTesto="false"
+                    CheckBoxes="true"  AllowCustomText="false" CheckedItemsTexts="DisplayAllInInput" &gt;                                
+    &lt;/telerik:RadComboBox&gt;
 	
 2) lato RBOWIN	
 	creo la query
@@ -433,11 +437,11 @@ END
 
 ITEM <label class="argomento"></label> Dropdownlist con itemlist a sorgente
 
-<cbo:DropDownList ID="cmbInviati" runat="server" CssClass="form-control">
-	<asp:ListItem Value="NO">No</asp:ListItem>
-	<asp:ListItem Value="SI">Sì</asp:ListItem>
-	<asp:ListItem Value="TUTTI">Tutti </asp:ListItem>
-</cbo:DropDownList>
+&lt;cbo:DropDownList ID="cmbInviati" runat="server" CssClass="form-control"&gt;
+	&lt;asp:ListItem Value="NO"&gt;No&lt;/asp:ListItem&gt;
+	&lt;asp:ListItem Value="SI"&gt;Sì&lt;/asp:ListItem&gt;
+	&lt;asp:ListItem Value="TUTTI"&gt;Tutti &lt;/asp:ListItem&gt;
+&lt;/cbo:DropDownList&gt;
 ITEM <label class="argomento"></label> Disabilitare click cella
 
 1) Nella cWinDef
@@ -559,10 +563,11 @@ gli aggiornamenti si trovano su serverad/CdMaster!
 ITEM <label class="argomento"></label> CssClass="form-control" 
 
 CssClassDisable="cboTextBoxDisable"
-ITEM <label class="argomento"></label> gestire checkbox nei report:
+ITEM <label class="argomento VB"></label> Gestire checkbox nei report:
 !!!NELL ItemDataBinding!!!
-1) imposto valuetrue e value false
-2) se dipende dal field.[...] scrivo la condizione  (value) lato progettazione
+1) imposto il TRUEVALUE a 1 (di default è "true")
+2) se non ancora impostato scrivo il test del checkbox NON in un txt a lato, ma nell'attributo Text del checkbox!
+3) se dipende dal field.[...] scrivo la condizione  (value) lato progettazione
 senno laro codice
 	chkSi = DirectCast(Telerik.Reporting.Processing.ElementTreeHelper.GetChildByName(pInterv, "chkAutospurgoSi"), Telerik.Reporting.Processing.CheckBox)
 	chkNo = DirectCast(Telerik.Reporting.Processing.ElementTreeHelper.GetChildByName(pInterv, "chkAutospurgoNo"), Telerik.Reporting.Processing.CheckBox)
@@ -574,6 +579,10 @@ senno laro codice
 	chkSi.Value = "0"
 	chkNo.Value = "1"
 	End If
+	
+-------
+Per forzare il check di un checkbox:
+dal form di Progettazione nel Value imposto  = True 
 ITEM <label class="argomento"></label> COnnessione MAster nel reportDim CnnStringMaster As String = CBO.Web.UI.Page.Connessione.ConnectionString.Replace("_MasterLift", "")
 ITEM <label class="argomento"></label> Report info utili:
 Note Report:
@@ -899,4 +908,344 @@ Function expressions can be made "self-invoking".
  (function () {
  
 })();
+ITEM <label class="argomento VB"></label> Multiselezione
+1) OSS (al 05/07/2021):
+	IN PRESENZA DI BROWSE CON MULTISELEZIONE LE COLONNE CON ALIAS DEL TIPO [*...] DANNO ERRORE
+	MESSO  A POSTO NELLA LIBRERIA POCHI GIORNI FA (6 luglio 21)
+	
+	SE USO COLONNE SENZA ASTERISCO FUNZIONA SICURAMENTE TUTTO, ALTRIMENTI DA QUALCHE PARTE DA ERRORE...
+	
+2) NELLA cWinDef, nel metodo    ..._grdGriglia__1(ByRef CboObject As Object)    INSERISCO 
+	i) per abilitare la multiselezione
+	
+	Private Sub Strumentazioni_B__grdGriglia__1(ByRef CboObject As Object)
+		'abilito multiselezione
+		m_Parametri.Scrivi("MULTISELEZIONE", "1")
+		m_Parametri.Scrivi("MULTISELEZIONE_COLONNE_CHIAVE", "QrCodeStrumentazione")	
+		
+		!POSSO SEPARARE PIù COLONNE CON LA VIRGOLA!
+		m_Parametri.Scrivi("MULTISELEZIONE_COLONNE_CHIAVE", "Anno, Numero, Riga")
+		
+	ii) per nascondere eventuali colonne per cui avevo errore (punto (1))
+		
+		Private Sub Strumentazioni_B__grdGriglia__1__Righe(ByRef item As Telerik.Web.UI.GridDataItem, ByRef CboObject As Object)
+			'nascondo "a mano" le colonne  [IdLinea] e [CodReparto]
+			m_GrigliaWeb.Columns.FindByDataField("IdLinea").HeaderStyle.CssClass = "nascosto"
+			m_GrigliaWeb.Columns.FindByDataField("IdLinea").ItemStyle.CssClass = "nascosto"
+			
+	iii) per gestire le righe selezionate DEVO ESSERE NELL'FCODE
+		 QUI POSSO USARE IL CONTROLLO  m_oBrowse.GetRigheSelezionate
+		 
+		 ES: 
+		 
+		 If m_oBrowse.GetRigheSelezionate.Rows.Count = 0 Then
+                    Dim oMsg As New cMsg(Me, "Selezionare almeno una sinistro per cui scaricare la reportistica")
+                    oMsg.Show()
+                    Exit Sub
+                Else
+				...
+				End If
+		 End If
+	iv) PUNTO CRUCIALE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	    i metodi cbo che gestiscono salvataggio delle righe spuntate sono generati a seguito dei un F10
+		Quindi il mio metodo che richiama le colonne selezionate deve in qualche modo essere gestito nell'FCODE F10
+		
+Per ogni dubbio cfr ARDES Ubicazioni_B.aspx		
+ITEM <label class="argomento VB"></label> F2
+Negli F2 ho due eventi distinti:
+- F2code generato dopo aver selezionato la riga (passando alla lente di ingrandiemento)
+- XCP: nel caso fosse abilitata la possibilità di scrivere nell'F2 è generato all'invio
+ITEM <label class="argomento VB"></label> L'evento F2 o F2CODE non viene scatenato poichè sono in una screen e c'è scritto Handles m_oBrowse.F2CODE
+ITEM <label class="argomento VB"></label> F2 con MULTISELEZIONE:
+1) nella cWinDef creo il solito metodo 
+	Private Sub pagina__txtNome__1(ByRef CboObject As Object)
+        'abilito multiselezione
+        m_Parametri.Scrivi("MULTISELEZIONE", "1")
+        m_Parametri.Scrivi("MULTISELEZIONE_COLONNE_CHIAVE", "Codice")
+    End Sub 
+ed in cima al codice, sotto lo strWinKey va messo 
+	'pulisco il campo multiselezione
+	m_Parametri.Scrivi("MULTISELEZIONE", "0")
+in modo che se avessi l'F2 nella stessa pagina di una griglia non forzi il codice per la multiselezione anche sulla griglia (e dia errore se non esiste la colonna!)
+ITEM <label class="argomento VB"></label> Esportare su Excel da datatable:
+
+Dim oDbWin As CInfoDBWin = CInfoDBWin.GetInfoDBWin(enuAppPlatform.Web, Connessione, "cer", CInfoDBWin.enuModalitaDBWin.F2, "~/cerAmministratoreStampeContabili_S.aspx", "Esporta", 1)
+
+        sSQL = ""
+        sSQL = oDbWin.SQLString
+        sSQL = sSQL.Replace("$FiltroAmm$", sCodiciAmm)
+        sSQL = sSQL.Replace("$DbMaster$", DbMaster)
+        sSQL = sSQL.Replace("$DataRiferimento$", cDBUtility.GetDate(Connessione, cDBUtility.FormatoData.SoloData))
+
+        dt.Clear()
+        dt = cDBUtility.GetDataTable(sSQL, Connessione)
+
+        If Not dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim sPathFile As String = Request.PhysicalApplicationPath & "Tmp\" & Utente.UserID & "\"
+            If Not System.IO.Directory.Exists(sPathFile) Then System.IO.Directory.CreateDirectory(sPathFile)
+            sPathFile += "EstrattoConto.xlsx"
+
+            If cStampe.EsportaSuExcel(sPathFile, dt) Then
+                Response.Redirect("Tmp/" & Utente.UserID & "/EstrattoConto.xlsx")
+            Else
+                Dim oMsg As New cMsg(Me, "Impossibile esportare i dati su Excel")
+                MasterCertDLL.cEventi.Registra(Connessione, MasterCert.Web.UI.Page.Utente.UserID, Me.Path, "Anomalia: impossibile esportare i dati su Excel")
+                oMsg.Show()
+            End If
+        End If
+ITEM <label class="argomento VB"></label>	
+Creare da path	
+If Not System.IO.Directory.Exists(sPath) Then System.IO.Directory.CreateDirectory(sPath)
+
+se esiste eliminare da path
+If System.IO.File.Exists(sPath) Then
+	System.IO.File.Delete(sPath)
+End IF
+ITEM <label class="argomento VB"></label> 	Viewstate
+A seguito di un postback il combobox ha perso il valore selezionato
+=>
+View state maintains the state of all asp controls property on the page whenever the page post backs to the web server.
+By default, view sate is enabled for every asp control. You can see View state in source view of a page and it is saved in hidden form field on the page. View state is good to maintain but it has also disadvantage that it stuffing too much data into view state and it slow down the process of rendering page.
+
+You can maintain or disable individual control, page or an application.By default EnableViewState="True" for control, page or application.
+
+Disable individual control using Control.EnableViewState property with false.
+
+Use page directive to disable view state on page.
+<%@ Page Language="VB" EnableViewState="false" %>
+If you set EnableViewState property value false in page directive, then you cannot enable view state property in control level 
+ITEM <label class="argomento VB"></label> 
+CDate(cDBUtility.GetDate(Connessione, cDBUtility.FormatoData.SoloData)).AddDays()
+ITEM <label class="argomento VB"></label> 
+Il pagevalue non viene tirato su: è case sensitive!
+ITEM <label class="argomento VB"></label> 
+Creare al volo nuovo impianto ed evadere chiamata su di esso:
+(Nel parametro $NC è riportato il numero di default dell'impianto Nuovo )
+1) Menu tecnico
+2) ricerca impianto
+3) nuovo impianto (qui è tirato su il dettaglio dell'impianto con codice fisso 9999)
+4) nuova chiamata
+5) conferma --> errore: va avviata
+6) menu tecnico --> evasione rapida
+ITEM <label class="argomento VB"></label> 
+Nel parametro $NC è riportato il numero di default dell'impianto Nuovo 
+Nel caso stessi per compilare un rappotino di un intervento associato ad un impianto sconosciuto devo usare il blocco segente per gestire eventuali informazioni  base dell'impianto:
+
+	If MasterLiftDLL.cParametri.rilparN("$NC", CBO.Web.UI.Page.Connessione) <> section.DataObject("Impianto") Then
+		'caso impianto codificato a database
+		Dim sSQL As String = "  SELECT ISNULL(Quartiere,'') AS [Quartiere], ISNULL(Indirizzo,'') + ' ' + ISNULL(Localita,'') + ' (' + ISNULL(Provincia,'') + ') ' + ISNULL(Cap,'') AS [Indirizzo] FROM AI_Impianti WHERE Codice = " & section.DataObject("Impianto")
+		Dim op As cProprieta = cDBUtility.LeggiRecord(CBO.Web.UI.Page.Connessione, sSQL)
+		txt = DirectCast(Telerik.Reporting.Processing.ElementTreeHelper.GetChildByName(pCliente, "txtIndirizzo"), Telerik.Reporting.Processing.TextBox)
+		txt.Value = op.Leggi("Indirizzo")
+		txt = DirectCast(Telerik.Reporting.Processing.ElementTreeHelper.GetChildByName(pCliente, "txtUbicazione"), Telerik.Reporting.Processing.TextBox)
+		txt.Value = op.Leggi("Quartiere")
+	Else
+		'caso impianto nuovo
+		Dim Cliente As String
+		Cliente = section.DataObject("Cli_RagSoc") & "   -   "
+		Cliente += section.DataObject("Cli_Indirizzo") & " - "
+		Cliente += section.DataObject("Cli_Cap") & " "
+		Cliente += section.DataObject("Cli_Localita") & " "
+		If section.DataObject("Cli_Provincia") <> "" Then
+			Cliente += "(" & section.DataObject("Cli_Provincia") & ")"
+		End If
+
+		txt = DirectCast(Telerik.Reporting.Processing.ElementTreeHelper.GetChildByName(pCliente, "txtIndirizzo"), Telerik.Reporting.Processing.TextBox)
+		txt.Value = Cliente
+	End If
+ITEM <label class="argomento"></label> 
+TODO da correggere!
+1) gestione degli ime_i nella load
+
+crea giusto solo 
+btn = ControlFinder.PageFindControl(Me, "btnEsci")
+        If Not btn Is Nothing Then btn.Attributes.Add("style", "display: none")
+2) la classe contiene un _S che non ci va 
+
+ec/bes
+1) usare font-family: monospace;
+ec
+2) ricerca testuale case insensitive! ora "A" <> "a" FATTO!
+
+bes
+3) gestione dei $ime_i$ nella load
+
+crea giusto solo 
+btn = ControlFinder.PageFindControl(Me, "btnEsci")
+        If Not btn Is Nothing Then btn.Attributes.Add("style", "display: none")
+4) la classe contiene un _S che non ci va 
+ITEM <label class="argomento JS"></label> 
+function Copia(id){
+	var copyText = document.getElementById(id);
+
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+	navigator.clipboard.writeText(copyText.value);
+}
+
+ondblclick="Copia()"
+ITEM <label class="argomento VB"></label> Se in un oggetto cMsg scrivo nello show il path di un form, 
+viene mostrato l'alert e viene eseguito un redirect alla pagina indicata!
+ITEM <label class="argomento JS"></label> Property di tipo cProprieta:
+
+Private Property m_sqlGraficiCorrenti As cProprieta
+        Get
+            Return CType(PageValue("m_sqlGraficiCorrenti"), cProprieta)
+        End Get
+        Set(value As cProprieta)
+            PageValue("m_sqlGraficiCorrenti") = value
+        End Set
+    End Property
+
+e la popola:
+	
+	 If m_sqlGraficiCorrenti Is Nothing Then
+		m_sqlGraficiCorrenti = New cProprieta
+	End If
+	m_sqlGraficiCorrenti.Scrivi(sIdGrafico, strSql)
+ITEM <label class="argomento VB"></label> Errore nel catch dell'IClassi_Update "Connessione chiusa": aprire il MyProject e verificare che sia presente in tutte le connection string la spunta "Salva Password"!
+ITEM <label class="argomento VB"></label> Come popolare le tabelle cha per aggiungere nuovo grafico:
+1)	Agg riga nella cha_TabGraficiSezioni
+2)	Agg. Righe del dettaglio nella cha_TabGraficiElencoTest (sta per Testata!)
+3)	Nella TabGraficiElencoDett vanno le query + un codice identificativo del grafico (verificare che non sia già presente né qui né in altre tabelle cha_)
+OSS: usare nella query (se ho date)
+Declare @DaData datetime
+Declare @AData datetime
+
+Set @DaData='$DaData$'
+Set @AData='$AData$'
+
+IF @DaData=''
+   SET @DaData=(SELECT Convert(datetime, Str(Year(Getdate()),4)+'-01-01'))
+IF @AData=''
+   SET @AData=(SELECT Convert(datetime, Str(Year(Getdate()),4)+'-12-31'))
+E sotto
+WHERE NC.DataApertura BETWEEN @DaData And @AData
+
+OSS: i datatable devono essere del tipo prima colonna: testo, seconda:numeri!
+OSS: le query sono eseguite sul db Master, se uso oggetti MLift usare $DbMasterLift$!
+
+4)	Nella SELECT * FROM cha_TabGraficiFiltri vanno scritti i filtri che userò
+5)	Nella cha_ValoriFiltri saranno salvati i valori dei filtri
+6)	Tip: nella DisegnaGrafico non posso richiamare per serieGrafico le proprietà dell’oggetto (se ColumnSeries, se LineSeries, ..) poiché è stato definito originariamente senza tipo e a runtime glielo assegno, quindi l’intellisense non mi aiuta: posso però metteremi temporanemanete nel Select Case m_ChartType e qui facendo dopo l’inizializzazione dell’oggetto .NomeAttributo vedo le proprietà esposte! 
+ITEM <label class="argomento SQL"></label>
+Abilitare statistiche tempo esecuzione query su SQL Server:
+SET STATISTICS TIME ON; 
+Nella tasca Messaggi vedo il tempo effettivo
+ITEM <label class="argomento"></label>
+Per la creazione delle icone per le App Android/IOS e per la creazione del banner da usare sul PlayStore:
+https://icon.kitchen/
+ITEM <label class="argomento VB"></label>
+Chiudere un form dialog
+1) btnAnnulla.OnClientClick = "var wnd = GetRadWindow(); wnd.close();return false;"
+2)  Private Sub m_oScreen_AfterUPDATE(ByRef p_Dati As cProprieta) Handles m_oScreen.AfterUPDATE
+        ClientScript.RegisterStartupScript(Me.GetType, "close", "var wnd = GetRadWindow(); wnd.close();", True)
+    End Sub
+ITEM <label class="argomento VB"></label>
+In un Form Dialog importanti i tag
+	 &lt;cbo:ScriptManager ID="scriptManager" runat="server"&gt;&lt;/cbo:ScriptManager&gt;
+
+            &lt;telerik:RadAjaxLoadingPanel runat="server" ID="raLoadingPanel"&gt;
+            &lt;/telerik:RadAjaxLoadingPanel&gt;
+
+ITEM <label class="argomento VB XAM"></label> Su Xamarin non va il debug ---> sono in modalità Release anzichè Debug!
+ITEM <label class="argomento VB XAM"></label> Visual studio non vede il dispositivo collegato: eseguire Visual Studio come amministratore!
+ITEM <label class="argomento VB XAM"></label> C# - dichiarazione variabili:
+var name = "C# Corner"; // Implicitly typed.  
+string name = "C# Corner"; // Explicitly typed. => type variableName = value;
+ITEM <label class="argomento VB XAM"></label> C# - Property
+	string sPathDownload = "";
+	public string mPathDownload { get =&gt; sPathDownload; set =&gt; sPathDownload = value; }
+
+Nell'interfaccia scrivo invece
+	string mPathDownload { get; set; }
+ITEM <label class="argomento VB XAM"></label> Per le icone da usare su Xamarin per le app Android e IOS USARE IL SITO IconKitchen
+ITEM <label class="argomento VB"></label> 	
+Se il codice della browse o screen non passa nell'FCODE potrei:
+	-aver istanziato la screen/browse nell'if not isPostback anzichè fuori
+	-aver scritto uno ShowLoading al click el pulsante e generar errore js perchè non è definito (e.g. sono in un FormDialog)
+ITEM <label class="argomento VB"></label> 	
+Nei report NON va passato il tag Filtro sennò si genera un errore "#text"
+ITEM <label class="argomento VB"></label> 
+Per forzare manualmente il sorting di un report devo mettere, nell'ITEM DATABINDING
+
+Dim sorting1 As New Telerik.Reporting.Sorting()
+sorting1.Expression = "=Fields.ProductID"
+sorting1.Direction = Telerik.Reporting.SortDirection.Asc
+
+report1.Sortings.Add(sorting1)
+
+Altresì facendo tasto destro 'sul nulla' e scegliendo sorting
+ITEM <label class="argomento JS"></label> 
+Se un bottone che ho nascosto e poi visualizzato è troppo grande/piccolo potrebbe essere colpa dell'attributo 'display'
+se uso block puo essere più grande, meglio forse 'inline-block'...
+ITEM <label class="argomento VB JS"></label> 	
+Impostare le cifre decimali:
+Lato aspx
+	TypeData="numeric" Decimali="2"
+Lato html/js	
+	type="numeric" step="0.01"
+ITEM <label class="argomento VB"></label> 	
+<b style="font-size:16px;">Gestione Tabelle</b>
+
+0) nella Page del progetto aggiungere la properyty
+	Public Shared Property GestioneTabelle() As cGestioneTabelle
+	....
+
+1) Nel progetto aggiungere la classe MasterPageTabelle (MasterPage nidificata che ha come MasterPage quella classica)
+
+2) Aggiungere le tabelle con il codice corretto (cfr. Query Insert già pronta)
+	xxx_ElencoTabelle
+	xxx_ElencoTabelle_C
+	xxx_ElencoTabelle_D
+	xxx_ElencoTabelle_F
+	
+3) Creare i form:
+	frmGestioneTabelle_B.aspx (ha come masterPage quella nuova)
+	frmGestioneTabelle_S.aspx (ha come masterPage quella classica)
+
+
+4) Attenziona alla riga 
+lButton.Attributes("href") = "javascript:__doPostBack('ctl00$ctl00$ZZZZZZ$btnMenu_" & Mnu.NomeTabella & "','')" nella MasterPageTabelle.Master.vb
+
+Fare attenzione a mettere in ZZZZZZ il valore presente nella MasterPage nell'ID alla riga
+ <asp:ContentPlaceHolder ID="corpo" runat="server">
+Di default c'è content, noi mettiamo corpo o body, tale valore va messo anche al posto di ZZZZZZ e va richiamatao correttamente nella MasterPage nidificata che ho creato
+da comunque errore se presente il valore di default e io lo ho cambiato....)
+
+
+5) Tramite la CboUtility --> Gestione tabelle inserisco i dati
+IMPORTANTE: nell'iclassi_sSQL ci va una query del tipo SELECT * FROM TABELLA WHERE CHIAVE = $CHIAVE$,
+se non metto il select * ma select con i nomi delle colonne da errore in fase di update!
+ITEM <label class="argomento"></label> 
+Non riesco ad aprire un txt da qualche parte sul server, file does not exist
+---> ho notepad aperto in modalità amministratore! Aprire col blocco note
+ITEM <label class="argomento VB"></label> 	
+Se desse errori il salvataggio a database di alcuni campi numerici il problema potrebbe essere dovuto al fatto che i textbox abbiano TypeData="Text" ----> ci va TypeData="Numeric"
+ITEM <label class="argomento JS"></label> 
+Dopo che la pagina è stata caricata
+document.addEventListener("DOMContentLoaded", function () {
+    //dopo che la pagina è stata caricata eseguo un gestiscicampi per visualizzare i bottoni correttamente
+    GestisciCampi();
+});
+ITEM <label class="argomento SQL"></label>Per verificare se ci sono delle transazioni aperte:
+SELECT * FROM sys.sysprocesses WHERE open_tran = 1
+ITEM <label class="argomento VB"></label> Duplicare un report:
+1) Creo il report vuoto
+2) Apro nella cartella del progetto la sottocartella Rpt: qui uno per volta apro nell'editpr di testo i file (report originale e report nuovo vuoto) con estensione
+	.resx
+	.Designer.vb
+	.vb
+Faccio un copia ed incolla dal report originale al mio con l'accortezza di cambiare eventuali Namespace e nomi delle classi	
 `
+
+
+
+
+
+
+
+
+
+
