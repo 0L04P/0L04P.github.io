@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>Menu</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@200&family=M+PLUS+2:wght@300&display=swap');
+</style>
+  <link rel="stylesheet" href="base.css">
+  <!--gestione bandiere-->
+  <link rel="stylesheet" href="country-flag.css">
+  <script src="country-flag.js"></script>
+ 
+</head>
+
+<style>
+*{font-family: 'Fredoka', sans-serif;
+	font-family: 'M PLUS 2', sans-serif;}
+</style>
+
+
+<body  style = "background-color:#654321; color:#ccc;">
+<div class="container" style="">
+	<div id="divMenu"  class="col-xs-12" style="margin-top:5px; padding: 10px; white-space: nowrap; overflow-x: auto; height: 56px;/* border: 1px solid rgb(159, 191, 145); border-radius: 10px;*/">               
+		<button id='btnMenuRanking' class='btn btn-primary' style="width: 200px">Ranking</button>
+		<button id='btnMenuRisultati' class='btn btn-success' style="width: 200px">Risultati</button>
+		<button id='btnMenuAltro'class='btn btn-info' style="width: 200px">Altro</button>
+	</div>  
+	
+	<h4 id="titolo" style="margin-bottom: -20px">Altro</h4>
+</div>
+
+ <script>
+ $(document).ready(function(){
+	GestioneMenu();
+	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
+	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
+	SalvaData();
+	//procedo quindi a calcolare, a partire da oggi l'ultimo lunedì in cui si è pubblicato un ranking
+	VerificaData("501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");	              
+	//testAPI('ATP', "501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");
+	$('#calls').text(localStorage['olo_APIcalls']);
+	$('#btnATP').click();
+ })
+ 
+ function GestioneMenu(){
+	$('#btnMenuRanking').on('click', function(){
+		window.location.href = 'Ranking.html';
+	});
+	
+	$('#btnMenuRisultati').on('click', function(){
+		window.location.href = 'Risultati.html';
+	});
+	
+	$('#btnMenuAltro').on('click', function(){
+		//window.location.href = 'Altro.html';
+	});
+}
+
+ 
+ </script>
+ 
+ </body> 
+ </html>
