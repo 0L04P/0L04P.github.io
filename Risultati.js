@@ -16,6 +16,19 @@ var testata = '';
 		$('#calls').text('-');	
 	}
 	
+	try{
+			
+		let oggi = GetOggi().replaceAll('-', '');
+		let ieri = GetIeri().replaceAll('-', '');
+		if (localStorage['olo_API_Risultati'+oggi] != 'undefined'){
+			SetRisultati(localStorage["olo_API_Risultati" + oggi], 1)
+		}
+		else if(localStorage['olo_API_Risultati'+ieri] != 'undefined'){
+			SetRisultati(localStorage["olo_API_Risultati" + ieri], 1)
+		}		
+	}catch(error){
+		console.log('Errrore in avvio: '+ error)		
+	}	
  })
  
  Date.prototype.addDays = function(days) {
@@ -59,7 +72,7 @@ function GestioneMenu(){
 	return ieri;
  }
  
-  function FormattaData(data){		
+  function FormattaDataToIta(data){		
 	p = data.substr(0,10).split('-')
 	return p[2] + '-' + p[1] + '-' +p[0];
  }
@@ -139,7 +152,7 @@ function GestioneMenu(){
 		$('#divRisultati').append(sHTML_NomeTorneo);		
 	}
 	
-	$('#dataRisultati').text(FormattaData(output.results[0].matches[0].date))
+	$('#dataRisultati').text(FormattaDataToIta(output.results[0].matches[0].date))
 	
 	for (let iTorneo = 0; iTorneo<= iNumTornei - 1; ++iTorneo){	
 	//console.log('iTorneo' + iTorneo)
@@ -210,7 +223,6 @@ function GestioneMenu(){
 function getRisultati(status, result, iPartita){
 	let sRet ='';
 		try{
-	debugger;
 	//verifico lo stato della partita	
 	switch(status){
 		
