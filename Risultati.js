@@ -4,9 +4,9 @@ var testata = '';
 
  $(document).ready(function(){
 	GestioneMenu();
-	$('#calls').text(localStorage['olo_APIcalls']);
-	
-	if (localStorage['MyApiKey'] ==undefined){		
+	$('#calls').text(localStorage['olo_APIcalls']);	
+	if (localStorage['MyApiKey'] == 'undefined'){	
+		console.log('cambio api')	
 		localStorage['MyApiKey'] = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
 		localStorage['MyOtherApiKey'] = '46f1613b96msheee8098853bf83ep1d513ajsnd12cda8354af';
 	}	
@@ -60,7 +60,9 @@ function GestioneMenu(){
  
 // Prende in input "atp" o "wta"
  function AggiornaRisultati(data, isIeri){
-	 //se di ieri restituisco il valore salvato se presente	 	  
+	 //se di ieri restituisco il valore salvato se presente	 
+	 SetRisultati(localStorage['olo_API_Risultati20220311'], 1)
+/*	 da scommentare
 	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
 		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data, 1)	
@@ -72,7 +74,7 @@ function GestioneMenu(){
 				"method": "GET",
 				"headers": {
 					"x-rapidapi-host": "tennis-live-data.p.rapidapi.com",
-					"x-rapidapi-key": APIkey
+					"x-rapidapi-key": localStorage['MyApiKey']
 					},
 				success: function(output, status, xhr) { 		 
 								
@@ -100,11 +102,7 @@ function GestioneMenu(){
 						localStorage['MyOtherApiKey'] = aux;
 					}
 									 
-					localStorage["olo_API_Risultati" + data.replaceAll('-', '')] = JSON.stringify(output);
-					//salvo il codice HTML
-					
-					//console.log('output:');
-					//console.log(output);
+					localStorage["olo_API_Risultati" + data.replaceAll('-', '')] = JSON.stringify(output);					
 					SetRisultati(output, data, 0)
 				 },
 				 error: function(output) {
@@ -112,16 +110,15 @@ function GestioneMenu(){
 				 }		
 			  });
 	}
-	 
+*/	 
  }
  
- function SetRisultati(output, data, isLocalStorage){
+ function SetRisultati(output,  isLocalStorage){
 	 $('#divRisultati').html('');
 	if(isLocalStorage == 1){
 		output= JSON.parse(output);
 	}
 	
-	 
 	let sHTML = ''
 	let sHTML_NomeTorneo = '';	
 	let iNumTornei = output.results.length;
@@ -177,12 +174,12 @@ function GestioneMenu(){
 						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita) + `</label>
 					</div>			
 					<div  id="FlagHome"  class='col-xs-3 col-sm-4 NoPad AlignLeft' style='padding: 0;'><label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label></div>					
-						<span class="badge badge-pill round">R16</span>
+						<span class="badge badge-pill round">` + partita.round_name +`</span>
 					</div>
 				</div>`;
 				
 			
-				if ( output.results[iTorneo].matches[iPartita].result && output.results[iTorneo].matches[iPartita].result.winner_id){
+				if ( output.results[iTorneo].matches[iPartita].result && output.results[iTorneo].matches[iPartita].result.winner_id && output.results[iTorneo].matches[iPartita].result.result_description == 'Ended'){
 					if (output.results[iTorneo].matches[iPartita].result.winner_id == output.results[iTorneo].matches[iPartita].away_id){					
 						sHTML_partita = sHTML_partita.replace('giocatoreAway','giocatoreAway vincitore')
 					}else{
@@ -201,14 +198,13 @@ function GestioneMenu(){
 	
 	}	
 	
-	console.log('parto')
 	SetFlagRis(output, iNumTornei);
 }
 
 function getRisultati(status, result, iPartita){
 	let sRet ='';
 		try{
-	
+	debugger;
 	//verifico lo stato della partita	
 	switch(status){
 		
@@ -226,10 +222,8 @@ function getRisultati(status, result, iPartita){
 	
 	if( result == null || result == 'null' || result == undefined || result == 'undefined'){
 		return '';
-	}
+	}	
 	
-	let r = 0
-	//debugger;
 	if (result.away_set1 != undefined){
 		sRet += result.away_set1 +''+ result.home_set1 + ' ';
 		sRet += getTieBreakResult(result, 1);
@@ -265,7 +259,7 @@ function getRisultati(status, result, iPartita){
 function getTieBreakResult(result, index){
 	let tb = '';
 	let h, a, h_tb, a_tb;
-	//debugger;
+	
 	switch(index){		
 		case 1: 
 		h = result.home_set1;
@@ -303,31 +297,32 @@ function getTieBreakResult(result, index){
 	 
 	if (h != undefined && a != undefined){
 			if (parseInt(h) + parseInt(a) >= 13){	//CON IL >=13 CONTEMPLO ANCHE IL TB SUL 12-12 DEL QUINTO SET A WIMBLEDON
-				tb = '(' + (Math.min(parseInt(h_tb), parseInt(a_tb))) + ')'					
+				tb = '(' + (Math.min(parseInt(h_tb), parseInt(a_tb))) + ')'	;
+				if (isNaN(tb)){tb = '';}
+				
 			}								
 		}		
 	return tb;	
 }
 
- function SetFlagRis(output, iNumTornei){
-	 console.log('partito')
+ function SetFlagRis(output, iNumTornei){	 
 	for (let iTorneo = 0; iTorneo<= iNumTornei - 1; ++iTorneo){					
 		for (let iPartita = 0; iPartita<= output.results[iTorneo].matches.length -1; ++iPartita){
 			try{		
-				console.log('iTorneo' + iTorneo + ' --- iPartita'  + iPartita)			
+				//console.log('iTorneo' + iTorneo + ' --- iPartita'  + iPartita)			
 				let partita = output.results[iTorneo].matches[iPartita]; 								
 				
 				const parentElement = document.getElementById("bandHome" + iTorneo.toString() +iPartita.toString());
 				if(partita && partita.home && partita.home.country){
 					const flag = new CountryFlag(parentElement).selectByName(partita.home.country);
-					console.log('1' + iTorneo + ' --- iPartita'  + iPartita)
+					//console.log('1' + iTorneo + ' --- iPartita'  + iPartita)
 				}
 				//GestioneFont('H' + iTorneo.toString() +iPartita.toString());
 				
 				const parentElement2 = document.getElementById("bandAway" + iTorneo.toString() +iPartita.toString());
 				if(partita && partita.away && partita.away.country){
 					const flag2 = new CountryFlag(parentElement2).selectByName(partita.away.country);
-					console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
+					//console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
 				}		
 				//GestioneFont('A' + iTorneo.toString() +iPartita.toString());
 			}
