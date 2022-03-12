@@ -28,3 +28,7 @@ html, body {
 	max-width: 100%;
 	overflow-x: hidden;
 }
+/*disabilito su smartphone il pull-to-refresh*/
+body {
+    overscroll-behavior: contain;
+}

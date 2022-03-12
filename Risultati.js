@@ -71,7 +71,7 @@ function GestioneMenu(){
 
 	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
-		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data, 1)	
+		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], 1)	
 	 }else
 		{	 $.ajax({
 				"async": true,
@@ -109,7 +109,7 @@ function GestioneMenu(){
 					}
 									 
 					localStorage["olo_API_Risultati" + data.replaceAll('-', '')] = JSON.stringify(output);					
-					SetRisultati(output, data, 0)
+					SetRisultati(output, 0)
 				 },
 				 error: function(output) {
 					//console.log("Error in API call:" + output);
