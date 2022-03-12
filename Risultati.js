@@ -66,10 +66,8 @@ function GestioneMenu(){
  function AggiornaRisultati(data, isIeri){
 	  //console.log('data ' + data);
 	   //console.log('isIeri ' + isIeri);
-	 //se di ieri restituisco il valore salvato se presente
-	 SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data)
-	 /*
-	 if (1!=1 &&localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
+	 //se di ieri restituisco il valore salvato se presente	 	  
+	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
 		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data)	
 	 }else
@@ -116,7 +114,7 @@ function GestioneMenu(){
 					//console.log("Error in API call:" + output);
 				 }		
 			  });
-	}*/
+	}
 	 
  }
  
