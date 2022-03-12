@@ -4,16 +4,12 @@ var testata = '';
 
  $(document).ready(function(){
 	GestioneMenu();
-	//debugger;
-
-	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
-	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
-	//SalvaData();
-	//procedo quindi a calcolare, a partire da oggi l'ultimo lunedì in cui si è pubblicato un ranking
-	//VerificaData("501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");	              
-	//testAPI('ATP', "501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");
-	//$('#calls').text(localStorage['olo_APIcalls']);
-	//$('#btnATP').click();
+	$('#calls').text(localStorage['olo_APIcalls']);
+	
+	if (localStorage['MyApiKey'] ==undefined){		
+		localStorage['MyApiKey'] = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
+		localStorage['MyOtherApiKey'] = '46f1613b96msheee8098853bf83ep1d513ajsnd12cda8354af';
+	}	
  })
  
  Date.prototype.addDays = function(days) {
@@ -64,17 +60,12 @@ function GestioneMenu(){
  
 // Prende in input "atp" o "wta"
  function AggiornaRisultati(data, isIeri){
-	  //console.log('data ' + data);
-	   //console.log('isIeri ' + isIeri);
 	 //se di ieri restituisco il valore salvato se presente	 	  
 	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
-		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data)	
+		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data, 1)	
 	 }else
-		{//console.log('NON uso il local st ');
-		 //console.log("oggi:")
-		  //console.log("oggi" + oggi)
-		 $.ajax({
+		{	 $.ajax({
 				"async": true,
 				"crossDomain": true,
 				"url": "https://tennis-live-data.p.rapidapi.com/matches-by-date/" + data,   
@@ -102,13 +93,19 @@ function GestioneMenu(){
 					localStorage['olo_APIcalls'] = testata.x_ratelimit_requests_remaining +'/' +testata.x_ratelimit_requests_limit;
 					$('#calls').text(localStorage['olo_APIcalls']);
 					//salvo le API
+					
+					if (localStorage['olo_APIcalls'].substr(0,localStorage['olo_APIcalls'].indexOf('/')) == '1'){						
+						let aux = localStorage['MyApiKey'];
+						localStorage['MyApiKey'] = localStorage['MyOtherApiKey'];
+						localStorage['MyOtherApiKey'] = aux;
+					}
 									 
 					localStorage["olo_API_Risultati" + data.replaceAll('-', '')] = JSON.stringify(output);
 					//salvo il codice HTML
 					
 					//console.log('output:');
 					//console.log(output);
-					SetRisultati(output, data)
+					SetRisultati(output, data, 0)
 				 },
 				 error: function(output) {
 					//console.log("Error in API call:" + output);
@@ -118,9 +115,12 @@ function GestioneMenu(){
 	 
  }
  
- function SetRisultati(output, data){
+ function SetRisultati(output, data, isLocalStorage){
 	 $('#divRisultati').html('');
-	output= JSON.parse(output);
+	if(isLocalStorage == 1){
+		output= JSON.parse(output);
+	}
+	
 	 
 	let sHTML = ''
 	let sHTML_NomeTorneo = '';	
@@ -159,24 +159,24 @@ function GestioneMenu(){
 				}else{
 					rnk_home ='';
 				}
-				
+				let identificativo = + iTorneo.toString() +iPartita.toString();
 				let sHTML_partita = `<div class='col-xs-12 divRisultato'>
 					<!--giocatori-->
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>
 					<div class='col-xs-6 col-sm-4 col-md-3 NoPad' style='text-align:right;'>
-						<label class='rnk'>(` +  rnk_away + `)&nbsp;</label><label class='giocatoreAway' style='font-size:18px'>` + (partita.away_player) + `</label>
+						<label class='rnk'>(` +  rnk_away + `)&nbsp;</label><label id="lblA` +  identificativo + `" class='giocatoreAway' style='font-size:15px'>` + (partita.away_player) + `</label>
 					</div>
 					<div class='col-xs-6 col-sm-4 col-md-3 NoPad'  style='text-align:left;'>
-						<label class='giocatoreHome'>` +  partita.home_player  + `</label><label class='rnk'>&nbsp;(` +  rnk_home + `)</label>
+						<label id="lblH` +  identificativo + `"class='giocatoreHome'>` +  partita.home_player  + `</label><label class='rnk'>&nbsp;(` +  rnk_home + `)</label>
 					</div>
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>
 					<div class='col-xs-12'></div>
 					<!--risultati-->
-					<div id="FlagAway" class='col-xs-3 col-sm-4 NoPad AlignRight'><label style='margin-right:-15px;' id="bandAway` + iTorneo.toString() +iPartita.toString() +`"></label></div>
+					<div id="FlagAway" class='col-xs-3 col-sm-4 NoPad AlignRight'><label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label></div>
 					<div class='col-xs-6 col-sm-4 NoPad'  style='text-align:center;'>
-						<label style='font-size:18px'>` + getRisultati(partita.status, partita.result, iPartita) + `</label>
+						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita) + `</label>
 					</div>			
-					<div  id="FlagHome"  class='col-xs-3 col-sm-4 NoPad AlignLeft' style='padding: 0;'><label style='margin-left:-15px;' id="bandHome` + iTorneo.toString() +iPartita.toString() +`"></label></div>					
+					<div  id="FlagHome"  class='col-xs-3 col-sm-4 NoPad AlignLeft' style='padding: 0;'><label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label></div>					
 						<span class="badge badge-pill round">R16</span>
 					</div>
 				</div>`;
@@ -202,14 +202,7 @@ function GestioneMenu(){
 	}	
 	
 	console.log('parto')
-		SetFlagRis(output, iNumTornei);
-	//$('#divRisultati').append(sHTML);
-	//salvo il codice HTML
-	/*if(s == "atp"){
-		localStorage["olo_HtmlATP"] = sHTML;	
-	}else{
-		localStorage["olo_HtmlWTA"] = sHTML;		
-	}	*/	
+	SetFlagRis(output, iNumTornei);
 }
 
 function getRisultati(status, result, iPartita){
@@ -329,12 +322,14 @@ function getTieBreakResult(result, index){
 					const flag = new CountryFlag(parentElement).selectByName(partita.home.country);
 					console.log('1' + iTorneo + ' --- iPartita'  + iPartita)
 				}
+				//GestioneFont('H' + iTorneo.toString() +iPartita.toString());
 				
 				const parentElement2 = document.getElementById("bandAway" + iTorneo.toString() +iPartita.toString());
 				if(partita && partita.away && partita.away.country){
 					const flag2 = new CountryFlag(parentElement2).selectByName(partita.away.country);
 					console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
-				}																
+				}		
+				//GestioneFont('A' + iTorneo.toString() +iPartita.toString());
 			}
 			catch(error){
 				console.log('ERRORE IN iTorneo' + iTorneo + ' --- iPartita'  + iPartita)
@@ -344,3 +339,11 @@ function getTieBreakResult(result, index){
 	}
  }	
 				
+function GestioneFont(id){
+	
+	if ($('#lbl' + id).parent().css('width').replace('px', '') - $('#ll' + id).css('width').replace('px', '')  < 10){
+		$('#lbl' + id).css('font-size', '13px')		
+	}
+	
+	
+}				
