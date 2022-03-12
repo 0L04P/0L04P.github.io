@@ -4,12 +4,18 @@ var testata = '';
 
  $(document).ready(function(){
 	GestioneMenu();
-	$('#calls').text(localStorage['olo_APIcalls']);	
+	
 	if (localStorage['MyApiKey'] == 'undefined'){	
 		console.log('cambio api')	
 		localStorage['MyApiKey'] = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
 		localStorage['MyOtherApiKey'] = '46f1613b96msheee8098853bf83ep1d513ajsnd12cda8354af';
 	}	
+	if(localStorage['olo_APIcalls']!= 'undefined'){
+		$('#calls').text(localStorage['olo_APIcalls']);	
+	}else{
+		$('#calls').text('-');	
+	}
+	
  })
  
  Date.prototype.addDays = function(days) {

@@ -124,6 +124,19 @@
  <script>
  var testata = '';
  
+  $(document).ready(function(){
+	GestioneMenu();
+	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
+	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
+	SalvaData();
+	//procedo quindi a calcolare, a partire da oggi l'ultimo lunedì in cui si è pubblicato un ranking
+	VerificaData("501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");	              
+	//testAPI('ATP', "501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");
+	if(localStorage['olo_APIcalls'] != 'undefined') {$('#calls').text(localStorage['olo_APIcalls']);}
+	$('#btnATP').click();
+ })
+ 
+ 
  function RankATP(){
 	//svuoto e appendo l'HTML
 	$('#rnk').html('');
@@ -148,19 +161,7 @@
 	$('#svg' + s).addClass('shadow');	
 	} 
  }
- 
- $(document).ready(function(){
-	GestioneMenu();
-	//per non fare troppe chiamate alla API, mi salvo i dati (rankingATP e rankingWTA)
-	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
-	SalvaData();
-	//procedo quindi a calcolare, a partire da oggi l'ultimo lunedì in cui si è pubblicato un ranking
-	VerificaData("501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");	              
-	//testAPI('ATP', "501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");
-	if(localStorage['olo_APIcalls'] != 'undefined') {$('#calls').text(localStorage['olo_APIcalls']);}
-	$('#btnATP').click();
- })
- 
+
 function GestioneMenu(){
 	$('#btnMenuRanking').on('click', function(){
 		//window.location.href = 'Ranking.html';
@@ -209,7 +210,6 @@ function getRanking(topN, api, s){
  }
  
  function SalvaData(){
- ;
 	if (localStorage['olo_SavedMonday'] == 'undefined'){		
 		localStorage['olo_SavedMonday'] = 'Mon Feb 28 2022 00:01:00 GMT+0100'
 	}
