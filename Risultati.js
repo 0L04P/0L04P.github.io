@@ -61,8 +61,8 @@ function GestioneMenu(){
 // Prende in input "atp" o "wta"
  function AggiornaRisultati(data, isIeri){
 	 //se di ieri restituisco il valore salvato se presente	 
-	 SetRisultati(localStorage['olo_API_Risultati20220311'], 1)
-/*	 da scommentare
+	
+
 	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
 		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], data, 1)	
@@ -110,7 +110,7 @@ function GestioneMenu(){
 				 }		
 			  });
 	}
-*/	 
+	 
  }
  
  function SetRisultati(output,  isLocalStorage){
