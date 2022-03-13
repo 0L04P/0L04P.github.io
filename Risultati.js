@@ -132,6 +132,7 @@ function GestioneMenu(){
 	 
  }
  
+ //modalita = classica o orizzontale
  function SetRisultati(output,  isLocalStorage){
 	 $('#divRisultati').html('');
 	if(isLocalStorage == 1){
@@ -178,36 +179,52 @@ function GestioneMenu(){
 				let identificativo = + iTorneo.toString() +iPartita.toString();
 				let sHTML_partita = `<div class='col-xs-12 divRisultato'>
 					<!--giocatori-->
-					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>
-					<div class='col-xs-6 col-sm-4 col-md-3 NoPad' style='text-align:right;'>
-						<label class='rnk'>(` +  rnk_away + `)&nbsp;</label><label id="lblA` +  identificativo + `" class='giocatoreAway' style='font-size:15px'>` + (partita.away_player) + `</label>
+					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>					
+					<div class='col-xs-6 col-sm-4 col-md-3 NoPad'  style='text-align:right; padding-riht: 5px;'>
+						<label class='NoPad rnk'>&nbsp;(` +  rnk_home + `)</label><label id="lblH` +  identificativo + `"class='NoPad giocatoreHome'>` +  partita.home_player  + `</label>
 					</div>
-					<div class='col-xs-6 col-sm-4 col-md-3 NoPad'  style='text-align:left;'>
-						<label id="lblH` +  identificativo + `"class='giocatoreHome'>` +  partita.home_player  + `</label><label class='rnk'>&nbsp;(` +  rnk_home + `)</label>
+					<div class='col-xs-6 col-sm-4 col-md-3 NoPad' style='text-align:left; padding-left: 5px;'>
+						<label id="lblA` +  identificativo + `" class='NoPad giocatoreAway' style='font-size:15px'>` + (partita.away_player) + `</label><label class='NoPad rnk'>(` +  rnk_away + `)&nbsp;</label>
 					</div>
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>
 					<div class='col-xs-12'></div>
 					<!--risultati-->
-					<div id="FlagAway" class='col-xs-3 col-sm-4 NoPad AlignRight'><label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label></div>
-					<div class='col-xs-6 col-sm-4 NoPad'  style='text-align:center;'>
+					
+					<div class='col-xs-2 col-sm-2 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
+						<span class="badge badge-pill badgeLive">LIVE</span>
+					</div>
+					<div  id="FlagHome"  class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
+						<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
+					</div>					
+					<div class='col-xs-4 col-sm-2 NoPad'  style='text-align:center;'>						
 						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita) + `</label>
-					</div>			
-					<div  id="FlagHome"  class='col-xs-3 col-sm-4 NoPad AlignLeft' style='padding: 0;'><label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label></div>					
-						<span class="badge badge-pill round">` + partita.round_name +`</span>
+					</div>
+					<div id="FlagAway" class='col-xs-2 col-sm-2 NoPad AlignLeft'>
+						<label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label>
+					</div>											
+					<div class='col-xs-2 col-sm-2 divRound NoPad' style='padding: 0px 0px 0px 10px'>
+						<span class="badge badge-pill badgeRound">` + partita.round_name +`</span>
 					</div>
 				</div>`;
 				
-			
-				if ( output.results[iTorneo].matches[iPartita].result && output.results[iTorneo].matches[iPartita].result.winner_id && output.results[iTorneo].matches[iPartita].result.result_description == 'Ended'){
+				let b = false;
+				if  (partita.result != null && (partita.result.result_description == 'Ended' || partita.result.result_description == 'Walkover') )
+					{ b= true;} 		
+				if ( output.results[iTorneo].matches[iPartita].result && output.results[iTorneo].matches[iPartita].result.winner_id && b){
 					if (output.results[iTorneo].matches[iPartita].result.winner_id == output.results[iTorneo].matches[iPartita].away_id){					
 						sHTML_partita = sHTML_partita.replace('giocatoreAway','giocatoreAway vincitore')
 					}else{
 						sHTML_partita = sHTML_partita.replace('giocatoreHome','giocatoreHome vincitore')	
 					}					
 				}
+				
+				if(partita.status != 'inprogress'){
+					sHTML_partita = sHTML_partita.replaceAll('badgeLive', 'hidden'); 
+				}
 				sHTML += sHTML_partita					 
 				
 			}catch(error){
+				debugger;
 				console.error(error);			
 				console.log('iPartita: ' + iPartita)
 				console.log('iTorneo: ' + iTorneo)								
@@ -227,10 +244,10 @@ function getRisultati(status, result, iPartita){
 	switch(status){
 		
 		case 'canceled':
-			return '<i>Cancellata</i>'
+			return '<i style="font-size: 13px; padding-top: 5px">Cancellata</i>'
 			break;
 		case 'notstarted':
-			return '<i>Non iniziata</i>'
+			return '<i style="font-size: 13px; padding-top: 5px">Non iniziata</i>'
 			break;
 		case 'finished':			
 			break;
@@ -243,23 +260,23 @@ function getRisultati(status, result, iPartita){
 	}	
 	
 	if (result.away_set1 != undefined){
-		sRet += result.away_set1 +''+ result.home_set1 + ' ';
+		sRet += result.home_set1 +''+ result.away_set1 + ' ';
 		sRet += getTieBreakResult(result, 1);
 		
-		if (result.away_set2 != undefined){
-			sRet += result.away_set2 +''+result.home_set2 + ' ';
+		if (result.home_set2 != undefined){
+			sRet += result.home_set2 +''+result.away_set2 + ' ';
 			sRet += getTieBreakResult(result, 2);
 			
-			if (result.away_set3 != undefined){
-				sRet += ' ' + result.away_set3 +''+result.home_set3;
+			if (result.home_set3 != undefined){
+				sRet += ' ' + result.home_set3 +''+result.away_set3;
 				sRet += getTieBreakResult(result, 3);
 				
-				if (result.away_set4 != undefined){
-				sRet += ' ' + result.away_set4 +''+result.home_set4;
+				if (result.home_set4 != undefined){
+				sRet += ' ' + result.home_set4 +''+result.away_set4;
 				sRet += getTieBreakResult(result, 4);
 
-				if (result.away_set5 != undefined){
-					sRet += ' ' + result.away_set5 +''+result.home_set5;
+				if (result.home_set5 != undefined){
+					sRet += ' ' + result.home_set5 +''+result.away_set5;
 					sRet += getTieBreakResult(result, 5);				
 					}				
 				}
@@ -270,7 +287,15 @@ function getRisultati(status, result, iPartita){
 	catch(ex){
 		//console.log('ERRORE nella getRisultati:'+ ex)
 	}
-		//console.log('getRisultati '+ sRet);
+	 if (result.result_description == 'Walkover'){
+		 sRet = sRet.replaceAll('NaN', ' ');
+		 sRet = sRet.replaceAll('N/A', ' ');
+		 sRet += '<i style="font-size: 13px; padding-top: 5px">Ritiro</i>'
+	 }
+	 if (status == 'inprogress'){
+		 sRet = sRet.replaceAll('NaN', ' ');
+		 sRet = sRet.replaceAll('N/A', ' ');		 
+	 }
 	return sRet;
 }
 
@@ -335,14 +360,14 @@ function getTieBreakResult(result, index){
 					const flag = new CountryFlag(parentElement).selectByName(partita.home.country);
 					//console.log('1' + iTorneo + ' --- iPartita'  + iPartita)
 				}
-				//GestioneFont('H' + iTorneo.toString() +iPartita.toString());
+				GestioneFont('H' + iTorneo.toString() +iPartita.toString());
 				
 				const parentElement2 = document.getElementById("bandAway" + iTorneo.toString() +iPartita.toString());
 				if(partita && partita.away && partita.away.country){
 					const flag2 = new CountryFlag(parentElement2).selectByName(partita.away.country);
 					//console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
 				}		
-				//GestioneFont('A' + iTorneo.toString() +iPartita.toString());
+				GestioneFont('A' + iTorneo.toString() +iPartita.toString());
 			}
 			catch(error){
 				console.log('ERRORE IN iTorneo' + iTorneo + ' --- iPartita'  + iPartita)
@@ -353,10 +378,37 @@ function getTieBreakResult(result, index){
  }	
 				
 function GestioneFont(id){
-	
-	if ($('#lbl' + id).parent().css('width').replace('px', '') - $('#ll' + id).css('width').replace('px', '')  < 10){
+//debugger;
+	//let id = ID.toString.replace('lbl', '');
+	let a = $('#lbl' + id).parent().css('width');
+	let b = $('#lbl' + id).css('width');
+	if (a.replaceAll('px', '') - b.replaceAll('px', '')  < 30){
+		console.log(id+ '1)' + (a.replaceAll('px', '') - b.replaceAll('px', '')))
 		$('#lbl' + id).css('font-size', '13px')		
 	}
-	
+	//ulteriore controllo:
+	a = $('#lbl' + id).parent().css('width');
+	b = $('#lbl' + id).css('width');
+	if (a.replaceAll(id + 'px', '') - b.replaceAll('px', '')  < 40){
+		console.log('2)' + (a.replaceAll('px', '') - b.replaceAll('px', '')))
+		$('#lbl' + id).css('font-size', '12px')		
+	}
+
 	
 }				
+
+
+function ViewLive(bool){	
+	if(bool){
+		$('.divRisultato').css('display', 'none');
+		$('.badgeLive').parent().parent().css('display', '');
+
+		$('#badgeLiveToggle').removeClass('badgeLiveToggle');
+		$('#badgeLiveToggle').addClass('badgeLiveToggleChecked');		
+	}else{
+		$('.divRisultato').css('display', '');
+
+		$('#badgeLiveToggle').addClass('badgeLiveToggle');
+		$('#badgeLiveToggle').removeClass('badgeLiveToggleChecked');			
+	}
+}

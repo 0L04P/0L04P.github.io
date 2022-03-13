@@ -24,6 +24,18 @@
 </head>
 
 <style>
+/*flex*/
+
+	.divRisultatoFlex{
+		border-radius:3px; 
+		background-color:#00008b;
+		margin-top:2px;
+		padding:0;
+		min-width: 290px;
+	}
+/*fineflex*/
+
+
 /*disabilito su smartphone il pull-to-refresh*/
 	body {
 		overscroll-behavior: contain;
@@ -39,11 +51,7 @@
 		/*border:solid 1pxbackground-color: #abcdef;
 		color: #123456;*/
 	}
-	.round{
-		background-color:#add8e6;
-		color:#123456; 
-		float:right;
-	}
+
 	.giocatoreAway{
 		font-size:15px;
 		padding-right:10px;
@@ -55,12 +63,7 @@
 	.rnk{
 		font-size:14px;
 	}
-	.badge{
-		outline: solid 1px #00008b;
-		font-size: 14px;
-		margin-right: 10px;
-		margin-top: -35px;
-	}
+
 	.bandiera{
 		margin-right: 10px;
 		vertical-align: -15px;
@@ -77,6 +80,7 @@
 	.vincitore{
 		color: #ffff00;
 		font-weight:600 !important;
+		text-decoration: underline;
 	}
 	*{
 		font-family: 'Work Sans', sans-serif;
@@ -97,6 +101,32 @@
 	 .AlignLeft{
 		text-align:left;
 	 }
+	 
+	.badge{
+		outline: solid 1px #00008b;
+		font-size: 14px;		
+	}
+	.badgeLive{
+		background-color: #ff0000;   
+		color: #ffff00;
+		}
+	.badgeLiveToggle{
+		background-color: #fff;   
+		color: #000;
+		}
+	.badgeLiveToggleChecked{
+		background-color: #ff0000;   
+		color: #ffff00;
+		}
+	.badgeRound{
+		background-color:#add8e6;
+		color:#123456; 
+		/float:right;*/
+	}
+	 .daIniziare{
+		font-size: 13px;
+		padding-top: 5px
+	 }
 </style>
  <script>
  var APIkey = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
@@ -109,6 +139,52 @@
 		<button id='btnMenuAltro'class='btn btn-info hidden' style="width: 200px">Altro</button>
 	</div>  
 	
+	<div id="dddivMenu"  class="hidden flex-container" style="margin-top:5px; padding: 10px; white-space: nowrap; overflow-x: auto; height: 156px;/* border: 1px solid rgb(159, 191, 145); border-radius: 10px;*/">               
+		<div class="divRisultatoFlex" style="width:300px;">
+			<div class='row'>
+			<div class='col-xs-3' style='border:solid 1px yellow'>
+				<div id="prova46FlagHome" class="col-xs-12  NoPad AlignRight" style="padding: 0;">
+					<label style="margin-left:-15px;" id="prova4ban7dHome00"><div class="flag flag-it"></div></label>					
+				</div>
+				<div id="prov5a4FlagHome" class="col-xs-12 NoPad AlignRight" style="padding: 0;">
+					<label style="margin-left:-15px;" id="prova4baundHome00"><div class="flag flag-it"></div></label>					
+				</div>		
+			</div>
+			<div  class='col-xs-9 NoPad' style='border:solid 1px green'>
+				<div class="col-xs-12 NoPad" style="text-align:left; padding-left:5px;padding-top: 10px">
+					<label class="NoPad rnk">&nbsp;(36)</label><label id="prov7a4lblH00" class="NoPad giocatoreHome">jjj F.</label>
+				</div>
+				<div class="col-xs-12 NoPad" style="text-align:left; padding-left:5px; padding-top: 10px">
+					<label class="NoPad rnk">&nbsp;(36)</label><label id="prova409lblH00" class="NoPad giocatoreHome">hhh F.</label>
+				</div>
+			</div>
+			</div>				
+		</div>
+		<div class="divRisultatoFlex" style="width:300px;">
+			<div class='row'>
+			<div class='col-xs-3' style='border:solid 1px yellow'>
+				<div id="provat46FlagHome" class="col-xs-12  NoPad AlignRight" style="padding: 0;">
+					<label style="margin-left:-15px;" id="prjova4ban7dHome00"><div class="flag flag-it"></div></label>					
+				</div>
+				<div id="prov5a4FlakgHome" class="col-xs-12 NoPad AlignRight" style="padding: 0;">
+					<label style="margin-left:-15px;" id="provla4baundHome00"><div class="flag flag-it"></div></label>					
+				</div>		
+			</div>
+			<div  class='col-xs-9 NoPad' style='border:solid 1px green'>
+				<div class="col-xs-12 NoPad" style="text-align:left; padding-left:5px;padding-top: 10px">
+					<label class="NoPad rnk">&nbsp;(36)</label><label id="prolv7a4lblH00" class="NoPad giocatoreHome">jjj F.</label>
+				</div>
+				<div class="col-xs-12 NoPad" style="text-align:left; padding-left:5px; padding-top: 10px">
+					<label class="NoPad rnk">&nbsp;(36)</label><label id="pro8va409lblH00" class="NoPad giocatoreHome">hhh F.</label>
+				</div>
+			</div>
+			</div>				
+		</div>
+		
+
+</div>
+	</div>  
+	
 	<h4 style="margin-bottom: -20px; text-align:center;">Risultati</h4>
 	<h4 id="dataRisultati" style='margin-top:20px; margin-bottom: 0; text-align:center;'></h5>
 	
@@ -116,6 +192,12 @@
 	<br/>
 	<div class='col-xs-6' style="text-align:center;">
 		<button id='btnMenuOggi' class='btn btn-info' style="width: 100px" onclick="AggiornaRisultati(GetOggi(), 0);">OGGI</button>
+		<!-- Rounded switch -->
+		<input id="toggleLive" type="checkbox" onchange="ViewLive($('#toggleLive').prop('checked'));"/>
+		<label for="toggleLive" class="toggle" style='margin-left: 17px'>		 
+		  <span id="badgeLiveToggle" class="slider badge badge-pill badgeLiveToggle">LIVE</span>
+		</label>
+
 	</div>
 	<div class='col-xs-6'style="text-align:center;">
 		<button id='btnMenuIeri' class='btn btn-success' style="width: 100px"  onclick="AggiornaRisultati(GetIeri(), 1)";>IERI</button>
@@ -128,7 +210,7 @@
 
 
 	</div>
-	<div class="col-xs-12" style="height:100px;">
+	<div class="col-xs-12" style="height:300px;">
 	</div>
 </div> 
  <script>
