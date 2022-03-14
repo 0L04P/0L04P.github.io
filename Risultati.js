@@ -29,6 +29,8 @@ var testata = '';
 	}catch(error){
 		console.log('Errrore in avvio: '+ error)		
 	}	
+	ViewRis(localStorage['olo_ModalitaView']);
+	$('#toggleModalita').prop('checked', localStorage['olo_ModalitaView'])
  })
  
  Date.prototype.addDays = function(days) {
@@ -78,11 +80,11 @@ function GestioneMenu(){
  }
  
 // Prende in input "atp" o "wta"
- function AggiornaRisultati(data, isIeri){
+ function AggiornaRisultati(data, isIeri, UsaLocalStorage){
 	 //se di ieri restituisco il valore salvato se presente	 
 	
-
-	 if (localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
+	//14/3/22 evitodi usare i local storage
+	 if (UsaLocalStorage && localStorage["olo_API_Risultati" + data.replaceAll('-', '')] != 'undefined' && isIeri == 1){
 		 //console.log('uso il local st ');
 		SetRisultati(localStorage["olo_API_Risultati" + data.replaceAll('-', '')], 1)	
 	 }else
@@ -134,12 +136,14 @@ function GestioneMenu(){
  
  //modalita = classica o orizzontale
  function SetRisultati(output,  isLocalStorage){
-	 $('#divRisultati').html('');
+	$('#divRisultati').html('');
+	$('#divRisFlex').html('');
 	if(isLocalStorage == 1){
 		output= JSON.parse(output);
 	}
 	
 	let sHTML = ''
+	let sHTML_flex = ''
 	let sHTML_NomeTorneo = '';	
 	let iNumTornei = output.results.length;
 	//ciclo tutti i tornei e ne creo l'intestazione: nelle classi torneo0, torneo1  andrò ad appendere il codice html relativo
@@ -158,7 +162,7 @@ function GestioneMenu(){
 	for (let iTorneo = 0; iTorneo<= iNumTornei - 1; ++iTorneo){	
 	//console.log('iTorneo' + iTorneo)
 		sHTML = '';	
-		
+		sHTML_flex = ''
 		for (let iPartita = 0; iPartita<= output.results[iTorneo].matches.length -1; ++iPartita){
 			try{				
 				let partita = output.results[iTorneo].matches[iPartita]; //partita.away || '-' || partita.away.ranking
@@ -176,6 +180,8 @@ function GestioneMenu(){
 				}else{
 					rnk_home ='';
 				}
+				let arrPunteggiHome_flex = [];
+				let arrPunteggiAway_flex = [];
 				let identificativo = + iTorneo.toString() +iPartita.toString();
 				let sHTML_partita = `<div class='col-xs-12 divRisultato'>
 					<!--giocatori-->
@@ -197,7 +203,7 @@ function GestioneMenu(){
 						<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
 					</div>					
 					<div class='col-xs-4 col-sm-2 NoPad'  style='text-align:center;'>						
-						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita) + `</label>
+						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex) + `</label>
 					</div>
 					<div id="FlagAway" class='col-xs-2 col-sm-2 NoPad AlignLeft'>
 						<label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label>
@@ -207,21 +213,71 @@ function GestioneMenu(){
 					</div>
 				</div>`;
 				
+				
+				sHTML_partita_flex = `
+				<div id='ris1`+ iTorneo + iPartita  +`' class="divRisultatoFlex" style="width:300px;">
+					<div class='row'style='padding-left: 24px; margin-top:-10px;'>				
+						<table id='t`+ iTorneo + iPartita  +`'  class='tableRis'>
+							<tr>
+								<td style='padding-right: 10px;'>
+									<div class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
+										<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
+									</div>
+								</td>
+								<td>(` +  rnk_home + `)</td>
+								<td class='giocatoreHome'>`+  partita.home_player  +`</td>
+								<td>` + NZ(arrPunteggiHome_flex[0]) + `</td>
+								<td>` + NZ(arrPunteggiHome_flex[1]) + `</td>
+								<td>` + NZ(arrPunteggiHome_flex[2]) + `</td>
+								<td>` + NZ(arrPunteggiHome_flex[3]) + `</td>
+								<td>` + NZ(arrPunteggiHome_flex[4]) + `</td>
+							</tr>
+							<tr>
+								<td style='padding-right: 10px;'>
+								<div class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
+										<label style='margin-left:-15px;' id="bandAway` + identificativo +`"></label>					
+									</div>
+								</td>
+								<td>(` +  rnk_away + `)</td>
+								<td class='giocatoreAway'>`+  partita.away_player  +`</td>
+								<td>` + NZ(arrPunteggiAway_flex[0]) + `</td>
+								<td>` + NZ(arrPunteggiAway_flex[1]) + `</td>
+								<td>` + NZ(arrPunteggiAway_flex[2]) + `</td>
+								<td>` + NZ(arrPunteggiAway_flex[3]) + `</td>
+								<td>` + NZ(arrPunteggiAway_flex[4]) + `</td>
+							</tr>
+						</table>
+						<div class='col-xs-12'>
+							<div class='col-xs-6 divRound NoPad' style='padding: 0px 0px 0px 10px'>
+								<span class="badge badge-pill badgeRound">R16</span>
+							</div>
+							<div class='col-xs-6 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
+								<span class="badge badge-pill badgeLive">LIVE</span>
+							</div>							
+						</div>
+					</div>				
+				</div>
+				`;				
+				
 				let b = false;
-				if  (partita.result != null && (partita.result.result_description == 'Ended' || partita.result.result_description == 'Walkover') )
+				if  (partita.result != null && (partita.result.result_description == 'Ended' || partita.result.result_description == 'Walkover' || partita.result.result_description == 'Retired' )   )
 					{ b= true;} 		
 				if ( output.results[iTorneo].matches[iPartita].result && output.results[iTorneo].matches[iPartita].result.winner_id && b){
 					if (output.results[iTorneo].matches[iPartita].result.winner_id == output.results[iTorneo].matches[iPartita].away_id){					
 						sHTML_partita = sHTML_partita.replace('giocatoreAway','giocatoreAway vincitore')
+						sHTML_partita_flex = sHTML_partita_flex.replace('giocatoreAway','giocatoreAway vincitore')
 					}else{
-						sHTML_partita = sHTML_partita.replace('giocatoreHome','giocatoreHome vincitore')	
+						sHTML_partita = sHTML_partita.replace('giocatoreHome','giocatoreHome vincitore')
+						sHTML_partita_flex = sHTML_partita_flex.replace('giocatoreHome','giocatoreHome vincitore')						
 					}					
 				}
 				
 				if(partita.status != 'inprogress'){
 					sHTML_partita = sHTML_partita.replaceAll('badgeLive', 'hidden'); 
+					sHTML_partita_flex = sHTML_partita_flex.replaceAll('badgeLive', 'hidden'); 
 				}
-				sHTML += sHTML_partita					 
+				sHTML += sHTML_partita	
+				sHTML_flex += sHTML_partita_flex;
 				
 			}catch(error){
 				debugger;
@@ -231,19 +287,21 @@ function GestioneMenu(){
 			}
 		}	
 		$('.torneo' + iTorneo).append(sHTML);
+		$('#divRisFlex').append(sHTML_flex);
 	
 	}	
 	
 	SetFlagRis(output, iNumTornei);
 }
 
-function getRisultati(status, result, iPartita){
+function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex){
 	let sRet ='';
 		try{
 	//verifico lo stato della partita	
 	switch(status){
 		
 		case 'canceled':
+				arrPunteggiHome_flex[2] = '<i style="font-size: 13px; padding-top: 5px">Cancellata</i>';
 			return '<i style="font-size: 13px; padding-top: 5px">Cancellata</i>'
 			break;
 		case 'notstarted':
@@ -262,22 +320,32 @@ function getRisultati(status, result, iPartita){
 	if (result.away_set1 != undefined){
 		sRet += result.home_set1 +''+ result.away_set1 + ' ';
 		sRet += getTieBreakResult(result, 1);
+		arrPunteggiHome_flex[0] = result.home_set1
+		arrPunteggiAway_flex[0] = result.away_set1
 		
 		if (result.home_set2 != undefined){
 			sRet += result.home_set2 +''+result.away_set2 + ' ';
 			sRet += getTieBreakResult(result, 2);
+			arrPunteggiHome_flex[1] = result.home_set2
+			arrPunteggiAway_flex[1] = result.away_set2
 			
 			if (result.home_set3 != undefined){
 				sRet += ' ' + result.home_set3 +''+result.away_set3;
 				sRet += getTieBreakResult(result, 3);
+				arrPunteggiHome_flex[2] = result.home_set3
+				arrPunteggiAway_flex[2] = result.away_set3
 				
 				if (result.home_set4 != undefined){
 				sRet += ' ' + result.home_set4 +''+result.away_set4;
 				sRet += getTieBreakResult(result, 4);
+				arrPunteggiHome_flex[3] = result.home_set4
+				arrPunteggiAway_flex[3] = result.away_set4
 
 				if (result.home_set5 != undefined){
 					sRet += ' ' + result.home_set5 +''+result.away_set5;
-					sRet += getTieBreakResult(result, 5);				
+					sRet += getTieBreakResult(result, 5);	
+					arrPunteggiHome_flex[4] = result.home_set5
+					arrPunteggiAway_flex[4] = result.away_set5			
 					}				
 				}
 			}
@@ -291,11 +359,18 @@ function getRisultati(status, result, iPartita){
 		 sRet = sRet.replaceAll('NaN', ' ');
 		 sRet = sRet.replaceAll('N/A', ' ');
 		 sRet += '<i style="font-size: 13px; padding-top: 5px">Ritiro</i>'
+	 } else if (result.result_description == 'Retired'){
+		 sRet = sRet.replaceAll('NaN', ' ');
+		 sRet = sRet.replaceAll('N/A', ' ');
+		 sRet += '<i style="font-size: 13px; padding-top: 5px">Ritiro</i>'
 	 }
 	 if (status == 'inprogress'){
 		 sRet = sRet.replaceAll('NaN', ' ');
 		 sRet = sRet.replaceAll('N/A', ' ');		 
 	 }
+	 
+	 console.log(arrPunteggiAway_flex)
+	  console.log(arrPunteggiHome_flex)
 	return sRet;
 }
 
@@ -397,6 +472,17 @@ function GestioneFont(id){
 	
 }				
 
+function ViewRis(bool){	
+localStorage['olo_ModalitaView'] = bool
+	if(bool){
+		$('#divRisultati').css('display', 'none');
+		$('#divRisFlex').css('display', '');
+		
+	}else{
+		$('#divRisultati').css('display', '');
+		$('#divRisFlex').css('display', 'none');		
+	}
+}
 
 function ViewLive(bool){	
 	if(bool){
@@ -410,5 +496,23 @@ function ViewLive(bool){
 
 		$('#badgeLiveToggle').addClass('badgeLiveToggle');
 		$('#badgeLiveToggle').removeClass('badgeLiveToggleChecked');			
+	}
+}
+/////////////////////////
+function LarghezzeRisFlex(n){
+
+	for(let i = 1; i<= n; ++i){
+		let widt = 10+parseInt(($('#t'+i).css('width').replace('px', ''))) +'px';
+		$('#ris'+i).css('min-width', widt)
+		console.log(i+'i --->width =' + widt)
+	}
+}
+
+function NZ(x){
+	
+	if(x == 'undefined' || x == undefined || x == null || x== 'null' || x=='N/A') {
+		return ''
+	}else{
+		return x;
 	}
 }

@@ -70,11 +70,15 @@ input:checked + .toggle > .slider {
 
 .flex-container {
   display: flex;
-  background-color: #f1f1f1;
+ 
 }
 
 .flex-container > div {
    
-  margin: 10px;
-   width:390px;
+}
+
+.tableRis{
+	font-size: 17px;
+    border-collapse: inherit !important;
+    border-spacing: 12px !important;
 }
