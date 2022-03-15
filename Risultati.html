@@ -159,33 +159,38 @@
 	
 	<h4 style="margin-bottom: -20px; text-align:center;">Risultati</h4>
 	<h4 id="dataRisultati" style='margin-top:20px; margin-bottom: 0; text-align:center;'></h5>
-	
-	<!-- Rounded switch -->
-		<input id="toggleModalita" type="checkbox" onchange="ViewRis($('#toggleModalita').prop('checked'));"/>
-		<label for="toggleModalita" class="toggle" style='margin-left: 17px'>		 
-		  <span id="badgeModalitaToggle" class="slider badge badge-pill badgeLiveToggle" style="width: 70px;">Classica</span>
-		</label>
-	
-	<label id="calls" style="float: right;"></label>
-	<br/>
-	<div class='col-xs-6' style="text-align:center;">
-		<button id='btnMenuOggi' class='btn btn-info' style="width: 100px" onclick="AggiornaRisultati(GetOggi(), 0, false);">OGGI</button>
-		<!-- Rounded switch -->
-		<input id="toggleLive" type="checkbox" onchange="ViewLive($('#toggleLive').prop('checked'));"/>
-		<label for="toggleLive" class="toggle" style='margin-left: 17px'>		 
-		  <span id="badgeLiveToggle" class="slider badge badge-pill badgeLiveToggle">LIVE</span>
-		</label>
-
-	</div>
-	<div class='col-xs-6'style="text-align:center;">
-		<button id='btnMenuIeri' class='btn btn-success' style="width: 100px"  onclick="AggiornaRisultati(GetIeri(), 1, false)";>IERI</button>
-	</div>
-	<div class='col-xs-6'style="text-align:center;"></div>
-	<div class='col-xs-6'style="text-align:center;">
-		<button id='btnMenuIeriNoLS' class='btn btn-danger' style="width: 100px"  onclick="AggiornaRisultati(GetIeri(), 1, true)";>IERI(LS)</button>
+	<div class='row'>
+		<div class='col-xs-4'>
+			<!-- Rounded switch -->
+			<input id="toggleModalita" type="checkbox" onchange="ViewRis($('#toggleModalita').prop('checked'));"/>
+			<label for="toggleModalita" class="toggle" style='margin-left: 17px'>		 
+			  <span id="badgeModalitaToggle" class="slider badge badge-pill badgeLiveToggle" style="width: 70px;">Classica</span>
+			</label>
+		</div>
+		<div class='col-xs-4'>
+			<!-- Rounded switch -->
+			<input id="toggleLive" type="checkbox" onchange="ViewLive($('#toggleLive').prop('checked'));"/>
+			<label for="toggleLive" class="toggle" style='margin-left: 17px'>		 
+			  <span id="badgeLiveToggle" class="slider badge badge-pill badgeLiveToggle">LIVE</span>
+			</label>
+		</div>
+		<div class='col-xs-4'>
+			<label id="calls" style="float: right;"></label>
+		</div>
 	</div>
 	
-	<div id="divRisFlex" class=" flex-container" style="margin-top: 5px; padding: 7px; white-space: nowrap; overflow-x: auto; height: 160px;"></div>
+	<div class='row'>
+		<div class='col-xs-4' style="text-align:center;">
+			<button id='btnMenuOggi' class='btn btn-info' style="width: 100px" onclick="AggiornaRisultati(GetOggi(), 0, false);">OGGI</button>
+		</div>
+		<div class='col-xs-4'style="text-align:center;">
+			<button id='btnMenuIeri' class='btn btn-success' style="width: 100px"  onclick="AggiornaRisultati(GetIeri(), 1, false)";>IERI</button>
+		</div>	
+		<div class='col-xs-4'style="text-align:center;">
+			<button id='btnMenuIeriNoLS' class='btn btn-danger' style="width: 100px"  onclick="AggiornaRisultati(GetIeri(), 1, true)";>IERI(LS)</button>
+		</div>
+	</div>	
+	<!--div id="divRisFlex" class=" flex-container" style="margin-top: 5px; padding: 7px; white-space: nowrap; overflow-x: auto; height: 160px;"></div-->
 	<div id="divRisultati" class="col-xs-12 NoPad" style="padding:0"></div>
 		
 

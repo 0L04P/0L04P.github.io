@@ -153,7 +153,8 @@ function GestioneMenu(){
 				<h5 class='titoloTorneo'>`
 				+ output.results[i].tournament.name +', '+ output.results[i].tournament.city + ' (' + output.results[i].tournament.surface +')' + output.results[i].tournament.code +
 		    `</div>
-			<div class='col-xs-12 torneo torneo` + i + `' style='padding:0'></div>`;
+			<div class='col-xs-12 torneo torneo` + i + `' style='padding:0'></div>
+			<div class='col-xs-12 torneoFlex torneoFlex` + i + ` flex-container' style='margin-top: 5px; padding: 7px; white-space: nowrap; overflow-x: auto; height: 160px;'></div>`;
 		$('#divRisultati').append(sHTML_NomeTorneo);		
 	}
 	
@@ -165,7 +166,7 @@ function GestioneMenu(){
 		sHTML_flex = ''
 		for (let iPartita = 0; iPartita<= output.results[iTorneo].matches.length -1; ++iPartita){
 			try{				
-				let partita = output.results[iTorneo].matches[iPartita]; //partita.away || '-' || partita.away.ranking
+				let partita = output.results[iTorneo].matches[iPartita];
 				
 				//console.log('iPartita' + iPartita)
 				let rnk_home, rnk_away;
@@ -187,10 +188,10 @@ function GestioneMenu(){
 					<!--giocatori-->
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>					
 					<div class='col-xs-6 col-sm-4 col-md-3 NoPad'  style='text-align:right; padding-riht: 5px;'>
-						<label class='NoPad rnk'>&nbsp;(` +  rnk_home + `)</label><label id="lblH` +  identificativo + `"class='NoPad giocatoreHome'>` +  partita.home_player  + `</label>
+						<label class='NoPad rnk'>&nbsp;(` +  rnk_home + `)</label><label id="lblH` +  identificativo + `"class='NoPad giocatoreHome'>` +  CheckNomeGiocatore(partita.home_player)  + `</label>
 					</div>
 					<div class='col-xs-6 col-sm-4 col-md-3 NoPad' style='text-align:left; padding-left: 5px;'>
-						<label id="lblA` +  identificativo + `" class='NoPad giocatoreAway' style='font-size:15px'>` + (partita.away_player) + `</label><label class='NoPad rnk'>(` +  rnk_away + `)&nbsp;</label>
+						<label id="lblA` +  identificativo + `" class='NoPad giocatoreAway' style='font-size:15px'>` + CheckNomeGiocatore(partita.away_player) + `</label><label class='NoPad rnk'>(` +  rnk_away + `)&nbsp;</label>
 					</div>
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>
 					<div class='col-xs-12'></div>
@@ -221,11 +222,11 @@ function GestioneMenu(){
 							<tr>
 								<td style='padding-right: 10px;'>
 									<div class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
-										<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
+										<label style='margin-left:-15px;' id="bandHomeFlex` + identificativo +`"></label>					
 									</div>
 								</td>
 								<td>(` +  rnk_home + `)</td>
-								<td class='giocatoreHome'>`+  partita.home_player  +`</td>
+								<td class='giocatoreHome'>`+  CheckNomeGiocatore(partita.home_player)  +`</td>
 								<td>` + NZ(arrPunteggiHome_flex[0]) + `</td>
 								<td>` + NZ(arrPunteggiHome_flex[1]) + `</td>
 								<td>` + NZ(arrPunteggiHome_flex[2]) + `</td>
@@ -235,11 +236,11 @@ function GestioneMenu(){
 							<tr>
 								<td style='padding-right: 10px;'>
 								<div class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
-										<label style='margin-left:-15px;' id="bandAway` + identificativo +`"></label>					
+										<label style='margin-left:-15px;' id="bandAwayFlex` + identificativo +`"></label>					
 									</div>
 								</td>
 								<td>(` +  rnk_away + `)</td>
-								<td class='giocatoreAway'>`+  partita.away_player  +`</td>
+								<td class='giocatoreAway'>`+  CheckNomeGiocatore(partita.away_player)  +`</td>
 								<td>` + NZ(arrPunteggiAway_flex[0]) + `</td>
 								<td>` + NZ(arrPunteggiAway_flex[1]) + `</td>
 								<td>` + NZ(arrPunteggiAway_flex[2]) + `</td>
@@ -287,7 +288,7 @@ function GestioneMenu(){
 			}
 		}	
 		$('.torneo' + iTorneo).append(sHTML);
-		$('#divRisFlex').append(sHTML_flex);
+		$('.torneoFlex' + iTorneo).append(sHTML_flex);
 	
 	}	
 	
@@ -429,7 +430,7 @@ function getTieBreakResult(result, index){
 			try{		
 				//console.log('iTorneo' + iTorneo + ' --- iPartita'  + iPartita)			
 				let partita = output.results[iTorneo].matches[iPartita]; 								
-				
+				//caso classico
 				const parentElement = document.getElementById("bandHome" + iTorneo.toString() +iPartita.toString());
 				if(partita && partita.home && partita.home.country){
 					const flag = new CountryFlag(parentElement).selectByName(partita.home.country);
@@ -443,6 +444,20 @@ function getTieBreakResult(result, index){
 					//console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
 				}		
 				GestioneFont('A' + iTorneo.toString() +iPartita.toString());
+				//caso flex
+				const parentElement3 = document.getElementById("bandHomeFlex" + iTorneo.toString() +iPartita.toString());
+				if(partita && partita.home && partita.home.country){
+					const flag3 = new CountryFlag(parentElement3).selectByName(partita.home.country);
+					//console.log('1' + iTorneo + ' --- iPartita'  + iPartita)
+				}
+				//GestioneFont('H' + iTorneo.toString() +iPartita.toString());
+				
+				const parentElement4 = document.getElementById("bandAwayFlex" + iTorneo.toString() +iPartita.toString());
+				if(partita && partita.away && partita.away.country){
+					const flag4 = new CountryFlag(parentElement4).selectByName(partita.away.country);
+					//console.log('2' + iTorneo + ' --- iPartita'  + iPartita)
+				}		
+				//GestioneFont('A' + iTorneo.toString() +iPartita.toString());
 			}
 			catch(error){
 				console.log('ERRORE IN iTorneo' + iTorneo + ' --- iPartita'  + iPartita)
@@ -475,12 +490,12 @@ function GestioneFont(id){
 function ViewRis(bool){	
 localStorage['olo_ModalitaView'] = bool
 	if(bool){
-		$('#divRisultati').css('display', 'none');
-		$('#divRisFlex').css('display', '');
+		$('.torneo').css('display', 'none');
+		$('.torneoFlex').css('display', '');
 		
 	}else{
-		$('#divRisultati').css('display', '');
-		$('#divRisFlex').css('display', 'none');		
+		$('.torneo').css('display', '');
+		$('.torneoFlex').css('display', 'none');		
 	}
 }
 
@@ -515,4 +530,12 @@ function NZ(x){
 	}else{
 		return x;
 	}
+}
+
+function CheckNomeGiocatore(s){
+	if (/[0-9]/.test(s)){
+		return ''
+	}else{
+		return s;}
+	
 }
