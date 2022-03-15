@@ -217,7 +217,7 @@ function GestioneMenu(){
 				
 				sHTML_partita_flex = `
 				<div id='ris1`+ iTorneo + iPartita  +`' class="divRisultatoFlex" style="width:300px;">
-					<div class='row'style='padding-left: 24px; margin-top:-10px;'>				
+					<div id='row`+ iTorneo + iPartita  +`' class='row' style='padding-left: 24px; margin-top:-10px;'>				
 						<table id='t`+ iTorneo + iPartita  +`'  class='tableRis'>
 							<tr>
 								<td style='padding-right: 10px;'>
@@ -499,19 +499,25 @@ localStorage['olo_ModalitaView'] = bool
 	}
 }
 
-function ViewLive(bool){	
-	if(bool){
-		$('.divRisultato').css('display', 'none');
-		$('.badgeLive').parent().parent().css('display', '');
+function ViewLive(bool){
+if ($('#toggleModalita').prop('checked')){
+	
+	
+}else{
+	
+		if(bool){
+			$('.divRisultato').css('display', 'none');
+			$('.badgeLive').parent().parent().css('display', '');		
+			$('#badgeLiveToggle').removeClass('badgeLiveToggle');
+			$('#badgeLiveToggle').addClass('badgeLiveToggleChecked');		
+		}else{
+			$('.divRisultato').css('display', '');
+			$('#badgeLiveToggle').addClass('badgeLiveToggle');
+			$('#badgeLiveToggle').removeClass('badgeLiveToggleChecked');			
+		}
+	
+}	
 
-		$('#badgeLiveToggle').removeClass('badgeLiveToggle');
-		$('#badgeLiveToggle').addClass('badgeLiveToggleChecked');		
-	}else{
-		$('.divRisultato').css('display', '');
-
-		$('#badgeLiveToggle').addClass('badgeLiveToggle');
-		$('#badgeLiveToggle').removeClass('badgeLiveToggleChecked');			
-	}
 }
 /////////////////////////
 function LarghezzeRisFlex(n){
