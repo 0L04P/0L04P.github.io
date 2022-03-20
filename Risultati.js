@@ -5,12 +5,12 @@ var testata = '';
  $(document).ready(function(){
 	GestioneMenu();
 		
-	if (localStorage['MyApiKey'] == 'undefined'){	
+	if (localStorage['MyApiKey'] == 'undefined' || localStorage['MyApiKey'] == undefined){	
 		console.log('cambio api')	
 		localStorage['MyApiKey'] = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
 		localStorage['MyOtherApiKey'] = '46f1613b96msheee8098853bf83ep1d513ajsnd12cda8354af';
 	}	
-	if(localStorage['olo_APIcalls']!= 'undefined'){
+	if(localStorage['olo_APIcalls']!= 'undefined' && localStorage['olo_APIcalls']!= undefined){
 		$('#calls').text(localStorage['olo_APIcalls']);	
 	}else{
 		$('#calls').text('-');	
@@ -20,10 +20,10 @@ var testata = '';
 			
 		let oggi = GetOggi().replaceAll('-', '');
 		let ieri = GetIeri().replaceAll('-', '');
-		if (localStorage['olo_API_Risultati'+oggi] != 'undefined'){
+		if (localStorage['olo_API_Risultati'+oggi] != 'undefined' || localStorage['olo_API_Risultati'+oggi] != undefined){
 			SetRisultati(localStorage["olo_API_Risultati" + oggi], 1)
 		}
-		else if(localStorage['olo_API_Risultati'+ieri] != 'undefined'){
+		else if(localStorage['olo_API_Risultati'+ieri] != 'undefined' || localStorage['olo_API_Risultati'+ieri] != undefined){
 			SetRisultati(localStorage["olo_API_Risultati" + ieri], 1)
 		}		
 	}catch(error){
