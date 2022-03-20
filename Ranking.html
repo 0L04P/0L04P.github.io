@@ -204,8 +204,10 @@ function getRanking(topN, api, s){
 	//$('#rnk').append(sHTML);
 	//salvo il codice HTML
 	if(s == "atp"){
+	alert('atphtml ' + sHTML)
 		localStorage["olo_HtmlATP"] = sHTML;	
 	}else{
+	alert('wtahtml ' +sHTML)
 		localStorage["olo_HtmlWTA"] = sHTML;		
 	}		
 }
