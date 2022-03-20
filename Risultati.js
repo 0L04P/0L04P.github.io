@@ -261,7 +261,7 @@ function GestioneMenu(){
 						</table>
 						<div class='col-xs-12'>
 							<div class='col-xs-6 divRound NoPad' style='padding: 0px 0px 0px 10px'>
-								<span class="badge badge-pill badgeRound">R16</span>
+								<span class="badge badge-pill badgeRound">`+ partita.round_name +`</span>
 							</div>
 							<div class='col-xs-6 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
 								<span class="badge badge-pill badgeLive badgeLiveFlex">LIVE</span>
