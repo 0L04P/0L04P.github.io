@@ -35,11 +35,26 @@ var testata = '';
 	
  })
  
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
+}
+ 
  Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
 }
+
+ function getOraIta(data){debugger;
+ let d = new Date(data);
+	d = d.addHours(1);
+	let min = d.getMinutes(); 
+	if (min.toString().length == 1) min = '0' + min;
+	let ret = d.getDate()+'/'+(d.getMonth()+1) + ' ' + d.getHours() + ':' + min;
+	
+	return ret;  
+ }
 
 function GestioneMenu(){
 	$('#btnMenuRanking').on('click', function(){
@@ -195,6 +210,13 @@ function GestioneMenu(){
 				let arrPunteggiHome_flex = [];
 				let arrPunteggiAway_flex = [];
 				let identificativo = + iTorneo.toString() +iPartita.toString();
+				let quando = ''; 
+				let classeDataOra = 'hidden';
+				debugger;
+				if(partita.status == 'notstarted'){
+					quando = getOraIta(partita.date)
+					classeDataOra = 'divDataOra'; 
+				}
 				let sHTML_partita = `<div class='col-xs-12 divRisultato'>
 					<!--giocatori-->
 					<div class='col-xs-12 col-sm-2 col-md-3 NoPad'></div>					
@@ -210,6 +232,9 @@ function GestioneMenu(){
 					
 					<div class='col-xs-2 col-sm-2 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
 						<span class="badge badge-pill badgeLive">LIVE</span>
+					</div>
+					<div class='col-xs-2 col-sm-2 ` + classeDataOra + ` NoPad'  style='padding: 0px 0px 0px 10px;'>
+						<label id='` + identificativo + `dataOra'>` +  quando + `</label>
 					</div>
 					<div  id="FlagHome"  class='col-xs-2 col-sm-4 NoPad AlignRight' style='padding: 0;'>
 						<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
@@ -265,7 +290,10 @@ function GestioneMenu(){
 							</div>
 							<div class='col-xs-6 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
 								<span class="badge badge-pill badgeLive badgeLiveFlex">LIVE</span>
-							</div>							
+							</div>				
+							<div class='col-xs-2 col-sm-2 ` + classeDataOra + ` NoPad'  style='padding: 0px 0px 0px 10px;'>
+								<label id='` + identificativo + `dataOra'>` +  quando + `</label>
+							</div>
 						</div>
 					</div>				
 				</div>
@@ -292,8 +320,8 @@ function GestioneMenu(){
 				sHTML_flex += sHTML_partita_flex;
 				
 			}catch(error){
-				debugger;
-				console.error(error);			
+				debugger;						
+				console.log('Errore nella setRisultati: ' + error)
 				console.log('iPartita: ' + iPartita)
 				console.log('iTorneo: ' + iTorneo)								
 			}
