@@ -35,20 +35,22 @@ var testata = '';
 	
  })
  
-Date.prototype.addHours = function(h) {
-  this.setTime(this.getTime() + (h*60*60*1000));
-  return this;
-}
+/*Date.prototype.addHours = function(d, h) { 
+debugger;
+  	var date = new Date(d);
+    //date.setDate(date.getDate() + + (h*60*60*1000));
+    return date;
+}*/
  
  Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
-    return date;
+    return date;	
 }
 
- function getOraIta(data){debugger;
- let d = new Date(data);
-	d = d.addHours(1);
+ function getOraIta(data){
+ let d = new Date(data); //adatta automaticamente il fuso orario!
+	//d = d.addHours(data, 1);
 	let min = d.getMinutes(); 
 	if (min.toString().length == 1) min = '0' + min;
 	let ret = d.getDate()+'/'+(d.getMonth()+1) + ' ' + d.getHours() + ':' + min;
@@ -212,7 +214,7 @@ function GestioneMenu(){
 				let identificativo = + iTorneo.toString() +iPartita.toString();
 				let quando = ''; 
 				let classeDataOra = 'hidden';
-				debugger;
+			
 				if(partita.status == 'notstarted'){
 					quando = getOraIta(partita.date)
 					classeDataOra = 'divDataOra'; 
@@ -319,8 +321,7 @@ function GestioneMenu(){
 				sHTML += sHTML_partita	
 				sHTML_flex += sHTML_partita_flex;
 				
-			}catch(error){
-				debugger;						
+			}catch(error){								
 				console.log('Errore nella setRisultati: ' + error)
 				console.log('iPartita: ' + iPartita)
 				console.log('iTorneo: ' + iTorneo)								
@@ -410,8 +411,6 @@ function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPuntegg
 		 sRet = sRet.replaceAll('N/A', ' ');		 
 	 }
 	 
-	 console.log(arrPunteggiAway_flex)
-	  console.log(arrPunteggiHome_flex)
 	return sRet;
 }
 
