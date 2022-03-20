@@ -20,10 +20,10 @@ var testata = '';
 			
 		let oggi = GetOggi().replaceAll('-', '');
 		let ieri = GetIeri().replaceAll('-', '');
-		if (localStorage['olo_API_Risultati'+oggi] != 'undefined' || localStorage['olo_API_Risultati'+oggi] != undefined){
+		if (localStorage['olo_API_Risultati'+oggi] != 'undefined' && localStorage['olo_API_Risultati'+oggi] != undefined){
 			SetRisultati(localStorage["olo_API_Risultati" + oggi], 1)
 		}
-		else if(localStorage['olo_API_Risultati'+ieri] != 'undefined' || localStorage['olo_API_Risultati'+ieri] != undefined){
+		else if(localStorage['olo_API_Risultati'+ieri] != 'undefined' && localStorage['olo_API_Risultati'+ieri] != undefined){
 			SetRisultati(localStorage["olo_API_Risultati" + ieri], 1)
 		}		
 	}catch(error){
