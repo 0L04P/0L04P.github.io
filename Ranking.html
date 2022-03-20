@@ -153,6 +153,7 @@
 	$('#rnk').append(localStorage['olo_HtmlWTA']);
  }
  function VisualizzaRank(s){
+ s = s.toUpperCase();
 	try{alert('VisualizzaRank ' + s)
 		 //svuoto e appendo l'HTML
  if( localStorage['olo_Html' + s] != 'undefined' && localStorage['olo_Html' + s] != undefined){
