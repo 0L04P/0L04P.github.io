@@ -154,7 +154,8 @@
 	$('#rnk').append(localStorage['olo_HtmlWTA']);
  }
  function VisualizzaRank(s){
- //svuoto e appendo l'HTML
+	try{
+		 //svuoto e appendo l'HTML
  if( localStorage['olo_Html' + s] != 'undefined' && localStorage["olo_API_" + s.toUpperCase()] != undefined){
  
 	$('#rnk').html('');
@@ -165,7 +166,11 @@
 	$('#btn' + s).addClass('selected');
 	$('.svgATPWTA').removeClass('shadow');
 	$('#svg' + s).addClass('shadow');	
+	alert('NESSUN errore nel visualizzarank!' )
 	} 
+	}catch(exc){
+		alert('errore nel visualizzarank!' + exc)
+	}
  }
 
 function GestioneMenu(){
