@@ -154,14 +154,15 @@
 	$('#rnk').append(localStorage['olo_HtmlWTA']);
  }
  function VisualizzaRank(s){
-	try{
+	try{alert('VisualizzaRank ' + s)
 		 //svuoto e appendo l'HTML
- if( localStorage['olo_Html' + s] != 'undefined' && localStorage["olo_API_" + s.toUpperCase()] != undefined){
- 
+ if( localStorage['olo_Html' + s] != 'undefined' && localStorage['olo_Html' + s] != undefined){
+ alert('nellif del VisualizzaRank ' + s)
 	$('#rnk').html('');
 	$('#rnk').append(localStorage['olo_Html' + s ]);
 	
 	SetFlag(JSON.parse(localStorage["olo_API_" + s.toUpperCase()]), 200);
+	alert('dopo setflag del VisualizzaRank ' + s)
 	$('.ATPWTA').removeClass('selected');
 	$('#btn' + s).addClass('selected');
 	$('.svgATPWTA').removeClass('shadow');
