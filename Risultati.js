@@ -168,12 +168,12 @@ function GestioneMenu(){
 	//ciclo tutti i tornei e ne creo l'intestazione: nelle classi torneo0, torneo1  andrò ad appendere il codice html relativo
 	for (let i = 0; i<= iNumTornei -1; ++i){		
 		sHTML_NomeTorneo = `
-			<div class='col-xs-4 divTitoloTorneo'>tournamentcode</div>
-			<div class='col-xs-8 divTitoloTorneo' style='margin-top:10px;'>
+			<div class='col-xs-4 divTitoloTorneo' onclick='EffettoGrafico(${i})'>tournamentcode</div>
+			<div class='col-xs-8 divTitoloTorneo' onclick='EffettoGrafico(${i})' style='margin-top:10px;'>
 				<h5 class='titoloTorneo'>`
 				+ output.results[i].tournament.name +', '+ output.results[i].tournament.city + '&nbsp; (' + output.results[i].tournament.surface +')' + //output.results[i].tournament.code +
 		    `</div>
-			<div class='col-xs-12 torneo torneo` + i + `' style='padding:0'></div>
+			<div class='col-xs-12 torneo torneo` + i + `' style='padding:2px; background-color:#abcdef;'></div>
 			<div class='col-xs-12 torneoFlex torneoFlex` + i + ` flex-container' style='margin-top: 5px; padding: 7px; white-space: nowrap; overflow-x: auto; height: 160px;'></div>`;
 				
 		if(output.results[i].tournament.code.toUpperCase() == 'ATP'){
@@ -248,7 +248,7 @@ function GestioneMenu(){
 						<label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label>
 					</div>											
 					<div class='col-xs-2 col-sm-2 divRound NoPad' style='padding: 0px 0px 0px 10px'>
-						<span class="badge badge-pill badgeRound">` + partita.round_name +`</span>
+						<span class="badge badge-pill badgeRound">` + gestioneRound(partita.round_name) +`</span>
 					</div>
 				</div>`;
 				
@@ -597,6 +597,82 @@ function CheckNomeGiocatore(s){
 		return ''
 	}else{
 		return s;}
+	
+}
+
+function gestioneRound(round){
+	let r = new RegExp('Qualification round', 'i');
+	if(r.test(round)){
+		return  round.toLowerCase().replace("qualification round", "Qf.").replace(' ', '')		
+	}
+	
+	
+	r = RegExp('Qualification Final', 'i');
+	if(r.test(round)){
+		return round.toLowerCase().replace("qualification final", "Qf.F ").replace(' ', '')		
+	}
+	
+	r = RegExp('Semifinals', 'i');
+	if(r.test(round)){
+		return round.toLowerCase().replace("semifinals", "SF ").replace(' ', '')		
+	}
+	
+	r = RegExp('Final', 'i');
+	if(r.test(round)){
+		return round.toLowerCase().replace("final", " F ").replace(' ', '')		
+	}
+	return round;
+}
+
+function EffettoGrafico(i){
+	debugger;
+	if(!$("#toggleModalita").prop("checked")){
+		
+		if($('.torneo'+i).css('display') == 'none'){
+			
+			$(".torneo"+i).fadeIn()	
+		}else{
+			
+			$(".torneo"+i).fadeOut()	
+		}
+		
+	}
+	
+}
+
+function OldMatches(){
+	let r = new RegExp('olo_API_Risultati', 'i')
+	for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+	  if(r.test( localStorage.getItem( localStorage.key( i ) ) )) localStorage.getItem( localStorage.key( i ) )
+	}
+
+
+	let sHTML = ''
+	let sHTML_flex = ''
+	let sHTML_NomeTorneo = '';	
+	let iNumTornei = output.results.length;
+	//ciclo tutti i tornei e ne creo l'intestazione: nelle classi torneo0, torneo1  andrò ad appendere il codice html relativo
+	for (let i = 0; i<= iNumTornei -1; ++i){		
+		sHTML_NomeTorneo = `
+			<div class='col-xs-4 divTitoloTorneo' onclick='EffettoGrafico(${i})'>tournamentcode</div>
+			<div class='col-xs-8 divTitoloTorneo' onclick='EffettoGrafico(${i})' style='margin-top:10px;'>
+				<h5 class='titoloTorneo'>`
+				+ output.results[i].tournament.name +', '+ output.results[i].tournament.city + '&nbsp; (' + output.results[i].tournament.surface +')' + //output.results[i].tournament.code +
+		    `</div>
+			<div class='col-xs-12 torneo torneo` + i + `' style='padding:2px; background-color:#abcdef;'></div>
+			<div class='col-xs-12 torneoFlex torneoFlex` + i + ` flex-container' style='margin-top: 5px; padding: 7px; white-space: nowrap; overflow-x: auto; height: 160px;'></div>`;
+				
+		if(output.results[i].tournament.code.toUpperCase() == 'ATP'){
+			sHTML_NomeTorneo = sHTML_NomeTorneo.replace("tournamentcode", svgATP).replaceAll("divTitoloTorneo", "divTitoloTorneo atp");			
+		}else{
+			sHTML_NomeTorneo = sHTML_NomeTorneo.replace("tournamentcode", svgWTA).replaceAll("divTitoloTorneo", "divTitoloTorneo wta");	
+		}
+		
+		$('#divRisultati').append(sHTML_NomeTorneo);	
+	}
+
+
+	
 	
 }
 
