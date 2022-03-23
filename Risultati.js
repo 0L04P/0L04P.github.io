@@ -36,7 +36,7 @@ var testata = '';
  })
  
 /*Date.prototype.addHours = function(d, h) { 
-debugger;
+////debugger;
   	var date = new Date(d);
     //date.setDate(date.getDate() + + (h*60*60*1000));
     return date;
@@ -262,12 +262,12 @@ function GestioneMenu(){
 									</div>
 								</td>
 								<td>(` +  rnk_home + `)</td>
-								<td class='giocatoreHome'>`+  CheckNomeGiocatore(partita.home_player)  +`</td>
-								<td>` + NZ(arrPunteggiHome_flex[0]) + `</td>
-								<td>` + NZ(arrPunteggiHome_flex[1]) + `</td>
-								<td>` + NZ(arrPunteggiHome_flex[2]) + `</td>
-								<td>` + NZ(arrPunteggiHome_flex[3]) + `</td>
-								<td>` + NZ(arrPunteggiHome_flex[4]) + `</td>
+								<td class='giocatoreHome'>`+  CheckNomeGiocatore(partita.home_player) +`</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[0]),  NZ(arrPunteggiAway_flex[0]), '1')[0] + `</td>  
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[1]),  NZ(arrPunteggiAway_flex[1]), '1')[0] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[2]),  NZ(arrPunteggiAway_flex[2]), '1')[0] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[3]),  NZ(arrPunteggiAway_flex[3]), '1')[0] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[4]),  NZ(arrPunteggiAway_flex[4]), '1')[0] + `</td>
 							</tr>
 							<tr>
 								<td style='padding-right: 10px;'>
@@ -277,11 +277,11 @@ function GestioneMenu(){
 								</td>
 								<td>(` +  rnk_away + `)</td>
 								<td class='giocatoreAway'>`+  CheckNomeGiocatore(partita.away_player)  +`</td>
-								<td>` + NZ(arrPunteggiAway_flex[0]) + `</td>
-								<td>` + NZ(arrPunteggiAway_flex[1]) + `</td>
-								<td>` + NZ(arrPunteggiAway_flex[2]) + `</td>
-								<td>` + NZ(arrPunteggiAway_flex[3]) + `</td>
-								<td>` + NZ(arrPunteggiAway_flex[4]) + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[0]),  NZ(arrPunteggiAway_flex[0]), '1')[1] + `</td>  
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[1]),  NZ(arrPunteggiAway_flex[1]), '1')[1] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[2]),  NZ(arrPunteggiAway_flex[2]), '1')[1] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[3]),  NZ(arrPunteggiAway_flex[3]), '1')[1] + `</td>
+								<td>` + FormattaPunteggioVert( NZ(arrPunteggiHome_flex[4]),  NZ(arrPunteggiAway_flex[4]), '1')[1] + `</td>
 							</tr>
 						</table>
 						<div class='col-xs-12'>
@@ -290,14 +290,36 @@ function GestioneMenu(){
 							</div>
 							<div class='col-xs-6 divLive NoPad'  style='padding: 0px 0px 0px 10px'>
 								<span class="badge badge-pill badgeLive badgeLiveFlex">LIVE</span>
-							</div>				
+							</div>
+							$badgestatus$							
 							<div class='col-xs-2 col-sm-2 ` + classeDataOra + ` NoPad'  style='padding: 0px 0px 0px 10px;'>
 								<label id='` + identificativo + `dataOra'>` +  quando + `</label>
 							</div>
 						</div>
 					</div>				
 				</div>
-				`;				
+				`;			
+
+				let status = partita.status;
+				if (status.toLowerCase() == 'canceled'){
+					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
+								<span class="badge badge-pill badgeStatus" style="background-color:#ABCDEF;color: black; padding-left: 15px; padding-right: 15px;">Cancellata</span>
+							</div>`
+					sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", a)
+					
+				}else if (partita.result.result_description.toLowerCase() == 'walkover'){
+					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
+								<span class="badge badge-pill badgeStatus" style="background-color:#ABCDEF;color: black; padding-left: 15px; padding-right: 15px;">Walkover</span>
+							</div>`
+					sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", a)
+					
+				}else if (partita.result.result_description.toLowerCase() == 'retired'){
+					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
+								<span class="badge badge-pill badgeStatus" style="background-color:#ABCDEF;color: black; padding-left: 15px; padding-right: 15px;">Ritiro</span>
+							</div>`
+					sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", a)
+					
+				}else{sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", '')}
 				
 				let b = false;
 				if  (partita.result != null && (partita.result.result_description == 'Ended' || partita.result.result_description == 'Walkover' || partita.result.result_description == 'Retired' )   )
@@ -356,7 +378,7 @@ function getPunteggioiPartita(status, result, iPartita, arrPunteggiHome_flex, ar
 	if( result == null || result == 'null' || result == undefined || result == 'undefined'){
 		return '';
 	}	
-	
+	//debugger;
 	if (result.away_set1 != undefined){
 		sRet += FormattaPunteggio(result.home_set1, result.away_set1) ; //sRet += result.home_set1 +''+ result.away_set1 + ' ';
 		sRet += getTieBreakResult(result, 1);
@@ -413,12 +435,22 @@ function getPunteggioiPartita(status, result, iPartita, arrPunteggiHome_flex, ar
 }
 
 function FormattaPunteggio(h,a){
-	let sRet = '';
-	if(a == '6' && h != '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
-	if(h == '6' && a != '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a + ' ' ;
-	if(a == '6' && h == '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a+ ' '; 
-	if(h == '6' && a == '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
-		
+	 
+		if(a == '6' && h != '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
+		if(h == '6' && a != '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a + ' ' ;
+		if(h == '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a+ ' '; 
+		if(a == '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
+			
+	return sRet;
+}
+
+function FormattaPunteggioVert(h,a ){
+	let sRet = [];
+		if(a == '6' && h != '7') {sRet[0] = h; sRet[1] = '<b class="Vantaggio">'+ a + '</b> '}//sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
+		if(h == '6' && a != '7') {sRet[1] = a; sRet[0] = '<b class="Vantaggio">'+ h + '</b> '}//sRet = '<b class="Vantaggio">' + h +'</b>'+ a + ' ' ;
+		if(h == '7'){sRet[1] = a; sRet[0] = '<b class="Vantaggio">'+ h + '</b> '}//sRet = '<b class="Vantaggio">' + h +'</b>'+ a+ ' '; 
+		if(a == '7') {sRet[0] = h; sRet[1] = '<b class="Vantaggio">'+ a + '</b> '}//sRet = h +'<b class="Vantaggio">'+ a + '</b> ';	
+	if (NZ(sRet[0]) == '' ){sRet = ['','']}
 	return sRet;
 }
 
@@ -515,7 +547,7 @@ function getTieBreakResult(result, index){
  }	
 				
 function GestioneFont(id){
-//debugger;
+//////debugger;
 	//let id = ID.toString.replace('lbl', '');
 	let a = $('#lbl' + id).parent().css('width');
 	let b = $('#lbl' + id).css('width');
@@ -592,7 +624,7 @@ function LarghezzeRisFlex(n){
 }
 
 function NZ(x){
-	
+	////debugger;
 	if(x == 'undefined' || x == undefined || x == null || x== 'null' || x=='N/A') {
 		return ''
 	}else{
@@ -633,7 +665,7 @@ function gestioneRound(round){
 }
 
 function EffettoGrafico(i){
-	debugger;
+	////debugger;
 	if(!$("#toggleModalita").prop("checked")){
 		
 		if($('.torneo'+i).css('display') == 'none'){
