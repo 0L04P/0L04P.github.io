@@ -97,8 +97,7 @@ function GestioneMenu(){
 	p = data.substr(0,10).split('-')
 	return p[2] + '-' + p[1] + '-' +p[0];
  }
- 
-// Prende in input "atp" o "wta"
+ // Prende in input "atp" o "wta"
  function AggiornaRisultati(data, isIeri, UsaLocalStorage){
 	 //se di ieri restituisco il valore salvato se presente	 
 	
@@ -152,8 +151,7 @@ function GestioneMenu(){
 	}
 	 
  }
- 
- //modalita = classica o orizzontale
+  //modalita = classica o orizzontale
  function SetRisultati(output,  isLocalStorage){
 	$('#divRisultati').html('');
 	$('#divRisFlex').html('');
@@ -242,7 +240,7 @@ function GestioneMenu(){
 						<label style='margin-left:-15px;' id="bandHome` + identificativo +`"></label>					
 					</div>					
 					<div class='col-xs-4 col-sm-2 NoPad'  style='text-align:center;'>						
-						<label style='font-size:15px'>` + getRisultati(partita.status, partita.result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex) + `</label>
+						<label style='font-size:15px; color:#ddd; font-weight:500px;'>` + getPunteggioiPartita(partita.status, partita.result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex) + `</label>
 					</div>
 					<div id="FlagAway" class='col-xs-2 col-sm-2 NoPad AlignLeft'>
 						<label style='margin-right:-15px;' id="bandAway` + identificativo +`"></label>
@@ -336,7 +334,7 @@ function GestioneMenu(){
 	SetFlagRis(output, iNumTornei);
 }
 
-function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex){
+function getPunteggioiPartita(status, result, iPartita, arrPunteggiHome_flex, arrPunteggiAway_flex){
 	let sRet ='';
 		try{
 	//verifico lo stato della partita	
@@ -360,31 +358,31 @@ function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPuntegg
 	}	
 	
 	if (result.away_set1 != undefined){
-		sRet += result.home_set1 +''+ result.away_set1 + ' ';
+		sRet += FormattaPunteggio(result.home_set1, result.away_set1) ; //sRet += result.home_set1 +''+ result.away_set1 + ' ';
 		sRet += getTieBreakResult(result, 1);
 		arrPunteggiHome_flex[0] = result.home_set1
 		arrPunteggiAway_flex[0] = result.away_set1
 		
 		if (result.home_set2 != undefined){
-			sRet += result.home_set2 +''+result.away_set2 + ' ';
+			sRet += FormattaPunteggio(result.home_set2, result.away_set2) ; //result.home_set2 +''+result.away_set2 + ' ';
 			sRet += getTieBreakResult(result, 2);
 			arrPunteggiHome_flex[1] = result.home_set2
 			arrPunteggiAway_flex[1] = result.away_set2
 			
 			if (result.home_set3 != undefined){
-				sRet += ' ' + result.home_set3 +''+result.away_set3;
+				sRet += FormattaPunteggio(result.home_set3, result.away_set3) ; //sRet += ' ' + result.home_set3 +''+result.away_set3;
 				sRet += getTieBreakResult(result, 3);
 				arrPunteggiHome_flex[2] = result.home_set3
 				arrPunteggiAway_flex[2] = result.away_set3
 				
 				if (result.home_set4 != undefined){
-				sRet += ' ' + result.home_set4 +''+result.away_set4;
+				sRet += FormattaPunteggio(result.home_set4, result.away_set4) ; //sRet += ' ' + result.home_set4 +''+result.away_set4;
 				sRet += getTieBreakResult(result, 4);
 				arrPunteggiHome_flex[3] = result.home_set4
 				arrPunteggiAway_flex[3] = result.away_set4
 
 				if (result.home_set5 != undefined){
-					sRet += ' ' + result.home_set5 +''+result.away_set5;
+					sRet += FormattaPunteggio(result.home_set5, result.away_set5) ; //sRet += ' ' + result.home_set5 +''+result.away_set5;
 					sRet += getTieBreakResult(result, 5);	
 					arrPunteggiHome_flex[4] = result.home_set5
 					arrPunteggiAway_flex[4] = result.away_set5			
@@ -395,7 +393,7 @@ function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPuntegg
 	}
 	}
 	catch(ex){
-		//console.log('ERRORE nella getRisultati:'+ ex)
+		//console.log('ERRORE nella getPunteggioiPartita:'+ ex)
 	}
 	 if (result.result_description == 'Walkover'){
 		 sRet = sRet.replaceAll('NaN', ' ');
@@ -411,6 +409,16 @@ function getRisultati(status, result, iPartita, arrPunteggiHome_flex, arrPuntegg
 		 sRet = sRet.replaceAll('N/A', ' ');		 
 	 }
 	 
+	return sRet;
+}
+
+function FormattaPunteggio(h,a){
+	let sRet = '';
+	if(a == '6' && h != '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
+	if(h == '6' && a != '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a + ' ' ;
+	if(a == '6' && h == '7') sRet = '<b class="Vantaggio">' + h +'</b>'+ a+ ' '; 
+	if(h == '6' && a == '7') sRet = h +'<b class="Vantaggio">'+ a + '</b> ';
+		
 	return sRet;
 }
 
@@ -528,7 +536,7 @@ function GestioneFont(id){
 
 function ViewRis(bool){	
 	localStorage['olo_ModalitaView'] = bool;
-	if(bool){
+	if(localStorage['olo_ModalitaView'] == 'true'){
 		$('.torneo').css('display', 'none');
 		$('.torneoFlex').css('display', '');
 		$('#toggleModalita').removeClass('badgeLiveToggle');
