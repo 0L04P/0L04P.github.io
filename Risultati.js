@@ -190,6 +190,7 @@ function GestioneMenu(){
 	//console.log('iTorneo' + iTorneo)
 		sHTML = '';	
 		sHTML_flex = ''
+		//if(iTorneo > 0 )debugger;
 		for (let iPartita = 0; iPartita<= output.results[iTorneo].matches.length -1; ++iPartita){
 			try{				
 				let partita = output.results[iTorneo].matches[iPartita];
@@ -299,7 +300,7 @@ function GestioneMenu(){
 					</div>				
 				</div>
 				`;			
-
+ 
 				let status = partita.status;
 				if (status.toLowerCase() == 'canceled'){
 					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
@@ -307,13 +308,13 @@ function GestioneMenu(){
 							</div>`
 					sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", a)
 					
-				}else if (partita.result.result_description.toLowerCase() == 'walkover'){
+				}else if (partita.result != null && partita.result.result_description.toLowerCase() == 'walkover'){
 					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
 								<span class="badge badge-pill badgeStatus" style="background-color:#ABCDEF;color: black; padding-left: 15px; padding-right: 15px;">Walkover</span>
 							</div>`
 					sHTML_partita_flex = sHTML_partita_flex.replace("$badgestatus$", a)
 					
-				}else if (partita.result.result_description.toLowerCase() == 'retired'){
+				}else if (partita.result  != null && partita.result.result_description.toLowerCase() == 'retired'){
 					let a = `<div class='col-xs-6 divStatus NoPad'  style='padding: 0px 0px 0px 10px'>
 								<span class="badge badge-pill badgeStatus" style="background-color:#ABCDEF;color: black; padding-left: 15px; padding-right: 15px;">Ritiro</span>
 							</div>`
@@ -539,8 +540,7 @@ function getTieBreakResult(result, index){
 				//GestioneFont('A' + iTorneo.toString() +iPartita.toString());
 			}
 			catch(error){
-				console.log('ERRORE IN iTorneo' + iTorneo + ' --- iPartita'  + iPartita)
-				console.error(error);	
+				console.log('ERRORE IN iTorneo' + iTorneo + ' --- iPartita'  + iPartita + ' ERRORE = ' + error)				
 			}
 		}
 	}
