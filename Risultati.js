@@ -451,7 +451,7 @@ function FormattaPunteggioVert(h,a ){
 		if(h == '6' && a != '7') {sRet[1] = a; sRet[0] = '<b class="Vantaggio">'+ h + '</b> '}//sRet = '<b class="Vantaggio">' + h +'</b>'+ a + ' ' ;
 		if(h == '7'){sRet[1] = a; sRet[0] = '<b class="Vantaggio">'+ h + '</b> '}//sRet = '<b class="Vantaggio">' + h +'</b>'+ a+ ' '; 
 		if(a == '7') {sRet[0] = h; sRet[1] = '<b class="Vantaggio">'+ a + '</b> '}//sRet = h +'<b class="Vantaggio">'+ a + '</b> ';	
-	if (NZ(sRet[0]) == '' ){sRet = ['','']}
+	if (NZ(sRet[0]) == '' ){sRet = [h,a]}
 	return sRet;
 }
 
