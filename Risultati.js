@@ -4,7 +4,7 @@ var testata = '';
 
  $(document).ready(function(){
 	GestioneMenu();
-		
+				
 	if (localStorage['MyApiKey'] == 'undefined' || localStorage['MyApiKey'] == undefined){	
 		console.log('cambio api')	
 		localStorage['MyApiKey'] = '501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c';
@@ -30,8 +30,8 @@ var testata = '';
 		console.log('Errrore in avvio: '+ error)		
 	}	
 	
-	ViewRis(localStorage['olo_ModalitaView']);
-	$('#toggleModalita').prop('checked', localStorage['olo_ModalitaView'])
+	//ViewRis(localStorage['olo_ModalitaView']);
+	//$('#toggleModalita').prop('checked', localStorage['olo_ModalitaView'])
 	
  })
  
@@ -78,6 +78,7 @@ function GestioneMenu(){
 	let mese = 1+ oggi.getMonth();
 	if (mese.toString().length == 1){mese = '0' + mese;}
 	let giorno = oggi.getDate();
+	if (giorno.length = 1) giorno = '0' + giorno
 	oggi = anno + '-' + mese + '-' + giorno;
 	return oggi;
  }
@@ -145,7 +146,8 @@ function GestioneMenu(){
 					SetRisultati(output, 0)
 				 },
 				 error: function(output) {
-					//console.log("Error in API call:" + output);
+					console.log("Error in API call:" + output);
+					alert("Error in API call:" + output);
 				 }		
 			  });
 	}
@@ -253,7 +255,7 @@ function GestioneMenu(){
 				
 				
 				sHTML_partita_flex = `
-				<div id='ris1`+ iTorneo + iPartita  +`' class="divRisultatoFlex" style="width:300px;">
+				<div id='risFlex`+ iTorneo + iPartita  +`' class="divRisultatoFlex kkl" style="width:300px;" home="`+  CheckNomeGiocatore(partita.home.full_name) +`">
 					<div id='row`+ iTorneo + iPartita  +`' class='row' style='padding-left: 24px; margin-top:-10px;'>				
 						<table id='t`+ iTorneo + iPartita  +`'  class='tableRis'>
 							<tr>
