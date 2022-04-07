@@ -132,9 +132,9 @@
 	//per fare ciò mi salvo il lunedì relativo alla pubblicazione dei ranking
 	SalvaData();
 	//procedo quindi a calcolare, a partire da oggi l'ultimo lunedì in cui si è pubblicato un ranking
-	VerificaData("501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");	              
-	//testAPI('ATP', "501224a88dmsh2fcbd7f640a6f54p123732jsn90242d2d745c");
-	if(localStorage['olo_APIcalls'] != 'undefined' && localStorage['olo_APIcalls'] != undefined) {$('#calls').text(localStorage['olo_APIcalls']);}	
+	VerificaData(localStorage['MyApiKey']);	              
+	
+	//if(localStorage['olo_APIcalls'] != 'undefined' && localStorage['olo_APIcalls'] != undefined) {$('#calls').text(localStorage['olo_APIcalls']);}	
 	//$('#btnATP').click();
 	 VisualizzaRank('ATP');
  })
@@ -237,12 +237,12 @@ try{ console.log('Entro nel try del setflag')
  }
 
  
- function VerificaData(APIkey){	
+ function VerificaData(){	
  debugger;
  console.log('1 - verifico la data');
  //numero di giorni passati dall'ultimo lunedì:
  //new Date().getDay() è 0 per la domenica, 1 per lunedì, ..., 6 per sabato ==> new Date().getDay() - 1 è 0 per lunedì, .., 5 per sabato, -1 per domenica :uso il remainder %
-	let elapsedDaysFromMonday = (7 + (new Date().getDay() - 1)%7)%7
+	/*let elapsedDaysFromMonday = (7 + (new Date().getDay() - 1)%7)%7
 	elapsed = elapsedDaysFromMonday*24*60*60*1000
 	lastMonday = new Date().getTime() - elapsed
 	dateLastMonday  = new Date(lastMonday)
@@ -252,18 +252,18 @@ try{ console.log('Entro nel try del setflag')
 		console.log('non chiamo le API, uso i dati salvati');
 		console.log('Infatti olo_SavedMonday ='+ localStorage['olo_SavedMonday']);
 		console.log('= ' + dateLastMonday.getDate()+'-'+(dateLastMonday.getMonth()+1)+'-'+dateLastMonday.getFullYear())
-	}else{
+	}else{*/
 	console.log('Chiamo le API');
 		//chiamo le API per entrambi i ranking e salvo i dati (= il codice HTML)		
-		Html("atp", APIkey);		
-		Html("wta", APIkey);		
+		Html("atp", localStorage['MyApiKey']);		
+		Html("wta", localStorage['MyApiKey']);		
 		localStorage['olo_SavedMonday'] = dateLastMonday.getDate()+'-'+(dateLastMonday.getMonth()+1)+'-'+dateLastMonday.getFullYear();		
 		console.log('olo_SavedMonday = ' + localStorage['olo_SavedMonday']);
-	} 
+	//} 
  }
  
 // Prende in input "atp" o "wta"
- function Html(s, APIkey){
+ function Html(s){
 console.log("API per " + s)
 	 $.ajax({
 			"async": true,
@@ -272,7 +272,7 @@ console.log("API per " + s)
 			"method": "GET",
 			"headers": {
 				"x-rapidapi-host": "tennis-live-data.p.rapidapi.com",
-				"x-rapidapi-key": APIkey
+				"x-rapidapi-key": localStorage['MyApiKey']
 				},
 			    success: function(output, status, xhr) { 		 			 
 				//////////api = output;//////////////
