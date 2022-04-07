@@ -89,7 +89,9 @@ function GestioneMenu(){
 	let anno = 1900 + ieri.getYear();
 	let mese = 1+ ieri.getMonth();
 	if (mese.toString().length == 1){mese = '0' + mese;}
-	let giorno = ieri.getDate();
+debugger;
+	let giorno = ieri.getDate();	
+	if (giorno.length = 1) giorno = '0' + giorno
 	ieri = anno + '-' + mese + '-' + giorno;
 	return ieri;
  }
