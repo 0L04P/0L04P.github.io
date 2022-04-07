@@ -1,0 +1,132 @@
+	*{
+	font-family: 'M PLUS 2', sans-serif;}
+/*flex*/
+
+	.divRisultatoFlex{		
+		background-color:#00008b;		 
+		padding:0;
+		min-width: 250px;				
+		height: 100%;
+		margin-right: 10px;
+		border-radius: 15px;
+		padding-top: 5px;
+		
+		width: 300px;
+		min-width: 343px;
+		box-shadow: 4px 4px rgba(153,175,212, 0.72)
+	}
+/*fineflex*/
+
+
+/*disabilito su smartphone il pull-to-refresh*/
+	body {
+		overscroll-behavior: contain;
+	}
+	.divRisultato{
+		border-radius:3px; 
+		background-color:#00008b;
+		margin-top:2px;
+		padding:0;
+	}
+	.divRisultato:hover
+	{
+		/*border:solid 1pxbackground-color: #abcdef;
+		color: #123456;*/
+	}
+
+	.giocatoreAway{
+		font-size:15px;
+		padding-right:10px;
+	}
+	.giocatoreHome{
+		font-size:15px;
+		padding-left:10px;
+	}
+	.rnk{
+		font-size:14px;
+	}
+
+	.bandiera{
+		margin-right: 10px;
+		vertical-align: -15px;
+	}	
+	.titoloTorneo{
+		font-size: 16px;
+		font-style: italic;
+		margin-top: 15px;
+	}
+	.divTitoloTorneo{
+		margin-top: 10px;
+		background-color: #234567;
+		height:95px;
+	}
+	.vincitore{
+		color: #ffff00;
+		font-weight:600 !important;
+		text-decoration: underline;
+	}
+	.Vantaggio{
+		color:#1dff00;
+	}
+	.wta{
+		background-color:#fc89ac;
+		color:white;
+	}
+	.atp{
+		background-color:#0c11ce;
+		color:white;
+	}
+	*{		
+		font-weight:400;		
+	 }
+	 .NoPad{
+		padding:0;
+	 }
+	 .torneo{
+		text-transform: uppercase;
+	 }
+	 .AlignCenter{
+		text-align:center;
+	 }
+	 .AlignRight{
+		text-align:right;
+	 }
+	 .AlignLeft{
+		text-align:left;
+	 }
+	 
+	.badge{
+		outline: solid 1px #00008b;
+		font-size: 14px;		
+	}
+	.badgeLive{
+		background-color: #ff0000;   
+		color: #ffff00;
+		}
+	.badgeLiveToggle{
+		background-color: #fff;   
+		color: #000;
+		}
+	.badgeLiveToggleChecked{
+		background-color: #ff0000;   
+		color: #ffff00;
+		}
+		
+	.badgeModalitaToggle{
+		background-color: #fff;   
+		color: #000;
+		}
+	.badgeModalitaToggleChecked{
+		background-color: #fff000;   
+		color: #ffff00;
+		}
+		
+	.badgeRound{
+		background-color:#add8e6;
+		color:#123456; 
+		/float:right;*/
+	}
+	 .daIniziare{
+		font-size: 13px;
+		padding-top: 5px
+	 }
