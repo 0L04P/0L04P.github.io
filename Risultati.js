@@ -72,13 +72,13 @@ function GestioneMenu(){
 	});
 }
  
- function GetOggi(){	
+ function GetOggi(){	//debugger;
 	oggi = new Date();
 	let anno = 1900 + oggi.getYear();
 	let mese = 1+ oggi.getMonth();
 	if (mese.toString().length == 1){mese = '0' + mese;}
 	let giorno = oggi.getDate();
-	if (giorno.length = 1) giorno = '0' + giorno
+	if (giorno.toString().length == 1){giorno = '0' + giorno;} //if (giorno.length = 1) giorno = '0' + giorno
 	oggi = anno + '-' + mese + '-' + giorno;
 	return oggi;
  }
@@ -90,7 +90,7 @@ function GestioneMenu(){
 	let mese = 1+ ieri.getMonth();
 	if (mese.toString().length == 1){mese = '0' + mese;}
 	let giorno = ieri.getDate();	
-	if (giorno.length = 1) giorno = '0' + giorno
+	if (giorno.toString.length == 1) giorno = '0' + giorno
 	ieri = anno + '-' + mese + '-' + giorno;
 	return ieri;
  }
@@ -653,6 +653,11 @@ function gestioneRound(round){
 	r = RegExp('Qualification Final', 'i');
 	if(r.test(round)){
 		return round.toLowerCase().replace("qualification final", "Qf.F ").replace(' ', '')		
+	}
+	
+	r = RegExp('"Quarterfinals"', 'i');
+	if(r.test(round)){
+		return round.toLowerCase().replace("quarterfinals", "QF").replace(' ', '')		
 	}
 	
 	r = RegExp('Semifinals', 'i');
