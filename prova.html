@@ -24,14 +24,21 @@
 <body  style = "background-color:#123456; color:#ffffff;">
 	<div class="container" style="">
 		<h4 id="titolo" style="margin-bottom: 120px"></h4>
-		<input type='number' id='txtInput' onchange='creaGioco($("#txtInput").val()); $("#txtInput").val(0)' style='color: black;vertical-align: -1px; width: 100px;'/>
-		 
+		<div class='col-xs-8' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>			
+			Quanti giocatori?&nbsp;&nbsp;<input type='number' id='txtInput' onchange='creaGioco($("#txtInput").val()); $("#txtInput").val(0)' style='color: black;vertical-align: -1px; width: 100px;'/>
+			<button class='btn btn-info'><span class='glyphicon glyphicon-ok'></span></button>
+		</div>
 		<div class='col-xs-8' id='aaa'></div>
 		<div class='col-xs-12' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>
 			<b>Soluzione proposta:</b><br>	
 		</div>
 		
-		<div class='col-xs-8' id='SolProp'></div>
+		<div class='col-xs-8' id='SolProp'>
+		</div>
+		
+		<div class='col-xs-8' id='SolProp' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>
+			<label id='lblSalvati' style='font-size:18px;'></label>
+		</div>
 	</div> 
 	<script>
 	var sHTML = '';
@@ -113,7 +120,11 @@
 			$('#SolProp').html('');
 			$('#SolProp').html(sHTMLSol);
 	
-	
+	let salvati =0;
+	for (w=0; w<=SOL.length-1;++w){
+		if (arr[w] == SOL[w]) salvati+= 1
+	}
+	$('#lblSalvati').text('Salvati: ' + salvati + ' su ' + SOL.length)
 	}
 	
 	</script>
