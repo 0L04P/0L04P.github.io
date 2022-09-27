@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>Fantalucca 2K22</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!--script src='index.js'></script-->
+</head>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	*{ 
+		font-family: 'M PLUS 2', sans-serif;}	
+		font-weight:400;		
+	 }
+	 .squadra{
+		color: #fd44aa;
+		border: solid 4px #ffa000;
+		border-radius:10px;
+		padding:10px;	 
+	 }
+</style>
+ 
+<body  style = "background-color:#123456; color:#ffffff;">
+	<img src='loading.gif' id='gif' style='display:none'>
+
+	<div class="container" style="">
+		<div class='col-xs-12' style='text-align:center; margin-bottom: 20px'>
+			<h4>FantaLucca 2K22 </h4>
+		</div>
+		<div class='col-xs-12'>			 			
+			<div id='divGiovatori' class='col-xs-12'>
+				 		
+			</div>								
+		</div>			
+	</div> 
+</body> 
+
+<script>
+var url = 'https://us-central1-oloappi.cloudfunctions.net/user';
+
+$(document).ready(function(){
+	
+	getGiocatori();
+
+}); 
+	
+ function caricaAzione(nome, descrizione, punti){
+	let azione = {
+				"nome" : nome,
+				"descrizione" : descrizione,
+				"punti" : punti
+			}	
+	let d =  JSON.stringify(azione)
+			debugger;
+ 	$.ajax({  
+		"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/Azioni",   
+		"method": "POST",
+		"crossDomain": false,
+		"data": d,
+		"contentType": "text",
+		"dataType": "text",
+			
+		success: function (output )  
+		{						
+				alert('caricata')	 						
+			
+		} ,
+		 error: function(output) 
+		 {		
+			 alert('errore')
+			 debugger;
+			console.log("Error in API call:" + output);
+			alert("Error in API call:" + output);
+		 }
+			
+	}); 
+ 
+ }
+	
+ 
+function getGiocatori(){		
+	$.ajax({  
+	"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user",   
+		"method": "GET",
+		"crossDomain": false,
+		"dataType":"text",	
+		"async" : false,			
+		success: function (output )  
+		{							  										
+			 
+			localStorage["giocatori"] =  output;
+			
+			creaSquadra(JSON.parse(output));
+		} ,
+		 error: function(output) 
+		 {		
+			 
+			console.log("Error in API call:" + output);
+			alert("Error in API call:" + output);
+		 }
+			
+	}); 	 
+ }
+ 
+function creaSquadra(arr){
+	//debugger;
+	let sHTML = '';
+	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'>Squadre</div>`
+	for (let i = 0; i< arr.length; ++i){
+		
+	sHTML += `
+	<div class='col-xs-6'>
+		<div class='col-xs-12 squadra' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
+			<b>${arr[i].nome}</b>&nbsp;
+			<i class='hidden'>${arr[i].id}</i>
+			<ul>
+				<li>${arr[i].squadra.draft_1}</li>
+				<li>${arr[i].squadra.draft_2}</li>
+				<li>${arr[i].squadra.draft_3}</li>
+			</ul>			
+		</div>
+	</div>`	
+	}
+ 
+	$('#divGiovatori').html(sHTML);
+ 
+ }
+</script>
+</html>
