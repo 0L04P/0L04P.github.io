@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>Fantalucca 2K22</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src='index.js'></script>
+</head>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	*{ 
+		font-family: 'M PLUS 2', sans-serif;}	
+		font-weight:400;		
+	 }
+	 .squadra{
+		color: #fd44aa;
+		border: solid 4px #ffa000;
+		border-radius:10px;
+		padding:10px;	 
+	 }
+	 
+	 .freccia{
+		font-size:20px;
+		color:#66d90e;
+	 }
+	 .titolo{
+		text-align: center;
+		font-size: 1.5em;
+		font-weight: bold;	
+	}
+</style>
+ 
+<body  style = "background-color:#123456; color:#ffffff;">
+	<div id="divMenu"  class="col-xs-12" style="margin-top:5px; padding: 10px; white-space: nowrap; overflow-x: auto;">               
+		<h4 class='titolo' onclick=' '>FantaLucca 2K22 </h4>
+		<button id='btnMenuRisultati' class='btn btn-success' style="width: 50%" onclick="CambiaPagina('C')">Classifica</button>
+		<button id='btnMenuRanking' class='btn btn-primary' style="width: 50%" onclick="CambiaPagina('P')">Punteggi</button>				
+	</div>	
+	<div class="container-fluid ElencoGiocatori" style="width:100%; padding: 0; ">		 		
+		<h4 class="text-center">Classifica</h4>
+		 
+		<div id='divGiovatori' class='col-xs-12'>			 			
+										
+		</div>			
+	</div> 
+		
+	<div class="container-fluid ElencoPunteggi" style="width:100%; padding: 0; display:none;  ">
+		<h4 class="text-center">Punteggi</h4> 
+		<div id='aaa'>
+		
+		</div>	
+	</div>		
+</body> 
+
+<script>
+
+ var url = 'https://us-central1-oloappi.cloudfunctions.net/user';
+var arrGiocatori;
+var arrPunteggiTotali;
+
+$(document).ready(function(){
+	arrGiocatori=[];
+	arrPunteggiTotali=[];
+	CambiaPagina('C');
+	let q = getGiocatori();	
+	GetPunteggioGiocatore();
+	
+}); 
+	
+ function caricaAzione(nome, descrizione, punti){
+	let azione = {
+				"nome" : nome,
+				"descrizione" : descrizione,
+				"punti" : punti
+			}	
+	let d =  JSON.stringify(azione)
+			//;
+ 	$.ajax({  
+		"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/Azioni",   
+		"method": "POST",
+		"crossDomain": false,
+		"data": d,
+		"contentType": "text",
+		"dataType": "text",
+			
+		success: function (output )  
+		{						
+				alert('caricata')	 						
+			
+		} ,
+		 error: function(output) 
+		 {		
+			 alert('errore')
+			//;
+			console.log("Error in API call:" + output);
+			alert("Error in API call:" + output);
+		 }
+			
+	}); 
+ 
+ }
+	
+function getPunteggi(giorno){
+	$.ajax({  
+	"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/Punteggi?",   
+		"method": "GET",
+		"crossDomain": false,
+		"dataType":"text",	
+		"async" : false,			
+		success: function (output )  
+		{							  													 					
+			return JSON.parse(output);
+		} ,
+		 error: function(output) 
+		 {					 
+			console.log("Error in API getAzioni call:" + output);
+			alert("Error in API getAzioni call:" + output);
+		 }
+			
+	}); 
+	
+}	
+ 
+function getGiocatori(){		
+	$.ajax({  
+	"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user",   
+		"method": "GET",
+		"crossDomain": false,
+		"dataType":"text",	
+		"async" : false,			
+		success: function (output )  
+		{							  										
+			 
+			localStorage["giocatori"] =  output;
+					
+			//;
+			let ret = JSON.parse(output)
+			for(let k = 0; k < ret.length; ++k){
+				let y = ret[k].nome
+				arrGiocatori.push(y);	
+			}
+					
+			popolaClassifica(ret);
+		} ,
+		 error: function(output) 
+		 {					
+			console.log("Error in API getGiocatori call:" + output);
+			alert("Error in API getGiocatori call:" + output);
+		 }
+			
+	}); 	 
+ }
+ 
+function popolaClassifica(arr){
+	//;
+	let sHTML = '';
+	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>`
+	for (let i = 0; i< arr.length; ++i){
+		//TODO CONTINUARE E SCOMMENTAE	e usare sotto   &nbsp;${totali[0]}
+	//let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
+	//let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	 
+	//let totCurrentPlayer = arrPunteggiTotali[indexCurrentPlayer];
+		
+	sHTML += `
+	<div class='col-xs-6 Giocatore ${arr[i].nome}'>
+		<div class='col-xs-12 squadra' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
+			<b style='margin-left: 5px;'>${arr[i].nome}</b>&nbsp;
+			<i class='hidden'>${arr[i].id}</i>
+			<ul>
+				<li>${arr[i].squadra.draft_1}</li>
+				<li>${arr[i].squadra.draft_2} </li>
+				<li>${arr[i].squadra.draft_3} </li>
+			</ul>			
+		</div>
+	</div>`	
+	}
+ 
+	$('#divGiovatori').html(sHTML);
+ 
+ }
+ 
+ function CambiaPagina(p){
+	 switch(p){
+		 case "C":
+			$('.ElencoPunteggi').css('display', 'none');
+			$('.ElencoGiocatori').css('display', '');
+			break;		 
+		 case "P":
+			$('.ElencoPunteggi').css('display', '');
+			$('.ElencoGiocatori').css('display', 'none');
+			break;		 		 
+	 }
+	 
+ }
+  
+ function GetPunteggioGiocatore(){
+	/* let puntegg1 = getPunteggi(1);
+	 let puntegg2 = getPunteggi(2);
+	 let puntegg3 = getPunteggi(3);
+	 let puntegg4 = getPunteggi(4);*/
+	let p1 = {
+		"Paolo":{"GIOCO1":"1","GIOCO2":"2","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let p2 = {
+		"Paolo":{"GIOCO1":"2","GIOCO2":"4","GIOCO3":"5", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let p3 = {
+		"Paolo":{"GIOCO1":"0","GIOCO2":"3","GIOCO3":"3", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let p4 = {
+		"Paolo":{"GIOCO1":"0","GIOCO2":"1","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	
+	let g1 = {
+		"Gutte":{"GIOCO1":"2","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let g2 = {
+		"Gutte":{"GIOCO1":"2","GIOCO2":"3","GIOCO3":"5", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let g3 = {
+		"Gutte":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"3", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let g4 = {
+		"Gutte":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"10", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	
+	let pg1 = {
+		"Poggio":{"GIOCO1":"2","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let pg2 = {
+		"Poggio":{"GIOCO1":"7","GIOCO2":"3","GIOCO3":"2", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let pg3 = {
+		"Poggio":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let pg4 = {
+		"Poggio":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"6", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	
+	let a1 = {
+		"Ambro":{"GIOCO1":"9","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let a2 = {
+		"Ambro":{"GIOCO1":"0","GIOCO2":"3","GIOCO3":"2", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let a3 = {
+		"Ambro":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	let a4 = {
+		"Ambro":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
+	}
+	  
+	 ////let sHTML = creaHTMLgiocatore(p1,p2,p3,p4, "Paolo")
+	 ////$('#aaa').html(sHTML)
+	  
+	 ///// ['Poggio', 'Gutte', 'Paolo', 'Ambro']
+	 let strHTML = ''; 
+	 let sNone = ''
+	 for (i = 0; i < arrGiocatori.length; ++i){
+		 switch(i){
+			 case 1:
+				 strHTML += creaHTMLgiocatore(g1,g2,g3,g4, arrGiocatori[i],sNone)
+				 break;
+			  case 3:
+				 strHTML += creaHTMLgiocatore(a1,a2,a3,a4, arrGiocatori[i],sNone)
+				 break;
+			  case 2:
+				 strHTML += creaHTMLgiocatore(p1,p2,p3,p4, arrGiocatori[i],sNone)
+				 break;
+			  case 0:
+				 strHTML += creaHTMLgiocatore(pg1,pg2,pg3,pg4, arrGiocatori[i],sNone)
+				 sNone = 'display:none;';
+				 break;			 
+		 }		 		 
+	 }
+	 $('#aaa').html(strHTML);
+ }
+ 
+ function creaHTMLgiocatore(giorno1,giorno2,giorno3, giorno4, player,sNone){
+	 
+	let p1 = giorno1[player];	
+	let p2 = giorno2[player];	
+	let p3 = giorno3[player];	
+	let p4 = giorno4[player];	
+	let n = Object.keys(p1).length/2; 
+	let sHTML = '';
+	let tot = 0;
+	
+	sHTML +='<div id="div' + player + '" style="' + sNone + '">'
+	sHTML +='<div class="col-xs-12">'
+	let w = "'" + player + "'"
+	sHTML +='<div class="col-xs-2"></div><div class="col-xs-2"><span class="glyphicon glyphicon-arrow-left freccia ' +player +'" onclick="Freccia(-1,' + w + ')"></span></div>'
+	sHTML +='<div class="col-xs-4"><b style="font-size:20px; margin-top: -5px">' + player + '</b></div>'
+	sHTML +='<div class="col-xs-2"><span class="glyphicon glyphicon-arrow-right freccia"  onclick="Freccia(+1,' + w + ')"></span></div><div class="col-xs-2"></div>'
+	sHTML +='</div>'
+	sHTML +='<div class="col-xs-12">'
+	sHTML +='<table style="width:100%">'
+	sHTML +='<tr>'
+	sHTML +='<th>AZIONE</th>'
+	sHTML +='<th class="text-center">PUNTI</th>	'		
+	sHTML +='</tr>'
+	for (let i = 1; i<=n; ++i){
+		let nome = 'GIOCO' +i + 'DESC';
+		let punteggio = 'GIOCO' +i;
+		let somma =  parseInt(p1[punteggio])+parseInt(p2[punteggio])+parseInt(p3[punteggio])+parseInt(p4[punteggio]);
+		tot+=somma;
+		sHTML +='<tr>'
+		sHTML +='<td>' + p1[nome] + '</td>'
+		sHTML +='<td class="text-center">' + somma + '</td>'
+		sHTML +='</tr>'		
+	}
+	
+	sHTML +='</table>'
+	
+	sHTML += '<div class="col-xs-11" style="text-align: right; margin-top: 15px;">'
+	sHTML += '<b>Tot.</b>&nbsp;' + tot +' punti'
+	sHTML += '</div>'
+	
+	sHTML +='</div>'
+	sHTML +='</div>' //chiudo il divGiocatore
+
+	let indexPlayer = arrGiocatori.indexOf(player)
+	arrPunteggiTotali[indexPlayer]	= tot;
+	return sHTML;
+ }
+ 
+ function Freccia(i, currentPlayerName){
+  
+	 let currentIndex = arrGiocatori.indexOf(currentPlayerName);
+	 let n = arrGiocatori.length;
+	 let next = (parseInt(currentIndex) + parseInt(i) + n) % n;
+	  
+	 let nextPlayerName = arrGiocatori[next];
+	 //nascondo il corrente e mostroil prossimo
+	 $('#div' + currentPlayerName).css('display', 'none');
+	 $('#div' + nextPlayerName).css('display', '');
+ }
+</script>
+</html>
