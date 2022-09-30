@@ -36,7 +36,8 @@
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
-	<div id="divMenu"  class="col-xs-12" style="margin-top:5px; padding: 10px; white-space: nowrap; overflow-x: auto;">               
+		<img src='Logo.ico' style='float:right; margin:5px; height:35px;'>
+	<div id="divMenu"  class="container-fluid" style="  padding: 10px; white-space: nowrap; overflow-x: auto;">               
 		<h4 class='titolo' onclick=' '>FantaLucca 2K22 </h4>
 		<button id='btnMenuRisultati' class='btn btn-success' style="width: 50%" onclick="CambiaPagina('C')">Classifica</button>
 		<button id='btnMenuRanking' class='btn btn-primary' style="width: 50%" onclick="CambiaPagina('P')">Punteggi</button>				
@@ -55,75 +56,74 @@
 		
 		</div>	
 	</div>		
+	<div class="container-fluid" style="height:80px;"></div>
 </body> 
 
 <script>
-
- var url = 'https://us-central1-oloappi.cloudfunctions.net/user';
+var url = 'https://us-central1-oloappi.cloudfunctions.net/user';
 var arrGiocatori;
 var arrPunteggiTotali;
+//////var punteggi1,punteggi2,punteggi3,punteggi4
+var punteggi = [];
+var azioni;
 
 $(document).ready(function(){
 	arrGiocatori=[];
 	arrPunteggiTotali=[];
 	CambiaPagina('C');
-	let q = getGiocatori();	
-	GetPunteggioGiocatore();
+	getGiocatori();	
 	
+	getPunteggi(1);
+	getPunteggi(2);
+	getPunteggi(3);
+	getPunteggi(4);
+	getAzioni();
+	
+	setTimeout(function(){
+		GetPunteggioGiocatore();			
+	}, 1500);	 	
 }); 
 	
- function caricaAzione(nome, descrizione, punti){
-	let azione = {
-				"nome" : nome,
-				"descrizione" : descrizione,
-				"punti" : punti
-			}	
-	let d =  JSON.stringify(azione)
-			//;
- 	$.ajax({  
-		"Access-Control-Allow-Origin": "*",
-		"Referrer Policy": "strict-origin-when-cross-origin",
-		"url": "https://us-central1-oloappi.cloudfunctions.net/user/Azioni",   
-		"method": "POST",
-		"crossDomain": false,
-		"data": d,
-		"contentType": "text",
-		"dataType": "text",
-			
-		success: function (output )  
-		{						
-				alert('caricata')	 						
-			
-		} ,
-		 error: function(output) 
-		 {		
-			 alert('errore')
-			//;
-			console.log("Error in API call:" + output);
-			alert("Error in API call:" + output);
-		 }
-			
-	}); 
- 
- }
-	
-function getPunteggi(giorno){
+function getAzioni(){
 	$.ajax({  
 	"Access-Control-Allow-Origin": "*",
 		"Referrer Policy": "strict-origin-when-cross-origin",
-		"url": "https://us-central1-oloappi.cloudfunctions.net/user/Punteggi?",   
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/GetDati/azioni",   
 		"method": "GET",
 		"crossDomain": false,
 		"dataType":"text",	
 		"async" : false,			
-		success: function (output )  
-		{							  													 					
-			return JSON.parse(output);
+		success: function (output)  
+		{								
+			azioni = JSON.parse(output);
 		} ,
 		 error: function(output) 
 		 {					 
 			console.log("Error in API getAzioni call:" + output);
 			alert("Error in API getAzioni call:" + output);
+		 }
+			
+	}); 
+	
+}
+	
+function getPunteggi(giorno){
+	$.ajax({  
+	"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/GetDati/punteggi_" + giorno,   
+		"method": "GET",
+		"crossDomain": false,
+		"dataType":"text",	
+		"async" : false,			
+		success: function (output)  
+		{								
+			punteggi[giorno -1] = JSON.parse(output);
+		} ,
+		 error: function(output) 
+		 {					 
+			console.log("Error in API getPunteggi_" + i + " call:" + output);
+			alert("Error in API getAzioni_" + i + " call:" + output);
 		 }
 			
 	}); 
@@ -134,7 +134,7 @@ function getGiocatori(){
 	$.ajax({  
 	"Access-Control-Allow-Origin": "*",
 		"Referrer Policy": "strict-origin-when-cross-origin",
-		"url": "https://us-central1-oloappi.cloudfunctions.net/user",   
+		"url": "https://us-central1-oloappi.cloudfunctions.net/user/GetDati/users",   		
 		"method": "GET",
 		"crossDomain": false,
 		"dataType":"text",	
@@ -165,6 +165,7 @@ function getGiocatori(){
 function popolaClassifica(arr){
 	//;
 	let sHTML = '';
+	 
 	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>`
 	for (let i = 0; i< arr.length; ++i){
 		//TODO CONTINUARE E SCOMMENTAE	e usare sotto   &nbsp;${totali[0]}
@@ -205,94 +206,26 @@ function popolaClassifica(arr){
  }
   
  function GetPunteggioGiocatore(){
-	/* let puntegg1 = getPunteggi(1);
-	 let puntegg2 = getPunteggi(2);
-	 let puntegg3 = getPunteggi(3);
-	 let puntegg4 = getPunteggi(4);*/
-	let p1 = {
-		"Paolo":{"GIOCO1":"1","GIOCO2":"2","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let p2 = {
-		"Paolo":{"GIOCO1":"2","GIOCO2":"4","GIOCO3":"5", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let p3 = {
-		"Paolo":{"GIOCO1":"0","GIOCO2":"3","GIOCO3":"3", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let p4 = {
-		"Paolo":{"GIOCO1":"0","GIOCO2":"1","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
+	 let punteggi1 = punteggi[0];
+	 let punteggi2 = punteggi[1];
+	 let punteggi3 = punteggi[2];
+	 let punteggi4 = punteggi[3];
 	
-	let g1 = {
-		"Gutte":{"GIOCO1":"2","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let g2 = {
-		"Gutte":{"GIOCO1":"2","GIOCO2":"3","GIOCO3":"5", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let g3 = {
-		"Gutte":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"3", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let g4 = {
-		"Gutte":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"10", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	
-	let pg1 = {
-		"Poggio":{"GIOCO1":"2","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let pg2 = {
-		"Poggio":{"GIOCO1":"7","GIOCO2":"3","GIOCO3":"2", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let pg3 = {
-		"Poggio":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let pg4 = {
-		"Poggio":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"6", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	
-	let a1 = {
-		"Ambro":{"GIOCO1":"9","GIOCO2":"6","GIOCO3":"1", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let a2 = {
-		"Ambro":{"GIOCO1":"0","GIOCO2":"3","GIOCO3":"2", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let a3 = {
-		"Ambro":{"GIOCO1":"1","GIOCO2":"1","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	let a4 = {
-		"Ambro":{"GIOCO1":"0","GIOCO2":"2","GIOCO3":"0", "GIOCO1DESC":"GRGT","GIOCO2DESC":"HYH","GIOCO3DESC":"GTT"}
-	}
-	  
-	 ////let sHTML = creaHTMLgiocatore(p1,p2,p3,p4, "Paolo")
-	 ////$('#aaa').html(sHTML)
-	  
-	 ///// ['Poggio', 'Gutte', 'Paolo', 'Ambro']
-	 let strHTML = ''; 
+	 let sHTML = ''; 
 	 let sNone = ''
 	 for (i = 0; i < arrGiocatori.length; ++i){
-		 switch(i){
-			 case 1:
-				 strHTML += creaHTMLgiocatore(g1,g2,g3,g4, arrGiocatori[i],sNone)
-				 break;
-			  case 3:
-				 strHTML += creaHTMLgiocatore(a1,a2,a3,a4, arrGiocatori[i],sNone)
-				 break;
-			  case 2:
-				 strHTML += creaHTMLgiocatore(p1,p2,p3,p4, arrGiocatori[i],sNone)
-				 break;
-			  case 0:
-				 strHTML += creaHTMLgiocatore(pg1,pg2,pg3,pg4, arrGiocatori[i],sNone)
-				 sNone = 'display:none;';
-				 break;			 
-		 }		 		 
+	 	sHTML += creaHTMLgiocatore(punteggi1,punteggi2,punteggi3,punteggi4, arrGiocatori[i], sNone);
+		sNone = 'display:none;'
 	 }
-	 $('#aaa').html(strHTML);
+	 $('#aaa').html(sHTML);
  }
  
  function creaHTMLgiocatore(giorno1,giorno2,giorno3, giorno4, player,sNone){
-	 
-	let p1 = giorno1[player];	
-	let p2 = giorno2[player];	
-	let p3 = giorno3[player];	
-	let p4 = giorno4[player];	
+	let index = arrGiocatori.indexOf(player);
+	let p1 = giorno1[index];	
+	let p2 = giorno2[index];	
+	let p3 = giorno3[index];	
+	let p4 = giorno4[index];	
 	let n = Object.keys(p1).length/2; 
 	let sHTML = '';
 	let tot = 0;
@@ -310,13 +243,14 @@ function popolaClassifica(arr){
 	sHTML +='<th>AZIONE</th>'
 	sHTML +='<th class="text-center">PUNTI</th>	'		
 	sHTML +='</tr>'
-	for (let i = 1; i<=n; ++i){
-		let nome = 'GIOCO' +i + 'DESC';
-		let punteggio = 'GIOCO' +i;
+	for (let i = 1; i<= azioni.length -1 ; ++i){
+		let descrizione = getDescAzione(i-1);  //azioni[i-1].descrizione;
+		let punteggio = 'AZ' +i;
 		let somma =  parseInt(p1[punteggio])+parseInt(p2[punteggio])+parseInt(p3[punteggio])+parseInt(p4[punteggio]);
 		tot+=somma;
+		//debugger;
 		sHTML +='<tr>'
-		sHTML +='<td>' + p1[nome] + '</td>'
+		sHTML +='<td>' + descrizione + '</td>'
 		sHTML +='<td class="text-center">' + somma + '</td>'
 		sHTML +='</tr>'		
 	}
@@ -329,9 +263,9 @@ function popolaClassifica(arr){
 	
 	sHTML +='</div>'
 	sHTML +='</div>' //chiudo il divGiocatore
-
-	let indexPlayer = arrGiocatori.indexOf(player)
-	arrPunteggiTotali[indexPlayer]	= tot;
+ 
+	//let indexPlayer = arrGiocatori.indexOf(player)
+	arrPunteggiTotali[index] = tot;
 	return sHTML;
  }
  
@@ -345,6 +279,17 @@ function popolaClassifica(arr){
 	 //nascondo il corrente e mostroil prossimo
 	 $('#div' + currentPlayerName).css('display', 'none');
 	 $('#div' + nextPlayerName).css('display', '');
+ }
+ 
+ 
+ function getDescAzione(i){
+	 let j = i+1;
+	 for (k =0; k<= azioni.length - 1;++k){		
+		 if(azioni[k].id == 'AZ' + j) {
+			 return azioni[i].descrizione;	
+		 }	 
+	 }	 
+	 return 'DESC NON TROVATA';
  }
 </script>
 </html>
