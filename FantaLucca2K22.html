@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <!--script src='index.js'></script-->
+  <script src='index.js'></script>
 </head>
 
 <style>
@@ -65,7 +65,7 @@
 		} 
 	}
 	
-		select{
+	select{
 		width:300px;
 		font-weight: bold;
 		padding: 0px 0 0 5px;
@@ -73,6 +73,11 @@
 		background: #edeff1 !important;
 		color: #16293c !important;
 		cursor: pointer;
+	}
+	
+	.ok{
+		font-size:1,85em;
+		color:#ffff00;
 	}
 </style>
  
@@ -169,10 +174,10 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 	</svg>
 	</div>
 	<div id="divMenu"  class="container-fluid" style="  padding: 10px; white-space: nowrap; overflow-x: auto;">               
-		<h4 class='titolo' onclick=' '>FantaLucca 2K22 </h4>
-		<button id='btnMenuRisultati' class='btn btn-success' style="width: 50%" onclick="CambiaPagina('C')">Classifica</button>
-		<button id='btnMenuRanking' class='btn btn-primary' style="width: 50%" onclick="CambiaPagina('P')">Punteggi</button>
-		<button id='btnMenuRanking' class='btn btn-danger' style="width: 50%" onclick="CambiaPagina('A')">Assegna</button>		
+		<h4 class='titolo' onclick='location.reload();'>FantaLucca 2K22 </h4>
+		<button id='btnMenuRisultati' class='btn btn-success' style="width: 33%" onclick="CambiaPagina('C')">Classifica</button>
+		<button id='btnMenuRanking' class='btn btn-primary' style="width: 33%" onclick="CambiaPagina('P')">Punteggi</button>
+		<button id='btnMenuRanking' class='btn btn-danger' style="width: 33%" onclick="CambiaPagina('A')">Assegna</button>		
 	</div>	
 	<div class="container-fluid ElencoGiocatori" style="width:100%; padding: 0; ">		 		
 		<h4 class="text-center">Classifica</h4>
@@ -194,35 +199,30 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 		<div class='col-xs-6'>
 		Giorno<br>
 			<select id='cmbGiorno' class='form-control' style='width:150px'>
-				<option value="1">Sabato 29</option>
-				<option value="2">Domenica 30</option>
-				<option value="3">Lunedì 31</option>
-				<option value="4">Martedì 1</option>
+				<option value="0">Sabato 29</option>
+				<option value="1">Domenica 30</option>
+				<option value="2">Lunedì 31</option>
+				<option value="3">Martedì 1</option>
 			</select>
 		</div>	
 		<div class='col-xs-6'>
 			Giocatore<br>
 			<select id='cmbPlayer'  class='form-control' style='width:150px'>
-				<option value="1">Paolo</option>
-				<option value="2">Gutte</option>
-				<option value="3">Nicco</option>
-				<option value="4">Gioppio</option>
+				
 			</select>
 		</div>
 		<div class='col-xs-12'>
 			Azione<br>
-			<select id='cmbAzione' >
-				<option value="1">aaa</option>
-				<option value="2">ttt</option>
-				<option value="3">ccc</option>
-				<option value="4">eee</option>
+			<select id='cmbAzione' style='width:100%;'>
+				
 			</select>
 		</div>
 		<div class='col-xs-12' style='text-align:center'>
 		<br>
-			<button class='btn btn-danger' id='btnAssegna' onclick='alert("In fase di sviluppo")'>
+			<button class='btn btn-danger' id='btnAssegna' onclick='SetPunteggio();'>
 			Assegna
 			</button>
+			<span class="glyphicon glyphicon-ok ok" style='display:none'></label>
 		</div>		
 	</div>	
 	<div class="container-fluid" style="height:80px;"></div>
@@ -230,18 +230,25 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 
 <script>
 var url = 'https://us-central1-oloappi.cloudfunctions.net/user';
+var arrAzioni, arrCodAzioni;
 var arrGiocatori;
 var arrPunteggiTotali;
 //////var punteggi1,punteggi2,punteggi3,punteggi4
 var punteggi = [];
 var azioni;
 var finito;
+var arrGetGiocatori;
 
 $(document).ready(function(){
 
 	arrGiocatori=[];
 	arrPunteggiTotali=[];
-	CambiaPagina('C');
+	if(localStorage["PAGINA"]!= undefined){
+		CambiaPagina(localStorage["PAGINA"]);
+	}else{
+		CambiaPagina('C');
+	}
+	
 	getGiocatori();	
 	
 	getPunteggi(1);
@@ -253,8 +260,37 @@ $(document).ready(function(){
 	setTimeout(function(){
 		GetPunteggioGiocatore();			
 	}, 1500);	
+
+	BindCMB('cmbPlayer', arrGiocatori, []);
+	BindCMB('cmbAzione', arrAzioni, arrCodAzioni);
+	setTimeout(function(){
+		SetPunti();			
+	}, 1500);
 	HideLoading(); 	
 }); 
+
+
+ function BindCMB(cmb, arrayDesc, arrValore = []){
+	 try{
+		 $("#" + cmb).html('');
+		 $("#" + cmb).append($("<option style='font-weight: bold;'></option>").val('').html(''));
+				
+		if (arrValore.length==0)
+		{			
+			arrayDesc.forEach(Nome => $("#" + cmb).append($("<option style='font-weight: bold;'></option>").val(Nome).html(Nome)));					 
+		}else{
+			for (let i = 0; i< arrayDesc.length; ++i){				
+				$("#" + cmb).append($("<option style='font-weight: bold;'></option>").val(arrValore[i]).html(arrayDesc[i]))				
+			}
+			/*let i = 0;			
+			arrayDesc.forEach(Nome => $("#" + cmb).append($("<option style='font-weight: bold;'></option>").val('').html(Nome)));
+			arrValore.forEach(Valore => $("#" + cmb).append($("<option style='font-weight: bold;'></option>").val(Nome)));*/
+		}		 
+				
+	 }catch(exc){
+		 console.log(ex)
+	 } 
+ }
 	
 function getAzioni(){
 	$.ajax({  
@@ -268,6 +304,18 @@ function getAzioni(){
 		success: function (output)  
 		{								
 			azioni = JSON.parse(output);
+						//;	
+			arrAzioni=[];
+			arrCodAzioni=[];			
+			for(let k = 0; k < azioni.length; ++k){
+				if(azioni[k].valore > 0){
+					let kk = k+1;
+					let y = '[(AZ' + kk + ') ' + azioni[k].valore + 'pt.] ' + azioni[k].descrizione;
+					arrAzioni.push(y);
+					arrCodAzioni.push("AZ" + azioni[k].valore)
+				}
+				
+			}
 		} ,
 		 error: function(output) 
 		 {					 
@@ -294,8 +342,8 @@ function getPunteggi(giorno){
 		} ,
 		 error: function(output) 
 		 {					 
-			console.log("Error in API getPunteggi_" + i + " call:" + output);
-			alert("Error in API getAzioni_" + i + " call:" + output);
+			console.log("Error in API getPunteggi_" + giorno + " call:" + output);
+			alert("Error in API getAzioni_" + giorno + " call:" + output);
 		 }
 			
 	}); 
@@ -322,8 +370,8 @@ function getGiocatori(){
 				let y = ret[k].nome
 				arrGiocatori.push(y);	
 			}
-					
-			popolaClassifica(ret);
+			arrGetGiocatori = ret;		
+			popolaClassifica(arrGetGiocatori);
 		} ,
 		 error: function(output) 
 		 {					
@@ -340,10 +388,10 @@ function popolaClassifica(arr){
 	 
 	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>`
 	for (let i = 0; i< arr.length; ++i){
-		//TODO CONTINUARE E SCOMMENTAE	e usare sotto   &nbsp;${totali[0]}
-	//let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
-	//let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	 
-	//let totCurrentPlayer = arrPunteggiTotali[indexCurrentPlayer];
+		
+	let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
+	/*let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	 
+	let totCurrentPlayer = arrPunteggiTotali[indexCurrentPlayer];*/
 		
 	sHTML += `
 	<div class='col-xs-6 Giocatore ${arr[i].nome}'>
@@ -351,11 +399,12 @@ function popolaClassifica(arr){
 			<b style='margin-left: 5px;'>${arr[i].nome}</b>&nbsp;
 			<i class='hidden'>${arr[i].id}</i>
 			<ul>
-				<li>${arr[i].squadra.draft_1}</li>
-				<li>${arr[i].squadra.draft_2} </li>
-				<li>${arr[i].squadra.draft_3} </li>
-			</ul>			
-		</div>
+				<li>${arr[i].squadra.draft_1} <i class='TotPlayer${index[0]}'></i> </li>
+				<li>${arr[i].squadra.draft_2} <i class='TotPlayer${index[1]}'></i> </li>
+				<li>${arr[i].squadra.draft_3} <i class='TotPlayer${index[2]}'></i> </li>
+			</ul>
+			<div class='col-xs-12' style?text-align:right'>&nbsp;<b class='TotaleSquadra${i}'></b>&nbsp;punti</div>				
+		</div>				
 	</div>`	
 	}
  
@@ -363,7 +412,30 @@ function popolaClassifica(arr){
  
  }
  
+ function SetPunti(){
+	 let arr = arrGetGiocatori;
+	 for(let i = 0; i< arrGiocatori.length; ++i){
+		let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
+		let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	
+		 for(k =0; k<=2; ++k){
+			 
+			 if(totali[k] === undefined){totali[k] = 0;}
+		 }
+		 $('.TotPlayer' + index[0]).html(totali[0]);
+		 $('.TotPlayer' + index[1]).html(totali[1]);
+		 $('.TotPlayer' + index[2]).html(totali[2]);
+		 let t = parseInt(totali[0]) + parseInt(totali[1]) + parseInt(totali[2]);
+		 $('.TotaleSquadra' + i).html(t);
+		 console.log(t)
+	 }
+	 
+	 
+	 
+	 
+ }
+ 
  function CambiaPagina(p){
+	 localStorage["PAGINA"] = p;
 	 switch(p){
 		 case "C":
 			$('.ElencoPunteggi').css('display', 'none');
@@ -446,7 +518,12 @@ function popolaClassifica(arr){
 	sHTML +='</div>' //chiudo il divGiocatore
  
 	//let indexPlayer = arrGiocatori.indexOf(player)
-	arrPunteggiTotali[index] = tot;
+	if (tot >= 0){
+		arrPunteggiTotali[index] = tot;
+	}else{
+		arrPunteggiTotali[index] = 0;
+	}
+	
 	return sHTML;
  }
  
@@ -462,6 +539,41 @@ function popolaClassifica(arr){
 	 $('#div' + nextPlayerName).css('display', '');
  }
  
+ function SetPunteggio(){
+	 $('.ok').fadeOut();
+	 let index = arrGiocatori.indexOf($('#cmbPlayer').val());
+	 jsonData = punteggi[$('#cmbGiorno').val()][index];
+	 let CodiceAzione = $('#cmbAzione').val();
+	 let newValore = parseInt(jsonData[CodiceAzione]) +1 ;
+	  //passo solo un json con quello che aggiorno
+	 //let Data = '{' + CodiceAzione + ':"' + newValore + '"}'	 	non devo passarli in formato stringa!
+	 let Json_Data = {};
+	 Json_Data[CodiceAzione] = newValore;
+	 let giorno = parseInt($('#cmbGiorno').val()) + 1;
+	 let url = "https://us-central1-oloappi.cloudfunctions.net/user/SalvaDati/punteggi_" + giorno + "-" + $('#cmbPlayer').val();
+	 console.log(url)
+	  
+	 $.ajax({  
+		"Access-Control-Allow-Origin": "*",
+		"Referrer Policy": "strict-origin-when-cross-origin",
+		"url": url,
+		"method": "PUT",
+		"crossDomain": false,		 		 
+		"data": Json_Data,		
+		success: function (output)  
+		{								
+			$('.ok').fadeIn();
+		} ,
+		 error: function(output) 
+		 {					 
+			console.log("Error in API SetPunteggio call:" + output.statusText);
+			alert("Error in API SetPunteggio call:" + output);
+		 }
+			
+	}); 
+	 
+	 
+ }
  
  function getDescAzione(i){
 	 let j = i+1;
@@ -470,7 +582,7 @@ function popolaClassifica(arr){
 			 return azioni[i].descrizione;	
 		 }	 
 	 }	 
-	 return 'DESC NON TROVATA';
+	 return '';
  }
  function ShowLoading(){
 	$('#loader').css('display', '')
@@ -487,9 +599,7 @@ function popolaClassifica(arr){
 			arr.push(i);			
 		}		
 	}	
-	
-	console.log(arr)
-	
+		
 	let ret = '';
 	//Ora in arr ho gli indici di tutte le maiuscole
 	let j=0;
