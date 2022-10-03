@@ -9,6 +9,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src='index.js'></script>
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 
 <style>
@@ -76,8 +78,13 @@
 	}
 	
 	.ok{
-		font-size:1,85em;
-		color:#ffff00;
+	font-size:2em;
+	color;#ffff00;
+	}
+	.coppa{		
+		font-size: 20px;
+		margin-right: 10px;
+		float: right;
 	}
 </style>
  
@@ -235,9 +242,11 @@ var arrGiocatori;
 var arrPunteggiTotali;
 //////var punteggi1,punteggi2,punteggi3,punteggi4
 var punteggi = [];
+var arrTotaliSquadra =[];
 var azioni;
 var finito;
 var arrGetGiocatori;
+var oAzioni;
 
 $(document).ready(function(){
 
@@ -306,13 +315,17 @@ function getAzioni(){
 			azioni = JSON.parse(output);
 						//;	
 			arrAzioni=[];
-			arrCodAzioni=[];			
+			arrCodAzioni=[];	
+			 
 			for(let k = 0; k < azioni.length; ++k){
+			 
 				if(azioni[k].valore > 0){
 					let kk = k+1;
-					let y = '[(AZ' + kk + ') ' + azioni[k].valore + 'pt.] ' + azioni[k].descrizione;
+					
+					let y = '[(' + azioni[k].id + ') ' + azioni[k].valore + 'pt.] ' + azioni[k].descrizione;
 					arrAzioni.push(y);
-					arrCodAzioni.push("AZ" + azioni[k].valore)
+					
+					arrCodAzioni.push(azioni[k].id)
 				}
 				
 			}
@@ -383,29 +396,25 @@ function getGiocatori(){
  }
  
 function popolaClassifica(arr){
-	//;
-	let sHTML = '';
-	 
+	let sHTML = '';	 
 	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>`
-	for (let i = 0; i< arr.length; ++i){
-		
-	let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
-	/*let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	 
-	let totCurrentPlayer = arrPunteggiTotali[indexCurrentPlayer];*/
-		
-	sHTML += `
-	<div class='col-xs-6 Giocatore ${arr[i].nome}'>
-		<div class='col-xs-12 squadra' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
-			<b style='margin-left: 5px;'>${arr[i].nome}</b>&nbsp;
-			<i class='hidden'>${arr[i].id}</i>
-			<ul>
-				<li>${arr[i].squadra.draft_1} <i class='TotPlayer${index[0]}'></i> </li>
-				<li>${arr[i].squadra.draft_2} <i class='TotPlayer${index[1]}'></i> </li>
-				<li>${arr[i].squadra.draft_3} <i class='TotPlayer${index[2]}'></i> </li>
-			</ul>
-			<div class='col-xs-12' style?text-align:right'>&nbsp;<b class='TotaleSquadra${i}'></b>&nbsp;punti</div>				
-		</div>				
-	</div>`	
+	for (let i = 0; i< arr.length; ++i){		
+		let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
+				 
+		sHTML += `
+		<div class='col-xs-6 Giocatore ${arr[i].nome}'>
+			<div class='col-xs-12 squadra' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
+				<b style='margin-left: 5px;'>${SpezzaCaMel(arr[i].nome)}</b>&nbsp;
+				<i class='hidden'>${arr[i].id}</i>
+				<i class="fa-solid fa-trophy coppa coppa${arr[i].nome}" style="display:none;"></i>
+				<ul>
+					<li>${arr[i].squadra.draft_1} <i class='TotPlayer${index[0]}'></i> </li>
+					<li>${arr[i].squadra.draft_2} <i class='TotPlayer${index[1]}'></i> </li>
+					<li>${arr[i].squadra.draft_3} <i class='TotPlayer${index[2]}'></i> </li>
+				</ul>
+				<div class='col-xs-12' style='text-align:right'>&nbsp;<b class='TotaleSquadra${i}'></b>&nbsp;punti</div>				
+			</div>				
+		</div>`	
 	}
  
 	$('#divGiovatori').html(sHTML);
@@ -414,6 +423,7 @@ function popolaClassifica(arr){
  
  function SetPunti(){
 	 let arr = arrGetGiocatori;
+	 arrTotaliSquadra=[];
 	 for(let i = 0; i< arrGiocatori.length; ++i){
 		let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
 		let totali = [arrPunteggiTotali[index[0]], arrPunteggiTotali[index[1]], arrPunteggiTotali[index[2]]];	
@@ -425,12 +435,33 @@ function popolaClassifica(arr){
 		 $('.TotPlayer' + index[1]).html(totali[1]);
 		 $('.TotPlayer' + index[2]).html(totali[2]);
 		 let t = parseInt(totali[0]) + parseInt(totali[1]) + parseInt(totali[2]);
-		 $('.TotaleSquadra' + i).html(t);
-		 console.log(t)
+		 $('.TotaleSquadra' + i).html(t);		 
+		 arrTotaliSquadra.push(t)
 	 }
 	 
-	 
-	 
+	 	 //array con il punteggio della prima, seconda e terza squadra
+	 let w = [...arrTotaliSquadra];
+	 b = sort_unique(w).sort(function(a, b){return b-a})
+	 b.length = 3;
+	 arrTotaliSquadra.forEach((element, index) => {
+		 console.log('=========' + element +' '+ index + '==================');
+		 player = arrGetGiocatori[index].id;
+		if(parseInt(element) == parseInt(b[0])){		
+			
+			$('.coppa' + player).css('color', '#FFD700').css('display', '')
+			console.log('GOLD' + element +' '+ player)
+		} 
+		else if(parseInt(element) == parseInt(b[1])){
+			 
+			$('.coppa' + player).css('color', '#C0C0C0').css('display', '')
+			console.log('S  ' + element +' ' + player)
+		} 
+		else if(parseInt(element) == parseInt(b[2])){
+			 
+			$('.coppa' + player).css('color', '#CD7f32').css('display', '')
+			console.log('br  ' + element +' ' +player)
+		} 
+	 })
 	 
  }
  
@@ -493,27 +524,29 @@ function popolaClassifica(arr){
 	sHTML +='<tr>'
 	sHTML +='<th>AZIONE</th>'
 	sHTML +='<th class="text-center">PUNTI</th>	'		
-	sHTML +='</tr>'
-	for (let i = 1; i<= azioni.length -1 ; ++i){
-		let descrizione = getDescAzione(i-1);  //azioni[i-1].descrizione;
+	sHTML +='</tr>'	
+	for (let i = 1; i<= azioni.length -1 ; ++i){ //-1 perchè escludo AZ29 da agg a db
+	 
+		let objAzione = getObjAzione(i-1);
+		let descrizione = objAzione.descrizione;  //getDescAzione(i-1); 
 		if (descrizione != ''){
-		let punteggio = 'AZ' +i;
-		let somma =  parseInt(p1[punteggio])+parseInt(p2[punteggio])+parseInt(p3[punteggio])+parseInt(p4[punteggio]);
-		tot+=somma;
-		//debugger;
-		sHTML +='<tr style="border-bottom: 1px solid rgba(231, 216, 216, 0.44); line-height: 25px;">'
-		sHTML +='<td>' + descrizione + '</td>'
-		sHTML +='<td class="text-center">' + somma + '</td>'
-		sHTML +='</tr>'	
+			let punteggio = 'AZ' +i;
+			let moltiplicatore =  parseInt(objAzione.valore);
+			 		
+			let somma =  (parseInt(p1[punteggio])+parseInt(p2[punteggio])+parseInt(p3[punteggio])+parseInt(p4[punteggio]))*moltiplicatore;			
+			tot+=somma;
+			
+			sHTML +='<tr style="border-bottom: 1px solid rgba(231, 216, 216, 0.44); line-height: 25px;">'
+			sHTML +='<td>[' + punteggio + '] ' + descrizione + '</td>'
+			sHTML +='<td class="text-center">' + somma + '</td>'
+			sHTML +='</tr>'	
 		}		
 	}
 	
-	sHTML +='</table>'
-	
+	sHTML +='</table>'	
 	sHTML += '<div class="col-xs-11" style="text-align: right; margin-top: 15px;">'
 	sHTML += '<b>Tot.</b>&nbsp;' + tot +' punti'
-	sHTML += '</div>'
-	
+	sHTML += '</div>'	
 	sHTML +='</div>'
 	sHTML +='</div>' //chiudo il divGiocatore
  
@@ -541,6 +574,7 @@ function popolaClassifica(arr){
  
  function SetPunteggio(){
 	 $('.ok').fadeOut();
+	  
 	 let index = arrGiocatori.indexOf($('#cmbPlayer').val());
 	 jsonData = punteggi[$('#cmbGiorno').val()][index];
 	 let CodiceAzione = $('#cmbAzione').val();
@@ -551,8 +585,8 @@ function popolaClassifica(arr){
 	 Json_Data[CodiceAzione] = newValore;
 	 let giorno = parseInt($('#cmbGiorno').val()) + 1;
 	 let url = "https://us-central1-oloappi.cloudfunctions.net/user/SalvaDati/punteggi_" + giorno + "-" + $('#cmbPlayer').val();
-	 console.log(url)
-	  
+	// console.log(url)
+	 
 	 $.ajax({  
 		"Access-Control-Allow-Origin": "*",
 		"Referrer Policy": "strict-origin-when-cross-origin",
@@ -575,11 +609,11 @@ function popolaClassifica(arr){
 	 
  }
  
- function getDescAzione(i){
+ function getObjAzione(i){	
 	 let j = i+1;
 	 for (k =0; k<= azioni.length - 1;++k){		
-		 if(azioni[k].id == 'AZ' + j) {
-			 return azioni[i].descrizione;	
+		 if(azioni[k].id == 'AZ' + j) {			
+			 return azioni[k];	
 		 }	 
 	 }	 
 	 return '';
@@ -611,6 +645,89 @@ function popolaClassifica(arr){
 	}
 	ret +=  parola.substr(arr[j]) + ' ';
 	return ret
+}
+
+function aaa(id){
+	//initial position
+	let x0,y0,m, alt,lun;
+	
+	m = Math.pow(-1,Math.ceil(Math.random()*10))*Math.random()*10;	
+	x0 = window.innerWidth/2;
+	y0 = window.innerHeight/2;
+	console.log('x0=' + x0)
+	console.log('y0=' + y0)
+	$('#' + id).offset({"top" : y0 , "left" : x0})
+ 
+	alt = $('#' + id).css('height').replace('px','')/2
+	lun = $('#' + id).css('width').replace('px','')/2
+	console.log('alt=' + alt)
+	console.log('lun=' + lun)
+	
+	let top,left 
+	left = x0 -lun
+	top = y0 - alt
+	console.log('X=' + top)
+	console.log('Y=' + left)
+	$('#' + id).offset({"top" : top , "left" : left})
+ 
+
+}
+
+function Aggiorna(){
+	
+	setTimeout(function(){
+		ShowLoading();			
+	}, 15);
+	let today;
+	switch(GetOggi().substring(8)){
+		case "29": today = 1;
+			break;
+		case "03": today = 1;
+			break;
+		case "30": today = 2;
+			break;
+		case "31": today = 3;
+			break;
+		case "01": today = 4;
+			break;
+	}
+	arrGiocatori=[];
+	arrPunteggiTotali=[];
+	getGiocatori();	
+	
+	getPunteggi(today);	
+		
+	setTimeout(function(){
+		GetPunteggioGiocatore();			
+	}, 1500);	
+	
+	setTimeout(function(){
+		SetPunti();			
+	}, 1500);
+	HideLoading();
+}
+
+ function GetOggi(){	 
+	oggi = new Date();
+	let anno = 1900 + oggi.getYear();
+	let mese = 1+ oggi.getMonth();
+	if (mese.toString().length == 1){mese = '0' + mese;}
+	let giorno = oggi.getDate();
+	if (giorno.toString().length == 1){giorno = '0' + giorno;} //if (giorno.length = 1) giorno = '0' + giorno
+	oggi = anno + '-' + mese + '-' + giorno;
+	return oggi;
+ }
+ 
+ function sort_unique(arr) {
+  if (arr.length === 0) return arr;
+  arr = arr.sort(function (a, b) { return a*1 - b*1; });
+  var ret = [arr[0]];
+  for (var i = 1; i < arr.length; i++) { //Start loop at 1: arr[0] can never be a duplicate
+    if (arr[i-1] !== arr[i]) {
+      ret.push(arr[i]);
+    }
+  }
+  return ret;
 }
 </script>
 </html>
