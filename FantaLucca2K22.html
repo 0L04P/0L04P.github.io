@@ -277,7 +277,7 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 		</div>
 		<div class='col-xs-12' style='text-align:center'>
 			<br><br><br><br>
-			<button class='btn btn-danger btnMenu' id='btnRimuovi onclick='SetPunteggio(-1);'>
+			<button class='btn btn-danger btnMenu' id='btnRimuovi" onclick='SetPunteggio(-1);'>
 			Rimuovi
 			</button>
 			<span id='check' class="fa-regular fa-x no" style='display:none; vertical-align: -5px'></label>			
@@ -625,7 +625,10 @@ function popolaClassifica(arr){
  }
  
  function SetPunteggio(k){
-	 $('.ok').fadeOut();
+	 if($('#cmbPlayer').val()=='' || $('#cmbAzione').val()==''){
+		alert('compilare i campi')
+	 }else{
+		$('.ok').fadeOut();
 	 $('.no').fadeIn();
 	  
 	 let index = arrGiocatori.indexOf($('#cmbPlayer').val());
@@ -664,8 +667,7 @@ function popolaClassifica(arr){
 		 }
 			
 	}); 
-	 
-	 
+	 }	 
  }
  
  function getObjAzione(i){	
@@ -737,10 +739,12 @@ function Aggiorna(){
 	setTimeout(function(){
 		ShowLoading();			
 	}, 15);
-	let today = 1;
+	let today;
 	switch(GetOggi().substring(8)){
 		case "29": today = 1;
-			break;		
+			break;
+		case "04": today = 1;
+			break;
 		case "30": today = 2;
 			break;
 		case "31": today = 3;
