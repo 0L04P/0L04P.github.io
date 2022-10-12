@@ -4,19 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <title>Fantalucca 2K22</title>
+
   <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <!--script src='index.js'></script-->
+  <script src='index.js'></script>
   <link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/>
   <link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <script>
+	  function removeCSSfile(filename, filetype){
+		var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+		var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+		var allsuspects=document.getElementsByTagName(targetelement)
+		for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+		if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+			allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+		}
+	}
+	if(localStorage["CustomCSS"] == '1')
+		{$('head').append('<link rel="stylesheet" type="text/css" href="CustomCSS.css">');}
+	else
+		{removeCSSfile('CustomCSS.css', 'css')}
+  </script>
+
 </head>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300;700;800&display=swap');
 	*{ 
 		font-family: 'M PLUS 2', sans-serif;}	
 		font-weight:400;		
@@ -45,8 +62,7 @@
 	
 	 .titolo{
 		text-align: center;
-		font-size: 1.5em;
-		font-weight: bold;	
+		font-size: 1.5em;		
 	}
 	#loader{
 		position: fixed;
@@ -82,7 +98,7 @@
 	
 	select{
 		width:300px;
-		font-weight: bold;
+		 
 		padding: 0px 0 0 5px;
 		height: 30px;
 		background: #edeff1 !important;
@@ -122,10 +138,7 @@
 		float: right;
 	}
 	.Nicco, .Paolo{
-		margin-top:-100px;
-	}
-	.Paolo{
-		margin-top:-120px;
+		margin-top:-90px;
 	}
 	.h4, h4 {
 		font-size: 1.2em;
@@ -183,7 +196,7 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 			<!--svg class="" version="1.0" xmlns="http://www.w3.org/2000/svg" style='float:right; margin:5px; height:35px;'
 	 width="256.000000pt" height="256.000000pt" viewBox="0 0 256.000000 256.000000"
 	 preserveAspectRatio="xMidYMid meet"-->
-<svg id="svgATP" class="svgATPWTA" version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg id="svgLogo" onclick='setCustomCSS()' version="1.1" id="Layer_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 			 viewBox="0 0 841.9 493.7" style="height: 60px;
     enable-background: new 0 0 841.9 493.7;
     margin-top: 5px;" xml:space="preserve">
@@ -228,8 +241,11 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 	</g>
 	</svg>
 	</div>
-	<div id="divMenu"  class="container-fluid" style="  padding: 10px; white-space: nowrap; overflow-x: auto;">               
-		<h4 class='titolo' onclick='location.reload();'>FantaLucca 2K22 </h4>
+	<div id="divTitolo" class="container-fluid" >
+		<h4 class='titolo standard hidden' onclick='location.reload();'>FantaLucca 2K22 </h4>
+		<img src='titolo.jpg' style='width: 85%; border-radius: 10px;' class='custom' onclick='location.reload();'><div class='col-xs-12' style='height:10px;' class='custom'></div>
+	</div>
+	<div id="divMenu"  class="container-fluid" style="  padding: 10px; white-space: nowrap; overflow-x: auto;">               		
 		<button class='btnMenu btn btn-success' onclick="CambiaPagina('C')">Classifica</button>
 		<button class='btnMenu btn btn-primary' onclick="CambiaPagina('P')">Punteggi</button>
 		<button class='btnMenu btn btn-danger' onclick="CambiaPagina('A')">Assegna</button>		
@@ -292,20 +308,5 @@ c40 -19 74 -58 74 -85 0 -11 -15 -35 -32 -54 -38 -41 -91 -55 -137 -36 -66 28
 	
 </body> 
 
-<script>
-var arrAzioni,arrCodAzioni,arrGiocatori,arrPunteggiTotali,azioni,finito,arrGetGiocatori,oAzioni,url="https://us-central1-oloappi.cloudfunctions.net/user",punteggi=[],arrTotaliSquadra=[];function getDati(){$.ajax({"Access-Control-Allow-Origin":"*","Referrer Policy":"strict-origin-when-cross-origin",url:"https://us-central1-oloappi.cloudfunctions.net/user/GetDatiTutti",method:"GET",crossDomain:!1,dataType:"text",async:!1,success:function(o){let t=JSON.parse(o);azioni=t.AZIONI,arrAzioni=[],arrCodAzioni=[];for(let a=0;a<azioni.length;++a)if(azioni[a].valore>0){let r="[("+azioni[a].id+") "+azioni[a].valore+"pt.] "+azioni[a].descrizione;arrAzioni.push(r),arrCodAzioni.push(azioni[a].id)}for(let e=0;e<t.USERS.length;++e){let n=t.USERS[e].nome;arrGiocatori.push(n)}popolaClassifica(arrGetGiocatori=t.USERS),punteggi[0]=t.PUNTEGGI1,punteggi[1]=t.PUNTEGGI2,punteggi[2]=t.PUNTEGGI3,punteggi[3]=t.PUNTEGGI4,GetPunteggioGiocatore(),BindCMB("cmbPlayer",arrGiocatori,[]),BindCMB("cmbAzione",arrAzioni,arrCodAzioni),SetPunti(),HideLoading()},error:function(o){console.log("Error in API GetDati call:"+o),alert("Error in API GetDati call:"+o),HideLoading()}})}function BindCMB(o,t,a=[]){try{if($("#"+o).html(""),$("#"+o).append($("<option style='font-weight: bold;'></option>").val("").html("")),0==a.length)t.forEach(t=>$("#"+o).append($("<option style='font-weight: bold;'></option>").val(t).html(t)));else for(let r=0;r<t.length;++r)$("#"+o).append($("<option style='font-weight: bold;'></option>").val(a[r]).html(t[r]))}catch(e){console.log(ex)}}function getAzioni(){$.ajax({"Access-Control-Allow-Origin":"*","Referrer Policy":"strict-origin-when-cross-origin",url:"https://us-central1-oloappi.cloudfunctions.net/user/GetDati/azioni",method:"GET",crossDomain:!1,dataType:"text",async:!1,success:function(o){azioni=JSON.parse(o),arrAzioni=[],arrCodAzioni=[];for(let t=0;t<azioni.length;++t)if(azioni[t].valore>0){let a="[("+azioni[t].id+") "+azioni[t].valore+"pt.] "+azioni[t].descrizione;arrAzioni.push(a),arrCodAzioni.push(azioni[t].id)}},error:function(o){console.log("Error in API getAzioni call:"+o),alert("Error in API getAzioni call:"+o)}})}function getPunteggi(o){$.ajax({"Access-Control-Allow-Origin":"*","Referrer Policy":"strict-origin-when-cross-origin",url:"https://us-central1-oloappi.cloudfunctions.net/user/GetDati/punteggi_"+o,method:"GET",crossDomain:!1,dataType:"text",async:!1,success:function(t){punteggi[o-1]=JSON.parse(t)},error:function(t){console.log("Error in API getPunteggi_"+o+" call:"+t),alert("Error in API getAzioni_"+o+" call:"+t)}})}function getGiocatori(){$.ajax({"Access-Control-Allow-Origin":"*","Referrer Policy":"strict-origin-when-cross-origin",url:"https://us-central1-oloappi.cloudfunctions.net/user/GetDati/users",method:"GET",crossDomain:!1,dataType:"text",async:!1,success:function(o){let t=JSON.parse(o);for(let a=0;a<t.length;++a){let r=t[a].nome;arrGiocatori.push(r)}popolaClassifica(arrGetGiocatori=t)},error:function(o){console.log("Error in API getGiocatori call:"+o),alert("Error in API getGiocatori call:"+o)}})}function popolaClassifica(o){let t="";t+="<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>";for(let a=0;a<o.length;++a){let r=[arrGiocatori.indexOf(o[a].squadra.draft_1),arrGiocatori.indexOf(o[a].squadra.draft_2),arrGiocatori.indexOf(o[a].squadra.draft_3)];t+=`
-<div class='col-xs-6 Giocatore ${o[a].nome}'>
-<div class='col-xs-12 squadra' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
-<b style='margin-left: 5px;'>${SpezzaCaMel(o[a].nome)}</b>&nbsp;
-<i class='hidden'>${o[a].id}</i>
-<i class="fa-solid fa-trophy coppa coppa${o[a].nome}" style="display:none;"></i>
-<ul>
-<li>${o[a].squadra.draft_1} <i class='TotPlayer${r[0]}'></i> </li>
-<li>${o[a].squadra.draft_2} <i class='TotPlayer${r[1]}'></i> </li>
-<li>${o[a].squadra.draft_3} <i class='TotPlayer${r[2]}'></i> </li>
-</ul>
-<div class='col-xs-12' style='text-align:right'>&nbsp;<b class='TotaleSquadra${a}'></b>&nbsp;punti</div>				
-</div>				
-</div>`}$("#divGiovatori").html(t)}function SetPunti(){let o=arrGetGiocatori;arrTotaliSquadra=[];for(let t=0;t<arrGiocatori.length;++t){let a=[arrGiocatori.indexOf(o[t].squadra.draft_1),arrGiocatori.indexOf(o[t].squadra.draft_2),arrGiocatori.indexOf(o[t].squadra.draft_3)],r=[arrPunteggiTotali[a[0]],arrPunteggiTotali[a[1]],arrPunteggiTotali[a[2]]];for(k=0;k<=2;++k)void 0===r[k]&&(r[k]=0);$(".TotPlayer"+a[0]).html(r[0]),$(".TotPlayer"+a[1]).html(r[1]),$(".TotPlayer"+a[2]).html(r[2]);let e=parseInt(r[0])+parseInt(r[1])+parseInt(r[2]);$(".TotaleSquadra"+t).html(e),arrTotaliSquadra.push(e)}let n=[...arrTotaliSquadra];n.forEach((o,t)=>{puntiPlayer=arrPunteggiTotali[t],console.log(parseFloat(n[t])+parseFloat(puntiPlayer)/1e3),n[t]=parseFloat(n[t])+parseFloat(puntiPlayer)/1e3});let l=[...n];(b=sort_unique(n).sort(function(o,t){return t-o})).length=3,l.forEach((o,t)=>{player=arrGetGiocatori[t].id,puntiPlayer=arrPunteggiTotali[t],parseFloat(o)==parseFloat(b[0])?$(".coppa"+player).css("color","#FFD700").css("display",""):parseFloat(o)==parseFloat(b[1])?$(".coppa"+player).css("color","#C0C0C0").css("display",""):parseFloat(o)==parseFloat(b[2])&&$(".coppa"+player).css("color","#CD7f32").css("display","")})}function CambiaPagina(o){switch(localStorage.PAGINA=o,o){case"C":$(".ElencoPunteggi").css("display","none"),$(".ElencoGiocatori").css("display",""),$(".AssegnaPunti").css("display","none");break;case"P":$(".ElencoPunteggi").css("display",""),$(".AssegnaPunti").css("display","none"),$(".ElencoGiocatori").css("display","none");break;case"A":$(".AssegnaPunti").css("display",""),$(".ElencoPunteggi").css("display","none"),$(".ElencoGiocatori").css("display","none")}}function GetPunteggioGiocatore(){let o="",t="";for(i=0;i<arrGiocatori.length;++i)o+=creaHTMLgiocatore(punteggi[0],punteggi[1],punteggi[2],punteggi[3],arrGiocatori[i],t),t="display:none;";$("#divPuntiGiocatore").html(o)}function creaHTMLgiocatore(o,t,a,r,e,n){let l=arrGiocatori.indexOf(e),s=o[l],c=t[l],g=a[l],d=r[l];Object.keys(s).length;let u="",p=0;u+='<div id="div'+e+'" style="'+n+'">',u+='<div class="col-xs-12">';let f="'"+e+"'";u+='<div class="col-xs-2"></div><div class="col-xs-2"><span class="glyphicon glyphicon-arrow-left freccia '+e+'" onclick="Freccia(-1,'+f+')"></span></div>',u+='<div class="col-xs-4" style="padding: 0;text-align: center;"><b style="font-size:20px; margin-top: -5px">'+SpezzaCaMel(e)+"</b></div>",u+='<div class="col-xs-2"><span class="glyphicon glyphicon-arrow-right freccia"  onclick="Freccia(+1,'+f+')"></span></div><div class="col-xs-2"></div>',u+="</div>",u+='<div class="col-xs-12">',u+='<table style="width:100%">',u+="<tr>",u+="<th>AZIONE</th>",u+='<th class="text-center">PUNTI</th>	',u+="</tr>";for(let h=1;h<=azioni.length-1;++h){let _=getObjAzione(h-1),G=_.descrizione;if(""!=G){let P="AZ"+h,y=parseInt(_.valore),A=(parseInt(s[P])+parseInt(c[P])+parseInt(g[P])+parseInt(d[P]))*y;p+=A,u+='<tr style="border-bottom: 1px solid rgba(231, 216, 216, 0.44); line-height: 25px;">',u+="<td>["+P+"] "+G+"</td>",u+='<td class="text-center">'+A+"</td>",u+="</tr>"}}return u+="</table>",u+='<div class="col-xs-11" style="text-align: right; margin-top: 15px;">',u+="<b>Tot.</b>&nbsp;"+p+" punti",u+="</div>",u+="</div>",u+="</div>",p>=0?arrPunteggiTotali[l]=p:arrPunteggiTotali[l]=0,u}function Freccia(o,t){let a=arrGiocatori.indexOf(t),r=arrGiocatori.length,e=arrGiocatori[(parseInt(a)+parseInt(o)+r)%r];$("#div"+t).css("display","none"),$("#div"+e).css("display","")}function SetPunteggio(o){if(""==$("#cmbPlayer").val()||""==$("#cmbAzione").val())alert("compilare i campi");else{$(".ok").fadeOut(),$(".no").fadeOut();let t=arrGiocatori.indexOf($("#cmbPlayer").val());jsonData=punteggi[$("#cmbGiorno").val()][t];let a=$("#cmbAzione").val(),r=parseInt(jsonData[a])+o,e={};e[a]=r;let n="https://us-central1-oloappi.cloudfunctions.net/user/SalvaDati/punteggi_"+(parseInt($("#cmbGiorno").val())+1)+"-"+$("#cmbPlayer").val();$.ajax({"Access-Control-Allow-Origin":"*","Referrer Policy":"strict-origin-when-cross-origin",url:n,method:"PUT",crossDomain:!1,data:e,success:function(t){1==o?$(".ok").fadeIn():$(".no").fadeIn(),Aggiorna()},error:function(o){console.log("Error in API SetPunteggio call:"+o.statusText),alert("Error in API SetPunteggio call:"+o)}})}}function getObjAzione(o){let t=o+1;for(k=0;k<=azioni.length-1;++k)if(azioni[k].id=="AZ"+t)return azioni[k];return""}function ShowLoading(){$("#loader").css("display","")}function HideLoading(){$("#loader").css("display","none")}function SpezzaCaMel(o){let t=[],a=0;for(a=0;a<o.length;++a)o[a]===o[a].toUpperCase()&&t.push(a);let r="",e=0;for(e=0;e<=t.length-2;++e){let n=t[e],l=t[e+1]-n;r+=o.substr(t[e],l)+" "}return r+(o.substr(t[e])+" ")}function aaa(o){let t,a,r,e,n;r=Math.pow(-1,Math.ceil(10*Math.random()))*Math.random()*10,t=window.innerWidth/2,a=window.innerHeight/2,console.log("x0="+t),console.log("y0="+a),$("#"+o).offset({top:a,left:t}),e=$("#"+o).css("height").replace("px","")/2,n=$("#"+o).css("width").replace("px","")/2,console.log("alt="+e),console.log("lun="+n);let l,s;s=t-n,l=a-e,console.log("X="+l),console.log("Y="+s),$("#"+o).offset({top:l,left:s})}function Aggiorna(){setTimeout(function(){ShowLoading()},15);let o=1;switch(GetOggi().substring(8)){case"29":case"04":o=1;break;case"30":o=2;break;case"31":o=3;break;case"01":o=4}arrGiocatori=[],arrPunteggiTotali=[],getGiocatori(),getPunteggi(o),setTimeout(function(){GetPunteggioGiocatore()},1500),setTimeout(function(){SetPunti(),HideLoading()},1500)}function GetOggi(){let o=1900+(oggi=new Date).getYear(),t=1+oggi.getMonth();1==t.toString().length&&(t="0"+t);let a=oggi.getDate();return 1==a.toString().length&&(a="0"+a),oggi=o+"-"+t+"-"+a}function sort_unique(o){if(0===o.length)return o;for(var t=[(o=o.sort(function(o,t){return 1*o-1*t}))[0]],a=1;a<o.length;a++)o[a-1]!==o[a]&&t.push(o[a]);return t}$(document).ready(function(){arrGiocatori=[],arrPunteggiTotali=[],void 0!=localStorage.PAGINA?CambiaPagina(localStorage.PAGINA):CambiaPagina("C"),getDati()});
-</script>
+ 
 </html>
