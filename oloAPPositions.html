@@ -49,6 +49,7 @@
 	var api_MAPS = 'AIzaSyBbbJsSxFcS1e_4BgGJrY9Y5sRTP7k8a8s';
 	var arrayGPS = [];
 	var idNavigator;
+	var countMap = 0;
 
 	class GPS {
 	  constructor(lat, lng, t = '') {
@@ -64,7 +65,7 @@
 
 	function initMap() {
 		console.log('InitMap ' + Date.now())
-		const imgMarker = "https://0l04p.github.io/cerchio.png";	
+			countMap = 1;
 		
 		map = new google.maps.Map(
 			document.getElementById('map'),
@@ -73,6 +74,12 @@
 				zoom: 18
 			}
 		);      	
+		DisegnaSullaMappa()
+		
+	}
+	
+	function DisegnaSullaMappa(){
+		const imgMarker = "https://0l04p.github.io/cerchio.png";
 		for (let i = 0; i< arrayGPS.length; ++i){
 			pointer = new google.maps.Marker({
 				position: arrayGPS[i],
@@ -80,17 +87,24 @@
 				icon: imgMarker,
 			});	
 		}
-
-	  const Path = new google.maps.Polyline({
-		path: arrayGPS,
-		geodesic: true,
-		strokeColor: "#FF0000",
-		strokeOpacity: 1.0,
-		strokeWeight: 2,
-	  });
-
-	  Path.setMap(map);	
 		
+		let ultimi2pos = []
+		if (arrayGPS.length >= 2){
+			ultime2pos.push(arrayGPS[arrayGPS.length-2]);
+			ultime2pos.push(arrayGPS[arrayGPS.length-1]);
+		}else{
+			ultime2pos = arrayGPS
+		}
+				
+		 const Path = new google.maps.Polyline({
+			path: ultime2pos,
+			geodesic: true,
+			strokeColor: "#FF0000",
+			strokeOpacity: 1.0,
+			strokeWeight: 2,
+		 });
+
+		  Path.setMap(map);	
 	}
 
 		//gestione posizione
@@ -102,7 +116,8 @@
 					/*p[0]= position.coords.latitude;
 					p[1]= position.coords.longitude;
 					p[2]= position.coords.accuracy*/
-					initMap();
+					if (countMap == 0){initMap();}
+					else{DisegnaSullaMappa();}
 				}
 			});
 		}
@@ -118,6 +133,7 @@
 		
 		ftcGeoPosition = functionToCall;
 		if (navigator.geolocation) {
+			//navigator.geolocation.getCurrentPosition(functionToCall, ErroreGPS, options);
 			navigator.geolocation.watchPosition(functionToCall, ErroreGPS, options);
 		}
 		else {
