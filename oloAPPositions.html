@@ -65,7 +65,7 @@
 
 	function initMap() {
 		console.log('InitMap ' + Date.now())
-			countMap = 1;
+		countMap += 1;
 		
 		map = new google.maps.Map(
 			document.getElementById('map'),
@@ -116,8 +116,13 @@
 					/*p[0]= position.coords.latitude;
 					p[1]= position.coords.longitude;
 					p[2]= position.coords.accuracy*/
-					if (countMap == 0){initMap();}
-					else{DisegnaSullaMappa();}
+					console.log('CalcolaPosizioneLive ' + countMap)
+					if (countMap <=2){
+					initMap();
+					}
+					else{
+						DisegnaSullaMappa();
+					}
 				}
 			});
 		}
