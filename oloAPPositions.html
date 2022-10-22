@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2019 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<title>MyGPS</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+		<!-- jsFiddle will insert css and js -->
+		 
+		<link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/>
+		<link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">		
+	</head>
+  <body>
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	h4, button { 
+		font-family: 'M PLUS 2', sans-serif;	
+		font-weight:400;		
+	 }
+		#map {
+			position: relative;
+			overflow: hidden;
+			min-height:400px;	/*Always set the map height explicitly to define the size of the div element that contains the map.*/	
+			border: solid 1px #dadada;
+			border-radius: 10px;
+		}
+	</style>
+ 
+	<div class='container'>
+		<h4>GPS</h4>
+		<button class='btn btn-primary' onclick='SalvaGPS()'>Salva GPS</button>
+		<div class="col-md-2 visible-md visible-lg"></div>
+		<div class="col-xs-12 col-md-10" id="map"></div>
+	</div>
+		
+	 
+	<script>
+	var map;
+	var api_MAPS = 'AIzaSyBbbJsSxFcS1e_4BgGJrY9Y5sRTP7k8a8s';
+	var arrayGPS = [];
+	var idNavigator;
+
+	class GPS {
+	  constructor(lat, lng, t = '') {
+		this.lat = lat;
+		this.lng = lng;
+		this.timestamp = t
+	  }
+	}
+
+	$(document).ready(function(){
+			CalcolaPosizioneLive();		 
+		}); 
+
+	function initMap() {
+		console.log('InitMap ' + Date.now())
+		const imgMarker = "https://0l04p.github.io/cerchio.png";	
+		
+		map = new google.maps.Map(
+			document.getElementById('map'),
+			{
+				center: arrayGPS[arrayGPS.length - 1],
+				zoom: 18
+			}
+		);      	
+		for (let i = 0; i< arrayGPS.length; ++i){
+			pointer = new google.maps.Marker({
+				position: arrayGPS[i],
+				map,
+				icon: imgMarker,
+			});	
+		}
+
+	  const Path = new google.maps.Polyline({
+		path: arrayGPS,
+		geodesic: true,
+		strokeColor: "#FF0000",
+		strokeOpacity: 1.0,
+		strokeWeight: 2,
+	  });
+
+	  Path.setMap(map);	
+		
+	}
+
+		//gestione posizione
+		function CalcolaPosizioneLive() {	
+			setGeoPosition((position)  => {
+			
+			if (position) {
+					arrayGPS.push(new GPS(position.coords.latitude, position.coords.longitude, Date.now()))
+					/*p[0]= position.coords.latitude;
+					p[1]= position.coords.longitude;
+					p[2]= position.coords.accuracy*/
+					initMap();
+				}
+			});
+		}
+
+	var ftcGeoPosition;
+	const options = {
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0
+	};
+
+	function setGeoPosition(functionToCall) {
+		
+		ftcGeoPosition = functionToCall;
+		if (navigator.geolocation) {
+			navigator.geolocation.watchPosition(functionToCall, ErroreGPS, options);
+		}
+		else {
+			alert('La geolocalizzazione non è supportata dal browser');
+			functionToCall(undefined);
+		}
+	}
+
+	function ErroreGPS(positionError) {
+		console.log('Errore')
+		 
+	}
+
+
+
+	function SalvaGPS(){		
+		 jsonData = {"DataOra": Date.now(),
+			 "Posizioni":arrayGPS
+		 }
+		 
+		 let url = "https://us-central1-oloappi.cloudfunctions.net/user/PostDati/PosizioniGPS" + "-" + GetOggi().replaceAll('-', '.');
+		// console.log(url)
+		 
+		 $.ajax({  
+			"Access-Control-Allow-Origin": "*",
+			"Referrer Policy": "strict-origin-when-cross-origin",
+			"url": url,
+			"method": "POST",
+			"crossDomain": false,		 		 
+			"data": jsonData,		
+			success: function (output)  
+			{	
+				alert('SALVATO');
+				navigator.geolocation.clearWatch(idNavigator);
+			} ,
+			 error: function(output) 
+			 {				 
+				console.log("Error in API SalvaGPS call:" + output.statusText);
+				alert("Error in API SalvaGPS call:" + output);
+				navigator.geolocation.clearWatch(idNavigator);
+			 }
+				
+		}); 
+	 }	 
+	 
+  function GetOggi(){	//debugger;
+	oggi = new Date();
+	let anno = 1900 + oggi.getYear();
+	let mese = 1+ oggi.getMonth();
+	if (mese.toString().length == 1){mese = '0' + mese;}
+	let giorno = oggi.getDate();
+	if (giorno.toString().length == 1){giorno = '0' + giorno;} //if (giorno.length = 1) giorno = '0' + giorno
+	oggi = anno + '-' + mese + '-' + giorno;
+	return oggi;
+ }
+
+
+
+
+
+
+
+	</script>
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbbJsSxFcS1e_4BgGJrY9Y5sRTP7k8a8s&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>
