@@ -100,3 +100,13 @@ margin-left: -20px;
     font-weight: 700;
     text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+.sfondoPede{
+	 background-size: cover !important;
+    background-attachment: fixed;
+    background-size: cover;
+    background: url(pede.jpg);
+    color: #efedf0;
+    font-weight: 700;
+    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+

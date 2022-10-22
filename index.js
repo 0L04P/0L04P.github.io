@@ -203,11 +203,12 @@ function popolaClassifica(arr){
 	sHTML += `<div class='col-xs-12' style='margin-bottom: 10px; font-size: 16px;'></div>`
 	for (let i = 0; i< arr.length; ++i){		
 		let index = [arrGiocatori.indexOf(arr[i].squadra.draft_1), arrGiocatori.indexOf(arr[i].squadra.draft_2), arrGiocatori.indexOf(arr[i].squadra.draft_3)];
-				 
+		let nome2 = arr[i].nome;
+		if (localStorage["CustomCSS"] == '1') nome2 = arr[i].nome2;
 		sHTML += `
 		<div class='col-xs-6 Giocatore ${arr[i].nome}'>
 			<div class='col-xs-12 squadra sfondo${arr[i].nome}' style='border: solid 1px #ffa500; border-radius:10px; padding:5px;margin-bottom:10px;'>
-				<b style='margin-left: 5px;'>${SpezzaCaMel(arr[i].nome)}</b>&nbsp;
+				<b style='margin-left: 5px;'>${SpezzaCaMel(nome2)}</b>&nbsp;
 				<i class='hidden'>${arr[i].id}</i>
 				<i class="fa-solid fa-trophy coppa coppa${arr[i].nome}" style="display:none;"></i>
 				<ul>
