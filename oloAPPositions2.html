@@ -91,7 +91,7 @@
 			});	
 		}
 		
-		let ultimi2pos = []
+		/*let ultimi2pos = []
 		if (arrayGPS.length >= 2){
 			ultime2pos.push(arrayGPS[arrayGPS.length-2]);
 			ultime2pos.push(arrayGPS[arrayGPS.length-1]);
@@ -107,9 +107,9 @@
 			strokeWeight: 2,
 		 });
 
-		  Path.setMap(map);	
+		  Path.setMap(map);*/	
 		  
-		  let s = '<label>LAT:'+ arrayGPS[countMap-1].lat + ' LON:' + arrayGPS[countMap-1].lng + ' n.'+ countMap+ '  ' +  new Date().toJSON(); +'<label>'
+		  let s = '<label>'+ new Date().toJSON() +'<label>'
 		$('#info').html($('#info').html() + '<br>' + s)
 	}
 
