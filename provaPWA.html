@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA Text Writer</title>
+</head>
+<body>
+  <textarea id="textInput" rows="10" cols="50"></textarea>
+  <button id="saveButton">Save to File</button>
+
+  <script>
+    async function writeFile() {
+      const text = document.getElementById('textInput').value;
+
+      try {
+        const handle = await window.showDirectoryPicker();
+        const fileHandle = await handle.getFileHandle('example.txt', { create: true });
+        const writableStream = await fileHandle.createWritable();
+
+        await writableStream.write(text);
+        await writableStream.close();
+
+        console.log('File saved successfully!');
+      } catch (error) {
+        console.error('Error saving file:', error);
+      }
+    }
+
+    const saveButton = document.getElementById('saveButton');
+    saveButton.addEventListener('click', writeFile);
+  </script>
+</body>
+</html>
