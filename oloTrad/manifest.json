@@ -3,7 +3,7 @@
     "name": "oloTraduzioni",
     "short_name": "oloTraduzioni",
     "description": "oloTraduzioni",
-    "start_url": "/oloTraduzioni.html",
+    "start_url": "/oloTrad/oloTraduzioni.html",
     "background_color": "#16293c",
     "theme_color": "#16293c",
     "orientation": "any",
