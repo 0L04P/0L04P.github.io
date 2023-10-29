@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>TITOLO DA SCRIVERE</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src='oloTraduzioni.js'></script>
+  
+	<link rel="icon" href="icona.png" sizes="32x32"/>
+	<link rel="icon" href="icona.png" sizes="192x192"/>
+	<link rel="apple-touch-icon" href="icona.png"/>
+	<link rel="manifest" href="manifest.json">
+</head>
+
+<style>
+.parolaCercata{
+	border-radius: 5px;
+    border: solid 1px white;
+    margin-top: 0.5px;
+}
+.tradInput{
+	height: 75px;   
+    width: 100% !important;
+	font-size:20px;
+}
+</style>
+ 
+<body  style = "background-color:#123456; color:#ffffff;">
+	<div class="container" class="trad">
+		<h4 id="titolo" style="color:#9ed519; margin-bottom: -20px">Traduttore</h4>
+		<div class='col-xs-12' style='height:40px;'></div>
+		<div class='col-xs-12'>
+			<input id="txtDaTrad" class="form-control tradInput" style="width:200px">
+			<br>			
+			<button class='btn btn-info' onclick='Traduzione(); '><span class='glyphicon glyphicon-search'></span> TRADUCI</button>
+			<button class='btn btn-warning' onclick='Gioca()'><span class='glyphicon glyphicon-play-circle'></span>  GIOCA</button>
+			<button class='btn btn-warning' onclick='Visualizza()'><span class='glyphicon glyphicon-adjust'></span></button>
+		</div>
+		<br>
+			<br>
+		<div class='col-xs-12  ' id='divTraduzioni' style='margin-left: 20px; width: 300px;'>			
+			<label id="lblTraduzione" style="color:#9da2d7; white-space: pre;"></label><br>			
+		</div>
+		<div class='col-xs-12' id='divAggTraduzioni'>
+			<br>
+			<input id="txtNuovaTrad" class="form-control tradInput" style="width:200px; height:50px;">			
+			<button class='btn btn-primary' onclick='Aggiungi(); '>AGGIUNGI</button>	
+							
+		</div>
+		<div class='col-xs-12' id='divGioco'>
+			<input id="txtRisposta" class="form-control tradInput" style="width:200px; background: #2cdf61">
+			<button class='btn btn-success' onclick='Rispondi(); '>RISPONDI</button>				
+		</div>
+		<div class='col-xs-12' id="elenco" style="margin-top:10px;">
+			 
+		</div>
+		<button onclick='CLEAR_LS();' class='btn btn-danger'>PULISCI DATI SALVATI</button>
+	</div> 
+	
+ 
+	
+<script>
+	if('serviceWorker' in navigator) {
+	  navigator.serviceWorker.register('/sw.js', { scope: '/' });
+	}
+</script>
+
+</body> 
+</html>
