@@ -6,12 +6,12 @@ self.addEventListener('install', event => {
     const cache = await caches.open(CACHE_NAME);
     cache.addAll([
       '/',
-	  '/oloTraduzioni.js',      
-      '/bootstrap.min.css',
-	  '/bootstrap.bundle.min.js',
-	  '/bootstrap.min.js',
-	  '/jquery.min.js',
-	  '/popper.js'	  
+	  '/oloTrad/oloTraduzioni.js',      
+      '/oloTrad/bootstrap.min.css',
+	  '/oloTrad/bootstrap.bundle.min.js',
+	  '/oloTrad/bootstrap.min.js',
+	  '/oloTrad/jquery.min.js',
+	  '/oloTrad/popper.js'	  
     ]);
   })());
 });
