@@ -1,133 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>TITOLO DA SCRIVERE</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Elenco pratiche</title>
+	<meta name="viewport" content="width=device-width , user-scalable=no" />
 
+	<script src="Scripts/Comune/jquery.min.js"></script>
+	<script src="Scripts/Comune/app.js"></script>
+
+	<link href="Css/bootstrap.min.css" rel="stylesheet" />
+	<link href="Css/base.css" rel="stylesheet" />
+	<script src="Scripts/Comune/bootstrap.min.js"></script>
+
+	 
+	<script src="Scripts/Comune/cProprieta.js"></script>
 </head>
-
+<body> 
 <style>
-.l{
-	padding-left: 10px;
-    margin-top: 4px;
-    color: #c39541;
-    font-weight: bold;
-	font-size:20px;
+.bold{font-weight:bold}
+.normale{font-weight:normal}
+.pulsantone {	 
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	padding: 10px;
+	height: 150px;
+    margin-bottom: 30px;
+	font-size: 25px;
+}
+.pulsantone:active {
+    border:solid 2px #000;
+}
+.appFissati{
+	background-color:#65c1be;
+	color:#003b60;
+}
+.appDaFissare{
+	background-color:#e94e1b;
+	color:#FFFFFF;
+}
+.appMappa{
+	background-color:#003b60;
+	color:#FFFFFF;
+}
+.allineaVerticale{
+	padding-top: 7%;
+}
+h3{
+    font-size: 30px;
+    text-align: center;
 }
 </style>
- 
-<body  style = "background-color:#123456; color:#ffffff;">
-	<div class="container" style="">
-		<h4 id="titolo" style="margin-bottom: 120px"></h4>
-		<div class='col-xs-12' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>			
-			Quanti giocatori?&nbsp;&nbsp;<input type='number' id='txtInput' onchange='creaGioco($("#txtInput").val()); $("#txtInput").val(0)' style='color: black;vertical-align: -1px; width: 100px;'/>
-			<button class='btn btn-info'><span class='glyphicon glyphicon-ok'></span></button>
-		</div>
-		<div class='col-xs-12' id='aaa'></div>
-		<div class='col-xs-12' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>
-			<b>Soluzione proposta:</b><br>	
-		</div>
-		
-		<div class='col-xs-12' id='SolProp'>
-		</div>
-		
-		<div class='col-xs-12' id='SolProp' style='margin-top:20px;margin-bottom:10px; margin-left:20px;'>
-			<label id='lblSalvati' style='font-size:18px;'></label>
-		</div>
-	</div> 
-	<script>
-	var sHTML = '';
-	var sHTMLSol = '';
-	$(document).ready(function(){
-		
-	}); 
 
-	function creaGioco(i){
-	 sHTML = '';
-	 sHTMLSol = '';
-	let arr = [];
-		for(k=1; k<=i;++k){	
-		let w = 100/i;
-			sHTML += "<div class='col-xs-1' >"
-			if(Math.random()>=0.5){
-				arr.push(1);
-				sHTML += "<div  style='height:35px; width:35px; border-radius:5px; border:solid 1px #000; background:#fff'><label class='l'>1</label></div>"
-			}else{
-				arr.push(0);
-				sHTML += "<div style='height:35px; width:35px; border-radius:5px; border:solid 1px #000; background:#000'><label class='l'>0</label></div>"
-			}
-			sHTML += '</div>'
-		}
-		console.log(arr);
-		soluzione(arr, i)
-		$('#aaa').html('');
-		$('#aaa').html(sHTML);
-		/////////////////////////
-		
-	} 
-	
-	function soluzione(arr, lungh){
-		let SOL = [];
-		
-		//il primo guarda quelli devanti: somma gli 1 e di ce 1 se è dispari, 0 se pari
-		let tot = 0;
-		for(i=1; i<=lungh-1; ++i){
-			 tot += arr[i];
-		}
-		//alert('La somma escluso il primo è ' + tot);
-		//Il primo dice tot%2
-		//alert('Il primo dice ' + tot%2);
-		SOL.push(tot%2); //valore probabilente sbagliato..............
-		debugger;
-		let SommaDietro = 0;
-		//ciclo tutti i giocatori
-		for (pos = 1; pos<= lungh-1; ++pos){
-			console.log('------------' + pos + '----------------')	
-			console.log('SommaDietro ' + SommaDietro )				
-			//ognuno fa la somma tra quelli davanti a sè
-			let SommaDavanti = 0;
-			for (k = pos+1; k<= lungh-1; ++k){
-				SommaDavanti+=parseInt(arr[k]);		
-			}
-			console.log('SommaDavanti ' + SommaDavanti )	
-			//e i valori salvati prima detti dal giovatore 2 in pointer
-			//se tale somma è = tot%2 allora dice 0 sennò dice 1
-			if((SommaDavanti + SommaDietro)%2 == tot%2){
-				SOL.push(0);
-				SommaDietro+=0;
-				console.log('agg 1')
-			} else{
-				SOL.push(1);
-				SommaDietro+=1;
-				console.log('agg 1')
-			}			
-		}
-		//disegno la soluione
-		sHTMLSol = ""
-			for (j=0; j<= SOL.length-1; ++j){
-				sHTMLSol += "<div class='col-xs-1' >"
-				if(SOL[j] == 0) sHTMLSol += "<div style='height:35px; width:35px; border-radius:5px; border:solid 1px #000; background:#000'><label class='l'>0</label></div>"				
-				if(SOL[j] == 1) sHTMLSol += "<div style='height:35px; width:35px; border-radius:5px; border:solid 1px #000; background:#fff'><label class='l'>1</label></div>"			
-				sHTMLSol += '</div>'
-			}			
-			
-			sHTML += ''
-			$('#SolProp').html('');
-			$('#SolProp').html(sHTMLSol);
-	
-	let salvati =0;
-	for (w=0; w<=SOL.length-1;++w){
-		if (arr[w] == SOL[w]) salvati+= 1
+<script>
+function test(){
+	if(event){
+		//debugger;
+		event.stopPropagation();	
 	}
-	$('#lblSalvati').text('Salvati: ' + salvati + ' su ' + SOL.length)
-	}
-	
-	</script>
+	console.log(1994)
+}
 
-</body> 
+window.onload = function() {
+ navigator.getUserMedia = (navigator.getUserMedia ||
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia || 
+                        navigator.msGetUserMedia);
+ if (navigator.getUserMedia) {
+  navigator.getUserMedia({ video: true },
+  function(localMediaStream) {
+   var vid = document.getElementById('camera-stream');
+   vid.srcObject = localMediaStream;
+  },
+function(err) {
+  console.log('The following error occurred when trying to use getUserMedia: ' + err);
+ }
+);
+} else { alert('Sorry, your browser does not support getUserMedia'); }
+}
+</script>
+
+<div class='container-fluid'>
+	<h4>TEST CAMERA</h4>
+	</div>
+	
+	
+	<div id="video-container">
+		<video id="camera-stream" width="500" autoplay></video>
+	</div>
+		
+	
+</div>
+		
+</body>
+
+
 </html>
