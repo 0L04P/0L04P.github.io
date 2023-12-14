@@ -4,115 +4,21 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Elenco pratiche</title>
 	<meta name="viewport" content="width=device-width , user-scalable=no" />
-
-	<script src="Scripts/Comune/jquery.min.js"></script>
-	<script src="Scripts/Comune/app.js"></script>
-
-	<link href="Css/bootstrap.min.css" rel="stylesheet" />
-	<link href="Css/base.css" rel="stylesheet" />
-	<script src="Scripts/Comune/bootstrap.min.js"></script>
-
-	 
-	<script src="Scripts/Comune/cProprieta.js"></script>
 </head>
 <body> 
 <style>
-.bold{font-weight:bold}
-.normale{font-weight:normal}
-.pulsantone {	 
-	border: solid 1px #ccc;
-	border-radius: 5px;
-	padding: 10px;
-	height: 150px;
-    margin-bottom: 30px;
-	font-size: 25px;
-}
-.pulsantone:active {
-    border:solid 2px #000;
-}
-.appFissati{
-	background-color:#65c1be;
-	color:#003b60;
-}
-.appDaFissare{
-	background-color:#e94e1b;
-	color:#FFFFFF;
-}
-.appMappa{
-	background-color:#003b60;
-	color:#FFFFFF;
-}
-.allineaVerticale{
-	padding-top: 7%;
-}
-h3{
-    font-size: 30px;
-    text-align: center;
-}
-</style>
-
-<script>
-function test(){
-	if(event){
-		//debugger;
-		event.stopPropagation();	
-	}
-	console.log(1994)
-}
-/*
-window.onload = function() {
- navigator.getUserMedia = (navigator.getUserMedia ||
-                        navigator.webkitGetUserMedia ||
-                        navigator.mozGetUserMedia || 
-                        navigator.msGetUserMedia);
- if (navigator.getUserMedia) {
-  navigator.getUserMedia({ video: true },
-  function(localMediaStream) {
-   var vid = document.getElementById('camera-stream');
-   vid.srcObject = localMediaStream;
-  },
-function(err) {
-  console.log('The following error occurred when trying to use getUserMedia: ' + err);
- }
-);
-} else { alert('Sorry, your browser does not support getUserMedia'); }
-}*/
-
-
-
-</script>
-<style>
-#container {
-	margin: 0px auto;
-	width: 500px;
-	height: 375px;
-	border: 10px #333 solid;
-}
-#videoElement {
-	width: 500px;
-	height: 375px;
-	background-color: #666;
-}
 </style>
 <div class='container-fluid'>
-	<h4>TEST CAMERA 2</h4>
-	</div>
-	
-	
-	<div id="video-container">
-		<video id="camera-stream" width="500" autoplay></video>
-	</div>
-	
+	<h4>TEST CAMERA 3</h4>
+				
 	<div id="container">
 		<video autoplay="true" id="videoElement">
 		
 		</video>
 	</div>
-		
-	
 </div>
 
-<script>
+<style>
 var video = document.querySelector("#videoElement");
 var constraints = {
   video: {
@@ -141,9 +47,8 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("Something went wrong!");
     });
 }
-</script>
+</style>
 		
 </body>
-
 
 </html>
