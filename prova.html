@@ -19,7 +19,8 @@
 }
 </style>
 <div class='container-fluid'>
-	<h4>TEST FOTOCAMERA</h4>
+	<h4>TEST DELLA FOTOCAMERA</h4>
+	<label id='lblEsito'>...</label>
 				
 	<div id="container">
 		<video autoplay="true" id="videoElement">
@@ -52,9 +53,11 @@ var constraints = {
 if (navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices.getUserMedia(constraints)
     .then(function (stream) {
+	  document.getElementById('lblEsito').innerHTML = 'Camera aperta con successo'
       video.srcObject = stream;
     })
     .catch(function (err0r) {
+	document.getElementById('lblEsito').innerHTML = 'Errore apertura camera'
       console.log("Something went wrong!");
     });
 }
