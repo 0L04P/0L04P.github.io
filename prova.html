@@ -59,7 +59,7 @@ function test(){
 	}
 	console.log(1994)
 }
-
+/*
 window.onload = function() {
  navigator.getUserMedia = (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
@@ -76,9 +76,24 @@ function(err) {
  }
 );
 } else { alert('Sorry, your browser does not support getUserMedia'); }
-}
-</script>
+}*/
 
+
+
+</script>
+<style>
+#container {
+	margin: 0px auto;
+	width: 500px;
+	height: 375px;
+	border: 10px #333 solid;
+}
+#videoElement {
+	width: 500px;
+	height: 375px;
+	background-color: #666;
+}
+</style>
 <div class='container-fluid'>
 	<h4>TEST CAMERA</h4>
 	</div>
@@ -87,9 +102,29 @@ function(err) {
 	<div id="video-container">
 		<video id="camera-stream" width="500" autoplay></video>
 	</div>
+	
+	<div id="container">
+		<video autoplay="true" id="videoElement">
+		
+		</video>
+	</div>
 		
 	
 </div>
+
+<script>
+var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
+</script>
 		
 </body>
 
