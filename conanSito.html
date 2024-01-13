@@ -29,12 +29,16 @@
 	<script>
 		$(document).ready(function(){
 		
-		//creaCapitolo();
+		if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){
+		
+		$('#txtCap').val(parseInt(localStorage["capitolo"]))
+		}
 		
 	})
 
 
 	function creaCapitolo(){
+	localStorage["capitolo"] = $('#txtCap').val();
 		let chapter = ChapterNumberToString($('#txtCap').val());
 		let imageUrls = [];
 		let baseUrl = 'https://i0.wp.com/official.lowee.us/manga/Detective-Conan/' + chapter + '-';
@@ -53,11 +57,7 @@
 		})
 		$('.MyPagina').html(sHTML);
 		
-		   $('.pagina').addEventListener('error', function(this) {
-				// Hide the image if there's an error (failed to load)
-				$('#' + this.id).fadeOut()
-			});
-	}
+		}
 
 	function PageNumberToString(page, lunghezza){
 		let res = '000' + page;
@@ -78,7 +78,13 @@
 			
 			</div>
 			
-			<div class='col-xs-12 MyPagina' style='padding:0'></div>
+			<div class='col-xs-12 MyPagina' style='padding:0'>
+			
+			</div>
+			
+			<button style='font-size:60px;height:80px;padding-top: 50x; width: 90vw;    margin-left: 5vw  ' class='btn btn-info'  
+			onclick="$('#txtCap').val(parseInt(localStorage['capitolo']) + 1); creaCapitolo()">NEXT</button>
+			
 			
 		</div> 
 	</body> 
