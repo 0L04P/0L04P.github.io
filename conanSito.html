@@ -21,8 +21,9 @@
 		border-radius: 5px;
 		border: solid 1px white;
 		margin-top: 10px;
-		
-		width:102%;		
+		 margin-left: 1%;
+		width: 98%;
+		width:100%;		
 	}	 
 	</style>
 	<script>
@@ -51,9 +52,10 @@
 			
 		})
 		$('.MyPagina').html(sHTML);
-			$('.pagina').addEventListener('error', function() {
+		
+		   $('.pagina').addEventListener('error', function(this) {
 				// Hide the image if there's an error (failed to load)
-				//////$('#' + this.id).fadeOut()
+				$('#' + this.id).fadeOut()
 			});
 	}
 
@@ -69,12 +71,12 @@
 	</script>
  
 	<body  style = "background-color:#123456;">
-		<div class="container" class="trad" style='padding-left: 0;
-    padding-right: 0;'>
-			<h4 id="titolo" style="color:#9ed519; margin-bottom: 20px">Capitolo </h4>
+		<div class="container" class="trad" style='padding-left:0; padding-top: 20px; padding-right: 0; margin-left: 0; margin-right: 0;    width: 99vw;'>			
+			<div class='col-xs-12 text-center'>
+<input id='txtCap'  type='number' style='font-size: 30px;width: 100px;padding-left:25px;height:36px;' />
+			<button style='font-size:30px;height:42px;padding-top: 0;margin-top: -12px;' class='btn btn-info'  onclick='creaCapitolo()'>GO</button>
 			
-			<input id='txtCap'  />
-			<button  class='btn btn-info'  onclick='creaCapitolo()'>GO</button>
+			</div>
 			
 			<div class='col-xs-12 MyPagina' style='padding:0'></div>
 			
