@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, user-scalable=no">
+	  <title>Conan</title>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	  <script src='conanJS.js'></script>
+	  
+		<link rel="icon" href="icona.png" sizes="32x32"/>
+		<link rel="icon" href="icona.png" sizes="192x192"/>
+		<link rel="apple-touch-icon" href="icona.png"/>
+		<link rel="manifest" href="manifest.json">
+	</head>
+
+	<style>
+	.pagina{
+		border-radius: 5px;
+		border: solid 1px white;
+		margin-top: 10px;
+		height:95vh;
+		width:auto;		
+	}	 
+	</style>
+	<script>
+		$(document).ready(function(){
+		
+		//creaCapitolo();
+		
+	})
+
+
+	function creaCapitolo(){
+		let chapter = ChapterNumberToString($('#txtCap').val());
+		let imageUrls = [];
+		let baseUrl = 'https://i0.wp.com/official.lowee.us/manga/Detective-Conan/' + chapter + '-';
+		for(let k = 1; k<=25;++k){
+			imageUrls.push(baseUrl + PageNumberToString(k,3)+ '.png');
+		}
+		
+		
+		let sHTML = ``;
+		imageUrls.forEach(function(el, index){
+			
+			sHTML+= `
+				<img src=${el} class='pagina'/>
+			`;
+			
+		})
+		$('.MyPagina').html(sHTML);
+	}
+
+	function PageNumberToString(page, lunghezza){
+		let res = '000' + page;
+		return res.substr(res.length - lunghezza,lunghezza);
+	}
+	function ChapterNumberToString(page){
+		let res = '0000' + page;
+		return res.substr(res.length - 4,4);
+	}
+
+	</script>
+ 
+	<body  style = "background-color:#123456;">
+		<div class="container" class="trad">
+			<h4 id="titolo" style="color:#9ed519; margin-bottom: 20px">Capitolo </h4>
+			
+			<input id='txtCap'  />
+			<button  class='btn btn-info'  onclick='creaCapitolo()'>GO</button>
+			
+			<div class='col-xs-12 MyPagina'></div>
+			
+		</div> 
+	</body> 
+</html>
