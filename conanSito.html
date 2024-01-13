@@ -52,6 +52,10 @@
 			
 		})
 		$('.MyPagina').html(sHTML);
+			$('.pagina').addEventListener('error', function(this) {
+				// Hide the image if there's an error (failed to load)
+				$('#' + this.id).fadeOut()
+			});
 	}
 
 	function PageNumberToString(page, lunghezza){
