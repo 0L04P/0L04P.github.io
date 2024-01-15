@@ -30,12 +30,10 @@
 		$(document).ready(function(){
 		
 		if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){
-		
-		$('#txtCap').val(parseInt(localStorage["capitolo"]))
+			$('#txtCap').val(parseInt(localStorage["capitolo"]));
+			creaCapitolo()
 		}
-		
 	})
-
 
 	function creaCapitolo(){
 	localStorage["capitolo"] = $('#txtCap').val();
@@ -45,7 +43,6 @@
 		for(let k = 1; k<=25;++k){
 			imageUrls.push(baseUrl + PageNumberToString(k,3)+ '.png');
 		}
-		
 		
 		let sHTML = ``;
 		imageUrls.forEach(function(el, index){
@@ -82,7 +79,7 @@
 			
 			</div>
 			
-			<button style='font-size:60px;height:80px;padding-top: 50x; width: 90vw;    margin-left: 5vw  ' class='btn btn-info'  
+			<button style='font-size:60px;height:80px;padding-top: 50x; width: 90vw; margin-top: 100px; margin-left:5vw;' class='btn btn-info'  
 			onclick="$('#txtCap').val(parseInt(localStorage['capitolo']) + 1); creaCapitolo()">NEXT</button>
 			
 			
