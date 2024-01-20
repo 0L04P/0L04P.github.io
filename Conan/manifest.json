@@ -1,0 +1,17 @@
+{
+    "lang": "en-us",
+    "name": "conanSito",
+    "short_name": "conanSito",
+    "description": "conanSito",
+    "start_url": "/Conan/conanSito.html",
+    "background_color": "#16293c",
+    "theme_color": "#16293c",
+    "orientation": "any",
+    "display": "fullscreen",
+    "icons": [
+        {
+            "src": "/icona.png",
+            "sizes": "512x512"
+        }
+    ]
+}
