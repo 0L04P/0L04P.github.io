@@ -53,7 +53,7 @@
 		imageUrls.forEach(function(el, index){
 			
 			sHTML+= `
-				<img src=${el} class='pagina'/>
+				<img src=${el} class='pagina' onerror="this.style.display= 'none'"/>
 			`;
 			
 		})
