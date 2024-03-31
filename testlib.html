@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no">
-	
-	 
-	<script type="module">
-    import funzione_1 from "./Libreria.mjs";
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+     
+    <script type="module">
+        import * as lib from "./Libreria.mjs";
 
-		lib.funzione_1();
-</script>
-
- 
+        // Example of calling the exported functions
+        lib.funzione_1();
+        lib.funzione_2();
+        lib.funzione_3();
+    </script>
 </head>
  
-<body  style = "background-color:#16293c; color:#ffffff;">	
-	<div>
-		 TEST
-	</div>		
- 
-		  
+<body style="background-color:#16293c; color:#ffffff;">   
+    <div>
+        TEST
+    </div>        
 </body>
 </html>
