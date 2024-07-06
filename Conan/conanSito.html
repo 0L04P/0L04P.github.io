@@ -39,53 +39,61 @@
 		border:solid 1px #ffff00; border-radius:50%; padding:5px 7px 5px 5px; color:#ffff00;
 	}	
 	</style>
-	<script>
+		<script>
 		$(document).ready(function(){
 			
-			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){
-			
-			$('#txtCap').val(parseInt(localStorage["capitolo"]))
+			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
+				$('#txtCap').val(parseInt(localStorage["capitolo"]))
+				creaCapitolo(true)
+			}			
+		});
+				
+		$(document).on('scroll', function(){
+			localStorage["capitolo_scroll"] = window.scrollY
+		})
+		
+		function creaCapitolo(bScroll = false){
+			localStorage["capitolo"] = $('#txtCap').val();
+			let chapter = ChapterNumberToString($('#txtCap').val());
+			let imageUrls = [];
+			let baseUrl = 'https://i0.wp.com/official.lowee.us/manga/Detective-Conan/' + chapter + '-';
+			for(let k = 1; k<=25;++k){
+				imageUrls.push(baseUrl + PageNumberToString(k,3)+ '.png');
 			}
 			
-		});
-	function creaCapitolo(){
-		localStorage["capitolo"] = $('#txtCap').val();
-		let chapter = ChapterNumberToString($('#txtCap').val());
-		let imageUrls = [];
-		let baseUrl = 'https://i0.wp.com/official.lowee.us/manga/Detective-Conan/' + chapter + '-';
-		for(let k = 1; k<=25;++k){
-			imageUrls.push(baseUrl + PageNumberToString(k,3)+ '.png');
-		}
-		
-		
-		let sHTML = ``;
-		imageUrls.forEach(function(el, index){
 			
-			sHTML+= `
-				<img src=${el} class='pagina' onerror="this.style.display= 'none'"/>
-			`;
-			
-		})
-		$('.MyPagina').html(sHTML);
-		
+			let sHTML = ``;
+			imageUrls.forEach(function(el, index){
+				
+				sHTML+= `
+					<img src=${el} class='pagina' onerror="this.style.display= 'none'"/>
+				`;
+				
+			})
+			$('.MyPagina').html(sHTML);
+			Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+				if(bScroll && localStorage["capitolo_scroll"] && localStorage["capitolo_scroll"] > 0){
+					$("html, body").animate({ scrollTop: localStorage["capitolo_scroll"] }, 'fast'); 
+					return false;
+				}
+			});
 		}
 
-	function PageNumberToString(page, lunghezza){
-		let res = '000' + page;
-		return res.substr(res.length - lunghezza,lunghezza);
-	}
-	function ChapterNumberToString(page){
-		let res = '0000' + page;
-		return res.substr(res.length - 4,4);
-	}
-	function ToTop(){	
-		$("html, body").animate({ scrollTop: 0 }, 'fast'); 
-		return false;
-	}
-	function ToBottom(){	
-		$("html, body").animate({ scrollTop: 40000 }, 'slow'); 
-	}
-
+		function PageNumberToString(page, lunghezza){
+			let res = '000' + page;
+			return res.substr(res.length - lunghezza,lunghezza);
+		}
+		function ChapterNumberToString(page){
+			let res = '0000' + page;
+			return res.substr(res.length - 4,4);
+		}
+		function ToTop(){	
+			$("html, body").animate({ scrollTop: 0 }, 'fast'); 
+			return false;
+		}
+		function ToBottom(){	
+			$("html, body").animate({ scrollTop: 40000 }, 'slow'); 
+		}
 	</script>
  
 	<body  style = "background-color:#123456;">		
