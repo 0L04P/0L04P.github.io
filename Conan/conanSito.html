@@ -73,7 +73,9 @@
 			$('.MyPagina').html(sHTML);
 			Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
 				if(bScroll && localStorage["capitolo_scroll"] && localStorage["capitolo_scroll"] > 0){
-					$("html, body").animate({ scrollTop: localStorage["capitolo_scroll"] }, 'fast'); 
+					let s = localStorage["capitolo_scroll"] ;
+					localStorage["capitolo_scroll"]  = 0;
+					$("html, body").animate({ scrollTop: s}, 'fast'); 
 					return false;
 				}
 			});
