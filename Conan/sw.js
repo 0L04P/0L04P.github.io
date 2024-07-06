@@ -5,12 +5,7 @@ self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     cache.addAll([
-      '/',	 
-      '/oloTrad/bootstrap.min.css',
-	  '/oloTrad/bootstrap.bundle.min.js',
-	  '/oloTrad/bootstrap.min.js',
-	  '/oloTrad/jquery.min.js',
-	  '/oloTrad/popper.js'	  
+      '/'
     ]);
   })());
 });
