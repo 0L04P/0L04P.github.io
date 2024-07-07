@@ -45,7 +45,15 @@
 			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
 				$('#txtCap').val(parseInt(localStorage["capitolo"]))
 				creaCapitolo(true)
-			}			
+			}	
+
+		    var images = document.querySelectorAll('img');
+		    images.forEach(function (img) {
+			img.onerror = function () {
+			    img.classList.add('hidden');
+			};
+		    });
+			
 		});
 				
 		$(document).on('scroll', function(){
@@ -66,7 +74,7 @@
 			imageUrls.forEach(function(el, index){
 				
 				sHTML+= `
-					<img src=${el} class='pagina' onerror="this.style.display= 'none'"/>
+					<img src=${el} class='pagina' />
 				`;
 				
 			})
