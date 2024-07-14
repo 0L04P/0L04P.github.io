@@ -44,10 +44,8 @@
 		$(document).ready(function(){
 
 			window.addEventListener("beforeinstallprompt", (event) => {
-				console.log('beforeinstallprompt-----------')
 			  event.preventDefault();
-			  installPrompt = event;
-			  installButton.removeAttribute("hidden");
+			  installPrompt = event;			
 		});
 			
 			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
@@ -115,6 +113,9 @@
 		}
 
 		async function INSTALLA_PWA(){
+			/* Uncaught (in promise) DOMException: 
+   			Failed to execute 'prompt' on 'BeforeInstallPromptEvent': The prompt() method must be called with a user gesture
+   			*/
 			if (!installPrompt) {
 				return false;
 			}
