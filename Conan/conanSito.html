@@ -40,6 +40,7 @@
 	}	
 	</style>
 		<script>
+		var installPrompt = null;
 		$(document).ready(function(){
 			
 			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
@@ -53,13 +54,13 @@
 			    img.classList.add('hidden');
 			};
 		    });
-		/*window.addEventListener("beforeinstallprompt", (event) => {
+			
+		});
+window.addEventListener("beforeinstallprompt", (event) => {
 			  event.preventDefault();
 			  installPrompt = event;
 			  installButton.removeAttribute("hidden");
-		});*/
 		});
-
 		/*************/
 		/*var installPrompt = null;
 
