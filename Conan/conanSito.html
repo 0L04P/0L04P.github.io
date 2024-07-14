@@ -42,6 +42,13 @@
 		<script>
 		var installPrompt = null;
 		$(document).ready(function(){
+
+			window.addEventListener("beforeinstallprompt", (event) => {
+				console.log('beforeinstallprompt-----------')
+			  event.preventDefault();
+			  installPrompt = event;
+			  installButton.removeAttribute("hidden");
+		});
 			
 			if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
 				$('#txtCap').val(parseInt(localStorage["capitolo"]))
@@ -56,11 +63,7 @@
 		    });
 			
 		});
-window.addEventListener("beforeinstallprompt", (event) => {
-			  event.preventDefault();
-			  installPrompt = event;
-			  installButton.removeAttribute("hidden");
-		});
+
 		 				
 		$(document).on('scroll', function(){
 			localStorage["capitolo_scroll"] = window.scrollY
