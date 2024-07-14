@@ -55,6 +55,16 @@
 		    });
 			
 		});
+
+			/*************/
+let installPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  installPrompt = event;
+  installButton.removeAttribute("hidden");
+});
+			/*************/
 				
 		$(document).on('scroll', function(){
 			localStorage["capitolo_scroll"] = window.scrollY
