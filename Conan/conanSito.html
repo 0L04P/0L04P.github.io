@@ -61,20 +61,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 			  installPrompt = event;
 			  installButton.removeAttribute("hidden");
 		});
-		/*************/
-		/*var installPrompt = null;
-
-		
-
-		async function INSTALLA_PWA(){
-			if (!installPrompt) {
-				return;
-			}
-			const result = await installPrompt.prompt();
-			console.log(`Install prompt was: ${result.outcome}`);
-		}*/
-		/*************/
-				
+		 				
 		$(document).on('scroll', function(){
 			localStorage["capitolo_scroll"] = window.scrollY
 		})
@@ -123,6 +110,14 @@ window.addEventListener("beforeinstallprompt", (event) => {
 		function ToBottom(){	
 			$("html, body").animate({ scrollTop: 40000 }, 'slow'); 
 		}
+
+		async function INSTALLA_PWA(){
+			if (!installPrompt) {
+				return false;
+			}
+			const result = await installPrompt.prompt();
+			console.log(`Install prompt was: ${result.outcome}`);
+		} 
 	</script>
  
 	<body  style = "background-color:#123456;">						
