@@ -56,23 +56,23 @@
 			
 		});
 
-			/*************/
-let installPrompt = null;
+		/*************/
+		let installPrompt = null;
 
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
-  installPrompt = event;
-  installButton.removeAttribute("hidden");
-});
+		window.addEventListener("beforeinstallprompt", (event) => {
+		  event.preventDefault();
+		  installPrompt = event;
+		  installButton.removeAttribute("hidden");
+		});
 
-	function INSTALLA_PWA(){
-		if (!installPrompt) {
-			return;
+		async function INSTALLA_PWA(){
+			if (!installPrompt) {
+				return;
+			}
+			const result = await installPrompt.prompt();
+			console.log(`Install prompt was: ${result.outcome}`);
 		}
-		const result = await installPrompt.prompt();
-		console.log(`Install prompt was: ${result.outcome}`);
-	}
-			/*************/
+		/*************/
 				
 		$(document).on('scroll', function(){
 			localStorage["capitolo_scroll"] = window.scrollY
