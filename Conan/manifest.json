@@ -11,8 +11,7 @@
     "icons": [
         {
             "src": "/Conan/icona.png",
-            "sizes": "512x512",
-            "purpose": "maskable"
+            "sizes": "512x512"
         }
     ]
 }
