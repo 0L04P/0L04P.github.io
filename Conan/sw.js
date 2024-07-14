@@ -1,4 +1,4 @@
-const CACHE_NAME = `conanSitoCache_v7`;
+const CACHE_NAME = `conanSitoCache_v8`;
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
@@ -36,7 +36,9 @@ self.addEventListener('fetch', event => {
           
           return fetchResponse;
         } catch (e) {
-          // The network failed.
+          // The network failed.                    
+          console.log('The network failed:');
+		      console.log(e);
         }
     }
   })());
