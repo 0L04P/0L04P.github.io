@@ -53,17 +53,17 @@
 			    img.classList.add('hidden');
 			};
 		    });
-			
+		window.addEventListener("beforeinstallprompt", (event) => {
+			  event.preventDefault();
+			  installPrompt = event;
+			  installButton.removeAttribute("hidden");
+		});
 		});
 
 		/*************/
-		let installPrompt = null;
+		var installPrompt = null;
 
-		window.addEventListener("beforeinstallprompt", (event) => {
-		  event.preventDefault();
-		  installPrompt = event;
-		  installButton.removeAttribute("hidden");
-		});
+		
 
 		async function INSTALLA_PWA(){
 			if (!installPrompt) {
