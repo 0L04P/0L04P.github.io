@@ -64,6 +64,14 @@ window.addEventListener("beforeinstallprompt", (event) => {
   installPrompt = event;
   installButton.removeAttribute("hidden");
 });
+
+	function INSTALLA_PWA(){
+		if (!installPrompt) {
+			return;
+		}
+		const result = await installPrompt.prompt();
+		console.log(`Install prompt was: ${result.outcome}`);
+	}
 			/*************/
 				
 		$(document).on('scroll', function(){
