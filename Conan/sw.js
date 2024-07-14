@@ -1,4 +1,4 @@
-const CACHE_NAME = `conanSitoCache_v6`;
+const CACHE_NAME = `conanSitoCache_v7`;
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
