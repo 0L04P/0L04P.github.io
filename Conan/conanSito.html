@@ -53,12 +53,7 @@
 				creaCapitolo(true)
 			}	
 
-		    var images = document.querySelectorAll('img');
-		    images.forEach(function (img) {
-			img.onerror = function () {
-			    img.classList.add('hidden');
-			};
-		    });
+		    pGestioneImgNoSource()
 			
 		});
 
@@ -93,7 +88,18 @@
 					$("html, body").animate({ scrollTop: s}, 'fast'); 
 					return false;
 				}
+				pGestioneImgNoSource()
+
 			});
+		}
+		
+		function pGestioneImgNoSource(){
+			var images = document.querySelectorAll('img');
+			images.forEach(function (img) {
+				img.onerror = function () {
+					img.classList.add('hidden');
+				};
+			});		
 		}
 
 		function PageNumberToString(page, lunghezza){
