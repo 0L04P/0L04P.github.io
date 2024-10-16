@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>TITOLO</title>
+  <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png"> <!--FAVICON-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!--script src='index.js'></script-->
+  <link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/><!--Icona per il mobile-->
+  <link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/><!--Icona per il mobile-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
+</head>
+
+<style>
+
+</style>
+ 
+<body  style = "background-color:#123456; color:#ffffff;">
+	<div class="container" style="">
+		<h4 id="titolo" style="margin-bottom: 20px">MBE API CHECK</h4><br><br><br><br>
+		<button class='btn btn-success' onclick='ChiamiApiReal();'>TEST API REAL</button>
+		
+		<button class='btn btn-warning' onclick='ChiamiApiFake();'>TEST API FAKE</button>
+	</div> 
+	<script>
+	const urlREAL = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlli';
+	const urlFAKE = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlliiiiii';
+	function pChiamiApi(url){
+		
+		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
+		
+		 $.ajax({			 
+			"crossDomain": true,
+			"async": false,
+			"url": url,
+			"method": "POST",
+			"data": MyJson,
+			"contentType": "application/json; charset=utf-8",
+			 
+			 success: function(output, status, xhr) {   
+				alert('Metodo trovato! (' + output.status.toString() + ')')			
+			 },
+			 error: function(output) {
+				
+				switch(output.status.toString().substring(0,1)){
+				case '4': 
+					alert('Error in API call: metodo non trovato! (' + output.status.toString() + ')')
+					break;
+				case '5': 
+					alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+					break;
+				}			
+			 }		
+		  }); 				    		
+	}
+	function ChiamiApiReal(){
+		pChiamiApi(urlREAL)	
+	}
+	function ChiamiApiFake(){
+		pChiamiApi(urlFAKE)	
+	}
+	</script>
+</body> 
+</html>
