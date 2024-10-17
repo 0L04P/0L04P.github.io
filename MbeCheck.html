@@ -43,7 +43,7 @@
 			"contentType": "application/json; charset=utf-8",
 			 
 			 success: function(output, status, xhr) {   
-				alert('Metodo trovato! (' + output.status.toString() + ')')			
+				alert('Metodo trovato! (' + xhr.status.toString() + ')\n\n' + output.d)			
 			 },
 			 error: function(output) {
 				
