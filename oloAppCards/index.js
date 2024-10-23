@@ -1,3 +1,7 @@
+$(document).ready(function(){
+	pPopolaCarte()
+});	
+
 function GetSoluzione(){
 	
 	$('.card').css('transform','rotateY(180deg)') 
