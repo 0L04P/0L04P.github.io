@@ -91,7 +91,8 @@ option{font-weight:bold;}
 	function Aggiungi(){		
 		let i = 0;		
 	 
-		let a = JSON.parse(localStorage["olo_Traduzioni"])						 
+		let a = JSON.parse(localStorage["olo_Traduzioni"])
+		if(a == undefined){a = [];}
 		let objParola = {
 			"parola": $('#txtDaTrad').val(),
 			"traduzioni" : []
