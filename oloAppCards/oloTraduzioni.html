@@ -91,34 +91,17 @@ option{font-weight:bold;}
 	function Aggiungi(){		
 		let i = 0;		
 	 
-		let a = JSON.parse(localStorage["olo_Traduzioni"])
-		//for (let i = 0; i< a.length; ++i){
-		while( i< a.length){
-			if (a[i].parola == $('#txtDaTrad').val()){
-			 
-				a[i].traduzioni.push($('#txtNuovaTrad').val());
-				localStorage["olo_Traduzioni"] = JSON.stringify(a);
-				//elenco()
-				$('.tradInput').val('')
-				return ''
-			}
-			++i;
-		}	
-		
-		if(i == a.length){
-			let objParola = {
-				"parola": $('#txtDaTrad').val(),
-				"traduzioni" : []
-			}
-			objParola.traduzioni.push($('#txtNuovaTrad').val())
-			a.push(objParola);
-			localStorage["olo_Traduzioni"] = JSON.stringify(a);
-			//elenco()
-			$('.tradInput').val('')
-			return ''
+		let a = JSON.parse(localStorage["olo_Traduzioni"])						 
+		let objParola = {
+			"parola": $('#txtDaTrad').val(),
+			"traduzioni" : []
 		}
-		
-		 
+		objParola.traduzioni.push($('#txtNuovaTrad').val())
+		a.push(objParola);
+		localStorage["olo_Traduzioni"] = JSON.stringify(a);
+		//elenco()
+		$('.tradInput').val('')
+		return ''		 		 
 	}
 	
 	function SalvaParola(){	 
