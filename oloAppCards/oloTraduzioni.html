@@ -92,7 +92,7 @@ option{font-weight:bold;}
 		let i = 0;		
 	 
 		let a = JSON.parse(localStorage["olo_Traduzioni"])
-		if(a == undefined){a = [];}
+		if(JSON.parse(localStorage["olo_Traduzioni"]).length == undefined){a = [];}
 		let objParola = {
 			"parola": $('#txtDaTrad').val(),
 			"traduzioni" : []
