@@ -10,7 +10,7 @@
 		"display": "fullscreen",
 		"icons": [
 			{
-				"src": "/icona.png",
+				"src": "/oloAppCards/icona.png",
 				"sizes": "512x512"
 			}
 		]
