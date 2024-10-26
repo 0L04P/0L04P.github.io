@@ -105,7 +105,7 @@
 		  navigator.serviceWorker.addEventListener('message', (event) => {
 			if (event.data && event.data.type === 'VERSION') {
 			  //console.log('Current version:', event.data.version);
-			  $('lblVersione').html('v.' + event.data.version)
+			  $('#lblVersione').html('v.' + event.data.version)
 			}
 		  });
 		}
