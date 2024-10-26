@@ -21,10 +21,10 @@ option{font-weight:bold;}
 </head>
 
 <style>
-*{ font-family: 'M PLUS 2', sans-serif;}
-*{		
-	font-weight:400;		
- }
+	*{ 
+		font-family: 'M PLUS 2', sans-serif;
+		font-weight:400;		
+	}
 	body{
 		height: 100vh;
 		display: flex;
@@ -33,7 +33,27 @@ option{font-weight:bold;}
 		padding-left:10vw;
 		background: #222;
 	}
-
+	.myBtn{
+		font-size:23px;
+	    display: inline-block;
+		margin-bottom: 0;
+		font-weight: 400;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		background-image: none;
+		border: 1px solid transparent;
+		padding: 6px 12px;		
+		line-height: 1.42857143;
+		border-radius: 4px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
 	.card{
 		height: 400px;
 		width: 80vw;
@@ -41,7 +61,6 @@ option{font-weight:bold;}
 		transition: all 1s linear;
 		transform-style: preserve-3d;		
 	}
-
 	.front,	.back{
 		height: 100%;
 		width: 100%;
@@ -54,7 +73,6 @@ option{font-weight:bold;}
 		position: absolute;
 		padding-top:20px;
 	}
-
 	.front{
 		background: #08aeea;
 		z-index: 2;
@@ -62,7 +80,6 @@ option{font-weight:bold;}
 		border:solid 2px #0000ff;
 		border-radius:5px;		
 	}
-
 	.back{
 		background: #311e43;
 		z-index: 1;
@@ -70,21 +87,35 @@ option{font-weight:bold;}
 		border:solid 2px #0000ff;
 		border-radius:5px;	
 	}
-
-	 .NoPad{padding:0}
+	.NoPad{
+		padding:0
+	}
 	.container{
 		perspective: 1000px;
+	}	
+	.ModalitaSelezionata{
+		box-shadow: inset 0px 0px 6px 4px #07f4ff;
 	}
-	.btn{
-	font-size:23px;
+	.lblEsito{
+		font-size: 25px; 
+		margin-left: -30px; 		
+		white-space: pre;
 	}
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
 	<div class="container NoPad" style='margin-top:-65px;'>			
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
-			<button class='btn btn-warning' onclick='window.location.href="oloTraduzioni.html"' style='width: 100%; margin-left: -34px; height: 50px;'>
+			<button class='myBtn btn-warning' onclick='window.location.href="oloTraduzioni.html"' style='width: 100%; margin-left: -34px; height: 50px;'>
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;TRADUZIONI
+			</button>
+		</div>	
+		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
+			<button id='btnModalitaInf' class='myBtn btn-warning' style='width: 40%; height: 45px; background: #ffa500; float:left;'>
+				<label style='font-size: 50px; margin-top: -20px;'>&infin;</label>
+			</button>
+			<button id='btnModalita10' class='myBtn btn-warning' style='width: 40%; height: 45px; background: #ffa500; margin-right: 5px;'>
+				<label style='font-size: 25px;'>10</label>
 			</button>
 		</div>	
 		<div class='col-xs-12 NoPad card'>			
@@ -93,27 +124,27 @@ option{font-weight:bold;}
 					<label id='lblParola'>A</label>
 				</div>
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'>
-					<button class='btn btn-primary' onclick='NextCard(0)' style='width: 90%'>LA SO</button>
+					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>LA SO</button>
 				</div>	
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
-					<button class='btn btn-danger' onclick='GetSoluzione()' style='width: 90%'>SOLUZIONE</button>
+					<button class='myBtn btn-danger' onclick='GetSoluzione()' style='width: 90%'>SOLUZIONE</button>
 				</div>
 							
 			</div>
 			<div class='col-xs-12 NoPad carta back'>
 				<div class='col-xs-12 NoPad' style='margin-top:50px; color:#8f8f8f;'>
-					<label id='lblParolaCopia'>A</label>
+					<label id='lblParolaCopia'></label>
 				</div>			
 				<div class='col-xs-12 NoPad' style='margin-top:20px;'>
-					<label  id='lblSoluzione'>ZZZZZZ</label>
+					<label  id='lblSoluzione'></label>
 				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
-					<button class='btn btn-success' onclick='NextCard(1)' style='width: 90%'>Next Card</button>
+					<button class='myBtn btn-success' onclick='NextCard(1)' style='width: 90%'>Next Card</button>
 				</div>				
 			</div>
 		</div>
 		<div class='col-xs-12 text-center NoPad' style='margin-top:20px;'>	
-			<label id='lblEsito' style='font-size: 25px; margin-left: -30px; display:none;'></label>
+			<label id='lblEsito' class='lblEsito'></label>
 		</div>		
 	</div> 
 </body> 

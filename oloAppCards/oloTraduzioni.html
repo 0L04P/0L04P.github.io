@@ -9,10 +9,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
-option{font-weight:bold;}
-</style>
+  <script src='oloTraduzioni.js'></script>
+  <style>
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	option{font-weight:bold;}
+  </style>
 </head>
 
 <style>
@@ -24,6 +25,7 @@ option{font-weight:bold;}
 	border-radius: 5px;
     border: solid 1px white;
     margin-top: 0.5px;
+	padding:0;
 }
 .tradInput{
 	height: 75px;   
@@ -42,11 +44,29 @@ option{font-weight:bold;}
     float: right;
     margin-top: 20px;
 }
+.btnElimina{
+	width: 45px;
+    font-size: 30px;
+    height: 45px;
+    line-height: 0;
+    margin-top: 6px;
+    font-weight: bold;
+	background-color:#ab7b37;
+}
+.btnModifica{
+	width: 45px;
+    font-size: 30px;
+    height: 45px;
+    line-height: 0;
+    margin-top: 6px;
+    font-weight: bold;
+	background-color:#82719d;
+}
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff; padding-top: 30px;">
 	<div class="container" class="trad">
-		<h4 id="titolo" style="color:#9ed519;">Traduttore</h4>
+		<h3 id="titolo" style="color:#9ed519;">Traduttore</h3>
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
 			<button class='btn btn-warning' onclick='Gioca()' style='width: 100%; margin-left: -23px; font-size:30px; height: 50px;'>
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;GIOCA
@@ -65,101 +85,11 @@ option{font-weight:bold;}
 		</div>
 		
 		
-		<div class='col-xs-12' id="elenco" style="margin-top:30px; font-size: 20px;">
+		<div class='col-xs-12' id="elenco" style="margin-top:30px; padding:0; font-size: 20px; width: 98vw; margin-left: -10px;">
 			 
 		</div>
 		<button onclick='CLEAR_LS();' class='btn btn-danger'>PULISCI LOCAL STORAGE</button>
-	</div> 
-	
- 
-	
-	<script>	
-	$(document).ready(function(){
-	 
-		if(localStorage["olo_Traduzioni"] === undefined || localStorage["olo_Traduzioni"] === 'undefined'){
-			localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
-		}
-		elenco()
-	
-	})
-	
-	function ClearLS(){
-		localStorage["olo_Traduzioni"] = undefined;
-		 location.reload();
-	}
-	
-	function Aggiungi(){		
-		let i = 0;		
-	 
-		let a = JSON.parse(localStorage["olo_Traduzioni"])
-		if(JSON.parse(localStorage["olo_Traduzioni"]).length == undefined){a = [];}
-		let objParola = {
-			"parola": $('#txtDaTrad').val(),
-			"traduzioni" : []
-		}
-		objParola.traduzioni.push($('#txtNuovaTrad').val())
-		a.push(objParola);
-		localStorage["olo_Traduzioni"] = JSON.stringify(a);
-		//elenco()
-		$('.tradInput').val('')
-		return ''		 		 
-	}
-	
-	function SalvaParola(){	 
-		let objParola = {
-			"parola": $('#txtDaTrad').val(),
-			"traduzioni" : []
-		}
-		
-		if($('#lblTraduzione1').text() != '') objParola.traduzioni.push($('#lblTraduzione1').text())
-		if($('#lblTraduzione1').text() != '') objParola.traduzioni.push($('#lblTraduzione1').text())
-					
-		//leggo il local storage e creo un oggetto ad hoc
-		debugger;
-		let tradSalvate = JSON.parse(localStorage["olo_Traduzioni"]);
-		
-		tradSalvate.traduzioni.push(objParola)
-
-		
-		//rendo l'oggetto javascript una stringa
-		localStorage["olo_Traduzioni"] = JSON.stringify(tradSalvate);		
-	elenco()
-	}	
-	
-	
-	function elenco(){
-	//$('#elenco').fadeOut()
-	a = JSON.parse(localStorage["olo_Traduzioni"])
-	let sHTML = ''
-		for (i=a.length -1; i>= 0; --i){
-			sHTML += '<div class="col-xs-12 parolaCercata">'
-			sHTML += '<b>' + a[i].parola  + '</b><br>'
-			//sHTML += a[i].traduzione_1 +'<br>'
-			//if(a[i].traduzione_2 != a[i].traduzione_1) sHTML +=  a[i].traduzione_2
-			for (j = 0; j< a[i].traduzioni.length; ++j){
-				sHTML += a[i].traduzioni[j] +'<br>'
-			}
-			sHTML += '</div>'						
-		}
-		 
-		$('#elenco').html(sHTML)
-		$('#elenco').fadeIn()
-	}
-	
-	function Gioca(){ 
-		window.location.href = 'oloAppCards.html';
-	}
-	
-	function Visualizza(){
-		$('#lblTraduzione1').css('display', '');
-	}
-	
-	function CLEAR_LS(){
-		localStorage["olo_Traduzioni"] = undefined
-		location.reload();
-	
-	}
-	</script>
+	</div> 	
 	<script>
 		if('serviceWorker' in navigator) {
 		  navigator.serviceWorker.register('/oloAppCards/sw.js', { scope: '/oloAppCards/' });
