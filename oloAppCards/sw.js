@@ -1,4 +1,5 @@
 const CACHE_NAME = `oloAppCards_CACHE`;
+self.VERSION = '1';
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
@@ -42,4 +43,10 @@ self.addEventListener('fetch', event => {
         }
     }
   })());
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.source.postMessage({ type: 'VERSION', version: self.VERSION });
+  }
 });

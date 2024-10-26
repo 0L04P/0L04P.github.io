@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>oloAppCards - Traduzioni</title>
+  <title>TITOLO DA SCRIVERE</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -90,10 +90,24 @@
 			 
 		</div>
 		<button onclick='CLEAR_LS();' class='btn btn-danger'>PULISCI LOCAL STORAGE</button>
+		<div class='col-xs-12 text-center NoPad' >
+			<label id='lblVersione'></label>
+		</div>
 	</div> 	
 	<script>
 		if('serviceWorker' in navigator) {
 		  navigator.serviceWorker.register('/oloAppCards/sw.js', { scope: '/oloAppCards/' });
+		  
+		  navigator.serviceWorker.ready.then((registration) => {
+			registration.active.postMessage({ type: 'GET_VERSION' });
+		  });
+
+		  navigator.serviceWorker.addEventListener('message', (event) => {
+			if (event.data && event.data.type === 'VERSION') {
+			  //console.log('Current version:', event.data.version);
+			  $('lblVersione').html('v.' + event.data.version)
+			}
+		  });
 		}
 	</script>	
 </body> 

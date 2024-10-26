@@ -14,6 +14,9 @@ function ClearLS(){
 
 function Aggiungi(){		
 	let a = JSON.parse(localStorage["olo_Traduzioni"])
+	if(a.length == undefined){
+		a = [];
+	}
 	let objParola = {
 		"parola": setInizialeMaiuscola($('#txtDaTrad').val()),
 		"traduzioni" : []
