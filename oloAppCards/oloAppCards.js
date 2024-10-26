@@ -114,7 +114,11 @@ function pSetRis(){
 	let testo;
 	if(esatte > 0 || sbagliate > 0){
 		t = parseInt(esatte) + parseInt(sbagliate);
-		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;		
+		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;	
+		if(modalita > 0){
+			let mancanti = modalita - esatte - sbagliate;
+			testo += '\n' + '(Mancanti: ' + mancanti + ')';
+		}	
 	}else{
 		//partita non ancora avviata		
 		t = (modalita > 0) ? modalita : '-';		
