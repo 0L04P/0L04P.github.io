@@ -44,6 +44,11 @@ function ModificaParolaDaArray(index){
 	};		
 }	
 
+function Pulisci(){
+	$('#txtDaTrad').val('')
+	$('#txtNuovaTrad').val('')
+}
+
 function elenco(){
 	let a = JSON.parse(localStorage["olo_Traduzioni"])
 	let sHTML = ''
