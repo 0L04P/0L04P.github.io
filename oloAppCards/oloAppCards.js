@@ -2,7 +2,7 @@ var esatte, sbagliate;
 var modalita;
 var array_n_parole;
 var index_n_parole;
-const NUM_10 = 3;
+const NUM_10 = 10;
 
 $(document).ready(function(){
 	initVariabiliRis();			
