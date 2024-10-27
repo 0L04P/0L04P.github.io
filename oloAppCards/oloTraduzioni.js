@@ -4,7 +4,7 @@ $(document).ready(function(){
 	});	
 	
 	btnLeggiFile.addEventListener('click', async () => {		
-		pLeggiFile('', 'elenco')
+		pLeggiFile('', elenco) //Le callback vanno passate SENZA apici, non come stringa!
 	});
 	
 	btnScriviFile.addEventListener('click', async () => {		
