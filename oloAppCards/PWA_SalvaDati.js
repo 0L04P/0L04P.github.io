@@ -31,7 +31,7 @@ async function pCreaFile(estensione = 'txt') {
 }
 
 
-async function pLeggiFile(estensione = 'txt') {
+async function pLeggiFile(estensione = 'txt', callbackFn = '') {
     try {
         // Opens a file picker for text files
         const [fileHandle] = await window.showOpenFilePicker({
@@ -50,6 +50,7 @@ async function pLeggiFile(estensione = 'txt') {
 		localStorage['olo_Traduzioni'] = [];
 		localStorage['olo_Traduzioni'] = content;
 		console.log("File content:" + content);	
+	    if(callbackFn != ''){ callbackFn(); }
 		
         // You can process the content here
     } catch (error) {
