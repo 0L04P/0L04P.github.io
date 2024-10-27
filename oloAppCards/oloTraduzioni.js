@@ -11,7 +11,7 @@ $(document).ready(function(){
 		//[fileHandle] = await window.showOpenFilePicker();
 		//let testo = 'PROVAAAAAAAAAA';
 		let testo = localStorage['olo_Traduzioni'];
-		pScriviFile(testo);
+		pScriviFile(testo, elenco);
 	});	
 	
 	btnDuplicaLS.addEventListener('click', async () => {		
