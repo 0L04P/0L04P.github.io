@@ -11,7 +11,8 @@ async function pScriviFile(contents) {
 }
 
 
-async function pCreaFile(estensione = 'txt') {
+async function pCreaFile(estensione = '') {
+   if(estensione == ''){estensione = 'txt'}
     const options = {
         types: [{
             description: 'Text Files',
@@ -31,7 +32,8 @@ async function pCreaFile(estensione = 'txt') {
 }
 
 
-async function pLeggiFile(estensione = 'txt', callbackFn = '') {
+async function pLeggiFile(estensione = '', callbackFn = '') {
+    if(estensione == ''){estensione = 'txt'}
     try {
         // Opens a file picker for text files
         const [fileHandle] = await window.showOpenFilePicker({
