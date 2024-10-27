@@ -4,14 +4,14 @@ $(document).ready(function(){
 	});	
 	
 	btnLeggiFile.addEventListener('click', async () => {		
-		pLeggiFile()
+		pLeggiFile('', 'elenco')
 	});
 	
 	btnScriviFile.addEventListener('click', async () => {		
 		//[fileHandle] = await window.showOpenFilePicker();
 		//let testo = 'PROVAAAAAAAAAA';
 		let testo = localStorage['olo_Traduzioni'];
-		pScriviFile(testo, elenco);
+		pScriviFile(testo);
 	});	
 	
 	btnDuplicaLS.addEventListener('click', async () => {		
