@@ -1,5 +1,22 @@
 $(document).ready(function(){
- 
+ 	btnCreaFile.addEventListener('click', async () => {		
+		pCreaFile()
+	});	
+	
+	btnLeggiFile.addEventListener('click', async () => {		
+		pLeggiFile()
+	});
+	
+	btnScriviFile.addEventListener('click', async () => {		
+		//[fileHandle] = await window.showOpenFilePicker();
+		//let testo = 'PROVAAAAAAAAAA';
+		let testo = localStorage['olo_Traduzioni'];
+		pScriviFile(testo);
+	});	
+	
+	btnDuplicaLS.addEventListener('click', async () => {		
+		pDuplicaLS()
+	});
 	if(localStorage["olo_Traduzioni"] === undefined || localStorage["olo_Traduzioni"] === 'undefined'){
 		localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
 	}
@@ -11,7 +28,9 @@ function ClearLS(){
 	localStorage["olo_Traduzioni"] = undefined;
 	 location.reload();
 }
-
+function pDuplicaLS(){
+	localStorage["olo_Traduzioni_" + Date.now()] = localStorage["olo_Traduzioni"] ;	
+}
 function Aggiungi(){		
 	let a = JSON.parse(localStorage["olo_Traduzioni"])
 	if(a.length == undefined){
