@@ -112,3 +112,16 @@ function CLEAR_LS(){
 function setInizialeMaiuscola(a){
 	return a.substring(0,1).toString().toUpperCase() + a.substring(1)
 }
+
+function ApriBackup(){
+	
+	if($('#divBackup').is(':visible')){
+		$('#divBackup').addClass('hidden')
+		
+		
+	}else{
+		$('#divBackup').removeClass('hidden')
+		
+	}
+	
+}
