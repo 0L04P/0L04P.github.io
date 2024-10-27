@@ -67,6 +67,8 @@
 <body  style = "background-color:#123456; color:#ffffff; padding-top: 30px;">
 	<div class="container" class="trad">
 		<h3 id="titolo" style="color:#9ed519;">Traduttore</h3>
+		<button class='btn btn2 btn-primary' onclick='ApriBackup();' style='float: right; background-color: #584463; margin-top: -60px; margin-bottom: 15px;'>BACKUP</button>	
+		
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
 			<button class='btn btn-warning' onclick='Gioca()' style='width: 100%; margin-left: -23px; font-size:30px; height: 50px;'>
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;GIOCA
@@ -84,7 +86,22 @@
 			<button class='btn btn2 btn-primary' onclick='Aggiungi();'>AGGIUNGI</button>		
 			<button class='btn btn2 btn-primary' onclick='Pulisci();' style='float: right; background-color: #584463'>PULISCI</button>					
 		</div>
-		
+		<div id='divBackup' class='col-xs-12 NoPad hidden'>
+				<button class='btn btn2 btn-danger' id='btnCreaFile' style='opacity:1; width:100%;'>
+					CREA FILE DI BACKUP
+				</button>
+				<br><br>
+				<button class='btn btn2 btn-success' id='btnScriviFile' style='opacity:1; width:100%;'>
+					SCRIVI FILE DI BACKUP
+				</button>
+				<br><br>			
+				<button class='btn btn2 btn-warning' id='btnLeggiFile' style='opacity:1; width:100%;'>
+					AGGIORNA DATI DA BACKUP
+				</button>	
+				<button class='btn btn2 btn-info' id='btnDuplicaLS' style='opacity:1; width:100%;'>
+					DUPLICA LS
+				</button>	
+			</div>
 		
 		<div class='col-xs-12' id="elenco" style="margin-top:30px; padding:0; font-size: 20px; width: 98vw; margin-left: -10px;">
 			 
