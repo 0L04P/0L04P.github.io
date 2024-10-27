@@ -1,4 +1,4 @@
-self.VERSION = '10';
+self.VERSION = '11';
 const CACHE_NAME = `oloAppCards_CACHE_v` + self.VERSION;
 
 // Use the install event to pre-cache all initial resources.
