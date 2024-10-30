@@ -1,22 +1,25 @@
 $(document).ready(function(){
- 	btnCreaFile.addEventListener('click', async () => {		
-		pCreaFile()
-	});	
-	
-	btnLeggiFile.addEventListener('click', async () => {		
-		pLeggiFile('', elenco) //Le callback vanno passate SENZA apici, non come stringa!
+ 
+	 $('#txtDaTrad').on('change', function(){		 
+		 pCambiatoDaTrad();
+	 });
+	  $('#txtDaTrad').on('dblclick', function(){		 
+		 pasteFromClipboard('txtDaTrad');
+	 });
+	 
+	const pasteButton = document.querySelector('#paste-button');
+	pasteButton.addEventListener('click', async () => {
+	   try {
+		   debugger;
+		 const t = await navigator.clipboard.readText()
+		// document.querySelector('txtDaTrad').value += text;
+		 $('#txtNuovaTrad').val(t)
+	   } catch (error) {
+		 console.log('Failed to read clipboard');
+	   }
 	});
-	
-	btnScriviFile.addEventListener('click', async () => {		
-		//[fileHandle] = await window.showOpenFilePicker();
-		//let testo = 'PROVAAAAAAAAAA';
-		let testo = localStorage['olo_Traduzioni'];
-		pScriviFile(testo);
-	});	
-	
-	btnDuplicaLS.addEventListener('click', async () => {		
-		pDuplicaLS()
-	});
+	 
+ 
 	if(localStorage["olo_Traduzioni"] === undefined || localStorage["olo_Traduzioni"] === 'undefined'){
 		localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
 	}
@@ -24,13 +27,30 @@ $(document).ready(function(){
 
 })
 
+function pCambiatoDaTrad(){
+	
+	console.log($('#txtDaTrad').val())
+	let a = JSON.parse(localStorage['olo_Traduzioni']).filter(o => o.parola.trim().toLowerCase() == $('#txtDaTrad').val().trim().toLowerCase())
+	if(a.length > 0){	
+		$('#txtNuovaTrad').val(a[0].traduzioni[0]);		
+	}
+}
+
+function pasteFromClipboard(id){
+	try {
+     const text =   navigator.clipboard.readText()
+     document.querySelector(id).value += text;
+     
+   } catch (error) {
+     alert('Failed to read clipboard');
+   }
+}
+
 function ClearLS(){
 	localStorage["olo_Traduzioni"] = undefined;
 	 location.reload();
 }
-function pDuplicaLS(){
-	localStorage["olo_Traduzioni_" + Date.now()] = localStorage["olo_Traduzioni"] ;	
-}
+
 function Aggiungi(){		
 	let a = JSON.parse(localStorage["olo_Traduzioni"])
 	if(a.length == undefined){
@@ -72,7 +92,7 @@ function Pulisci(){
 }
 
 function elenco(){
-	let a = JSON.parse(localStorage["olo_Traduzioni"])
+	let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => (a.parola.trim().toLowerCase() < b.parola.trim().toLowerCase()) ? 1 : -1  )
 	let sHTML = ''
 	for (i=a.length -1; i>= 0; --i){
 		sHTML += '<div class="col-xs-12 parolaCercata">'
@@ -111,17 +131,4 @@ function CLEAR_LS(){
 
 function setInizialeMaiuscola(a){
 	return a.substring(0,1).toString().toUpperCase() + a.substring(1)
-}
-
-function ApriBackup(){
-	
-	if($('#divBackup').is(':visible')){
-		$('#divBackup').addClass('hidden')
-		
-		
-	}else{
-		$('#divBackup').removeClass('hidden')
-		
-	}
-	
 }
