@@ -25,6 +25,12 @@
 		<h4 id="titolo" style="margin-bottom: 20px">MBE API CHECK</h4><br><br><br><br>
 		<button class='btn btn-success' onclick='ChiamiApiReal();'>TEST API MBE APP</button>		
 	</div> 
+	
+	<div class="container" style="">
+		<h4 id="titolo" style="margin-bottom: 20px">MBE API CHECK - ogni 10 minuti</h4><br><br><br><br>
+		<button class='btn btn-success' onclick='ChiamiApiReal();'>TEST API MBE APP</button>		
+	</div> 
+	
 	<script>
 	const urlREAL = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlli';
 	const urlFAKE = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlliiiiii';
@@ -56,12 +62,54 @@
 			 }		
 		  }); 				    		
 	}
+	
+	function pCheckApi(url){
+		
+		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
+		a = new Date()
+		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
+		console.log(ora)
+		 $.ajax({			 
+			"crossDomain": true,
+			"async": false,
+			"url": url,
+			"method": "POST",
+			"data": MyJson,
+			"contentType": "application/json; charset=utf-8",
+			 
+			 success: function(output, status, xhr) {   
+				console.log("TUTTO OK")		
+			 },
+			 error: function(output) {
+				
+				switch(output.status.toString().substring(0,1)){
+				case '4': 
+					console.log('Error in API call: metodo non trovato! (' + output.status.toString() + ')')					
+					break;
+				case '5': 
+					console.log('Error in API call:  errore generico! (' + output.status.toString() + ')')
+					break;
+				}			
+			 }		
+		  }); 				    		
+	}
+	
 	function ChiamiApiReal(){
 		pChiamiApi(urlREAL)	
 	}
 	function ChiamiApiFake(){
 		pChiamiApi(urlFAKE)	
 	}
+		
+	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){
+		let iMilliSecondi = 60 * 1000 * iMinuti;
+		console.log("Avviato timer di " + iMinuti + " minuti")		
+		setTimeout(function(){		
+			pCheckApi(urlREAL);
+			VerificaCheMbeFunzionaOgniTot(iMinuti)
+		}, iMilliSecondi);			
+	}
+	
 	</script>
 </body> 
 </html>
