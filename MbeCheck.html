@@ -27,8 +27,9 @@
 	</div> 
 	
 	<div class="container" style="">
-		<h4 id="titolo" style="margin-bottom: 20px">MBE API CHECK - ogni 10 minuti</h4><br><br><br><br>
-		<button class='btn btn-success' onclick='VerificaCheMbeFunzionaOgniTot(10);'>TEST API MBE APP</button>		
+		<br>
+		<button class='btn btn-success' onclick='ChiamiApiReal();'>MBE API CHECK - ogni 10 minuti</button>	
+		<label id='lblEsito'></label>
 	</div> 
 	
 	<script>
@@ -78,16 +79,18 @@
 			"contentType": "application/json; charset=utf-8",
 			 
 			 success: function(output, status, xhr) {   
-				console.log("TUTTO OK")		
+				scriviEsito(ora + ' - ' + "TUTTO OK")		
 			 },
 			 error: function(output) {
 				
 				switch(output.status.toString().substring(0,1)){
 				case '4': 
-					console.log('Error in API call: metodo non trovato! (' + output.status.toString() + ')')					
+					console.log('Error in API call: metodo non trovato! (' + output.status.toString() + ')')	
+					scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + ')')					
 					break;
 				case '5': 
 					console.log('Error in API call:  errore generico! (' + output.status.toString() + ')')
+					scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + ')')
 					break;
 				}			
 			 }		
@@ -101,13 +104,20 @@
 		pChiamiApi(urlFAKE)	
 	}
 		
-	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){
+	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){	
 		let iMilliSecondi = 60 * 1000 * iMinuti;
-		console.log("Avviato timer di " + iMinuti + " minuti")		
+		console.log("Avviato timer di " + iMinuti + " minuti")	
+		scriviEsito(ora + ' - ' + "TUTTO OK")		
 		setTimeout(function(){		
 			pCheckApi(urlREAL);
 			VerificaCheMbeFunzionaOgniTot(iMinuti)
 		}, iMilliSecondi);			
+	}
+	
+	function scriviEsito(testo){
+		let oldtesto = $('#lblEsito').text()
+		$('#lblEsito').text(oldtesto + '\n' + testo)
+	
 	}
 	
 	</script>
