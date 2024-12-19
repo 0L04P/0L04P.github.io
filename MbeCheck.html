@@ -107,6 +107,8 @@
 	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){	
 		let iMilliSecondi = 60 * 1000 * iMinuti;
 		console.log("Avviato timer di " + iMinuti + " minuti")	
+		a = new Date()
+		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
 		scriviEsito(ora + ' - ' + "TUTTO OK")		
 		setTimeout(function(){		
 			pCheckApi(urlREAL);
