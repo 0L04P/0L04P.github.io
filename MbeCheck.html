@@ -29,6 +29,7 @@
 	<div class="container" style="">
 		<br>
 		<button class='btn btn-success' onclick='VerificaCheMbeFunzionaOgniTot(10);'>MBE API CHECK - ogni 10 minuti</button>	
+		<br/>
 		<label id='lblEsito' style='white-space: pre;'></label>
 	</div> 
 	
@@ -105,6 +106,7 @@
 	}
 		
 	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){	
+		VerificaCheMbeFunzionaOgniTot(iMinuti);
 		let iMilliSecondi = 60 * 1000 * iMinuti;		
 		let a = new Date()
 		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
