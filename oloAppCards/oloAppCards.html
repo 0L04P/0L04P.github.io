@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>TITOLO</title>
+  <title>OloAppCards-GIOCO</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png"> <!--FAVICON-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -95,6 +95,7 @@ option{font-weight:bold;}
 	}	
 	.ModalitaSelezionata{
 		box-shadow: inset 0px 0px 6px 4px #07f4ff;
+		background-color: #7792ad !important;
 	}
 	.lblEsito{
 		font-size: 25px; 
@@ -122,10 +123,7 @@ option{font-weight:bold;}
 			<div class='col-xs-12 NoPad carta front'>												
 				<div class='col-xs-12 NoPad' style='margin-top:50px;'>
 					<label id='lblParola'>A</label>
-				</div>
-				<div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'>
-					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>LA SO</button>
-				</div>	
+				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
 					<button class='myBtn btn-danger' onclick='GetSoluzione()' style='width: 90%'>SOLUZIONE</button>
 				</div>
@@ -137,6 +135,9 @@ option{font-weight:bold;}
 				</div>			
 				<div class='col-xs-12 NoPad' style='margin-top:20px;'>
 					<label  id='lblSoluzione'></label>
+				</div>	
+				<div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'>
+					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>Indovinata</button>
 				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
 					<button class='myBtn btn-success' onclick='NextCard(1)' style='width: 90%'>Next Card</button>
@@ -162,7 +163,7 @@ option{font-weight:bold;}
 		  navigator.serviceWorker.addEventListener('message', (event) => {
 			if (event.data && event.data.type === 'VERSION') {
 			  //console.log('Current version:', event.data.version);
-			  $('#lblVersione').html('v.' + event.data.version)
+			  $('lblVersione').html('v.' + event.data.version)
 			}
 		  });
 		}

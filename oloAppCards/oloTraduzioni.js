@@ -65,6 +65,7 @@ function Aggiungi(){
 	localStorage["olo_Traduzioni"] = JSON.stringify(a);
 	elenco()
 	$('.tradInput').val('')
+	IndicizzaParole();
 	return ''
 }
 
@@ -91,8 +92,29 @@ function Pulisci(){
 	$('#txtNuovaTrad').val('')
 }
 
+function MyTrim(s){
+	try{
+		if(s != undefined){
+		return s.parola.trim()
+	}
+	return "zzz"
+		
+	}catch(exc){
+		let err  = '';
+		debugger;
+		return "XXX"
+	}
+	
+}
+
 function elenco(){
-	let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => (a.parola.trim().toLowerCase() < b.parola.trim().toLowerCase()) ? 1 : -1  )
+	
+	let b = localStorage['olo_Traduzioni'] != undefined && JSON.parse(localStorage['olo_Traduzioni']).length > 0;
+	if(b == false){return false;}
+	
+	let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => 
+				(MyTrim(a).toLowerCase() < b.parola.trim().toLowerCase())
+				? 1 : -1  )
 	let sHTML = ''
 	for (i=a.length -1; i>= 0; --i){
 		sHTML += '<div class="col-xs-12 parolaCercata">'
@@ -131,4 +153,47 @@ function CLEAR_LS(){
 
 function setInizialeMaiuscola(a){
 	return a.substring(0,1).toString().toUpperCase() + a.substring(1)
+}
+
+
+function IndicizzaParole(){
+	if(localStorage["olo_Traduzioni"] != undefined){
+		a = JSON.parse(localStorage["olo_Traduzioni"]);
+		if(a.length > 0){
+			let counter = 1;
+			a.forEach(o => { o["counter"] = counter; counter += 1; })
+			localStorage["olo_Traduzioni"] = JSON.stringify(a);			
+		}	else{
+		console.log("a.length = 0 ")
+	}		
+	}else{
+		console.log("olo_Traduzioni UNDEFINED")
+	}	
+}
+
+
+
+
+function ImportaTradDefault(){
+	if(typeof TRAD_DEFAULT !== 'undefined'){
+		let oldArrayTrad = JSON.parse(localStorage['olo_Traduzioni']);
+		let objNewTrad = JSON.parse(TRAD_DEFAULT);	
+		
+		let b = localStorage['olo_Traduzioni'] != undefined && JSON.parse(localStorage['olo_Traduzioni']).length > 0;
+		if(b == false){
+			localStorage['olo_Traduzioni'] = TRAD_DEFAULT;
+			elenco();
+			return true;
+		}		
+			
+		const newArrayTrad = oldArrayTrad.concat(objNewTrad);
+		
+		localStorage['olo_Traduzioni'] = JSON.stringify(newArrayTrad);
+		elenco();
+		return true;
+		
+	}else{
+		alert('TRAD_DEFAULT non trovata!')
+		return false;
+	}		
 }

@@ -44,8 +44,10 @@ function initVariabiliRis(){
 }
 
 function GetSoluzione(){
+	/*
 	sbagliate += 1;
 	pSetRis();
+	*/
 	$('.card').css('transform','rotateY(180deg)') 
 }
 
@@ -54,23 +56,30 @@ function NextCard(i){
 	if(modalita == -1){
 		//non faccio nulla
 	}else{
-		//incremento il vursore sull'array finito di parole
+		//incremento il cursore sull'array finito di parole
 		index_n_parole += 1;
 	}
 	
 	if(i==0){
-		//NON ho guardato la soluzione
+		//HO INDOVINATO
 		esatte += 1;
 		pSetRis();
-		pPopolaCarte()		
+		//pPopolaCarte()	
+		pCambiacarta()		
 	}else{
-		//Ho guardato la soluzione		
-		setTimeout(function(){
-			pPopolaCarte()				
-		}, 500) 
-		$('.card').css('transform','') 				
+		//HO SBAGLIATO
+		sbagliate += 1;
+		pSetRis();		
+		pCambiacarta()			
 	}
 	
+}
+
+function pCambiacarta(){	
+	setTimeout(function(){
+			pPopolaCarte()				
+		}, 500) 
+		$('.card').css('transform','') 
 }
 
 function pPopolaCarte(){
@@ -105,7 +114,6 @@ function pPopolaCarte_n(){
 			//gioco finito
 			alert('FINITO')
 		}
-							
 	}	
 }
 
@@ -114,11 +122,7 @@ function pSetRis(){
 	let testo;
 	if(esatte > 0 || sbagliate > 0){
 		t = parseInt(esatte) + parseInt(sbagliate);
-		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;	
-		if(modalita > 0){
-			let mancanti = modalita - esatte - sbagliate;
-			testo += '\n' + '(Mancanti: ' + mancanti + ')';
-		}	
+		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;		
 	}else{
 		//partita non ancora avviata		
 		t = (modalita > 0) ? modalita : '-';		
@@ -136,30 +140,59 @@ function pCreaSubarrayDiNParole(n){
 	if(arrCompleto == undefined){
 		return []
 	}
-	
+	//15/12/2024 - escludo le parole già usate
+	let arrEscludiGiaUsate = [];
+	let arrEscludiGiaUsateNEW = [];	
+	if(sessionStorage["arrEscludiGiaUsate"] == undefined){
+		sessionStorage["arrEscludiGiaUsate"] = '[]';
+	}
+	let objEscudi = JSON.parse(sessionStorage["arrEscludiGiaUsate"])
+	/*if( objEscudi != undefined && objEscudi.length > 0 && objEscudi.length <= 3*NUM_10){				
+		arrEscludiGiaUsate = [1,2,3];
+	}else{
+		
+	}*/
+		
 	let lungh = arrCompleto.length
 	let arr = [];
 	let i;
 	if(n >= lungh){
 		return arrCompleto
 	}
-	let MAXIMUM = 30;
+	let MAXIMUM = 3*NUM_10;
 	let iter = 0;
 	for(let j = 0; j<n; ++j){
-		//console.log('j='+ j)
-		i = Math.floor(Math.random() * lungh);	
 		
-		if(arr.indexOf(arrCompleto[i]) == -1){			
-			arr[j] = arrCompleto[i];				
+		i = Math.floor(Math.random() * lungh);	
+		if(false && arrEscludiGiaUsate.length > 0){ //per ora NO nuovo siluppo da finire e testare!
+			//   ESCLUSIONI
+			if(arrEscludiGiaUsate.includes(arrCompleto[i]["counter"].toString())){
+				console.log("VADO OLTRE " + arrCompleto[i]["counter"])
+			}else{
+				//Aggiungo
+				if(arr.indexOf(arrCompleto[i]) == -1){			
+					arr[j] = arrCompleto[i];				
+				}else{
+					j = j - 1;			
+				}
+			}
+			
+			
 		}else{
-			j = j - 1;
-			//console.log('j rimane uguale=')
-		}	
-		//console.log('-----------------')	
+			//NO ESCLUSIONI
+			//Aggiungo
+			if(arr.indexOf(arrCompleto[i]) == -1){			
+				arr[j] = arrCompleto[i];				
+			}else{
+				j = j - 1;			
+			}
+			arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"])
+		}			
+		
 		iter +=1;
-		if(iter == 30){j = n+1; console.log('*************')	}		
+		if(iter == MAXIMUM){j = n+1; console.log('*************')	}		
 	}
-	
+	sessionStorage["arrEscludiGiaUsate"] = JSON.stringify(arrEscludiGiaUsate);
 	return arr;
 	
 }
