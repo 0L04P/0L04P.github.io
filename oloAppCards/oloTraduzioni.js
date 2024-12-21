@@ -9,8 +9,7 @@ $(document).ready(function(){
 	 
 	const pasteButton = document.querySelector('#paste-button');
 	pasteButton.addEventListener('click', async () => {
-	   try {
-		   debugger;
+	   try {		   
 		 const t = await navigator.clipboard.readText()
 		// document.querySelector('txtDaTrad').value += text;
 		 $('#txtNuovaTrad').val(t)
@@ -18,14 +17,40 @@ $(document).ready(function(){
 		 console.log('Failed to read clipboard');
 	   }
 	});
+	
+	document.getElementById("playButton").addEventListener("click", function () {
+      pPronunciaParola()	  
+    });
 	 
  
 	if(localStorage["olo_Traduzioni"] === undefined || localStorage["olo_Traduzioni"] === 'undefined'){
 		localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
 	}
-	elenco()
+	elenco();
 
 })
+
+function pPronunciaParola(){
+	// Get the input word and language
+      const word = $('#txtDaTrad').val().trim();
+      const language = "en";
+
+      if (!word) {
+        alert("Nessuna parola selezionata!!!");
+        return false;
+      }
+	  
+      // Construct the TTS URL
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(
+        word
+      )}&tl=${language}`;
+
+      // Set the audio source to the constructed URL
+      const audioPlayer = document.getElementById("audioPlayer");
+      audioPlayer.src = ttsUrl;      
+      // Play the audio
+      audioPlayer.play();
+}
 
 function pCambiatoDaTrad(){
 	
@@ -78,13 +103,26 @@ function EliminaParolaDaArray(index){
 }	
 
 function ModificaParolaDaArray(index){
+	//index = index - 1;
 	let a = JSON.parse(localStorage['olo_Traduzioni']);
-	$('#txtDaTrad').val(a[index].parola)
-	$('#txtNuovaTrad').val(a[index].traduzioni[0])
+	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
+	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
 	
-	if(confirm('Eliminare la parola salvata?')){
+	/*if(confirm('Eliminare la parola salvata?')){
 		EliminaParolaDaArray(index);
-	};		
+	};	*/	
+}
+function PronunciaParola(index){
+	let ID = 'btnPlay_'+index;	
+	$('#' + ID).fadeOut();
+	setTimeout(function(){
+		$('#' + ID).fadeIn();
+	}, 1000);
+	let a = JSON.parse(localStorage['olo_Traduzioni']);
+	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
+	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
+	
+	pPronunciaParola()
 }	
 
 function Pulisci(){
@@ -100,8 +138,7 @@ function MyTrim(s){
 	return "zzz"
 		
 	}catch(exc){
-		let err  = '';
-		debugger;
+		let err  = '';		
 		return "XXX"
 	}
 	
@@ -118,12 +155,15 @@ function elenco(){
 	let sHTML = ''
 	for (i=a.length -1; i>= 0; --i){
 		sHTML += '<div class="col-xs-12 parolaCercata">'
-		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
+		sHTML += '	<div class="col-xs-6" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
 			sHTML += a[i].traduzioni[j] +'<br>'
 		}
 		sHTML += '	</div>'		
+		sHTML += '	<div class="col-xs-2">'
+		sHTML += '		<button id="btnPlay_' + i + '" onclick="PronunciaParola(' + i + ')" class="btn btn-success btnPronunciaParola"><span class="glyphicon glyphicon-play"></span></button>'
+		sHTML += '	</div>'	
 		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button onclick="ModificaParolaDaArray(' + i + ')" class="btn btn-warning btnModifica">M</button>'
 		sHTML += '	</div>'	
