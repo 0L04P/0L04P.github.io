@@ -41,9 +41,12 @@ function pPronunciaParola(){
       }
 	  
       // Construct the TTS URL
-      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(
+      const OLD_ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(
         word
       )}&tl=${language}`;
+
+  const ttsUrl = `https://cors-anywhere.herokuapp.com/https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(word)}&tl=${language}`;
+
 
       // Set the audio source to the constructed URL
       const audioPlayer = document.getElementById("audioPlayer");
