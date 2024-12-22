@@ -56,12 +56,14 @@ function pPronunciaParola(){
 }
 
 function pCambiatoDaTrad(){
-	
-	console.log($('#txtDaTrad').val())
-	let a = JSON.parse(localStorage['olo_Traduzioni']).filter(o => o.parola.trim().toLowerCase() == $('#txtDaTrad').val().trim().toLowerCase())
-	if(a.length > 0){	
-		$('#txtNuovaTrad').val(a[0].traduzioni[0]);		
-	}
+	let arr = JSON.parse(localStorage['olo_Traduzioni']).traduzioni.length
+	if(arr.length > 0){
+		console.log($('#txtDaTrad').val())
+		let a = arr.filter(o => o.parola.trim().toLowerCase() == $('#txtDaTrad').val().trim().toLowerCase())
+		if(a.length > 0){	
+			$('#txtNuovaTrad').val(a[0].traduzioni[0]);		
+		}
+	}	
 }
 
 function pasteFromClipboard(id){
