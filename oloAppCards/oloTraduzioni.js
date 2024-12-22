@@ -160,13 +160,13 @@ function elenco(){
 	let sHTML = ''
 	for (i=a.length -1; i>= 0; --i){
 		sHTML += '<div class="col-xs-12 parolaCercata">'
-		sHTML += '	<div class="col-xs-6" style="padding: 0 0 0 10px;">'
+		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
 			sHTML += a[i].traduzioni[j] +'<br>'
 		}
 		sHTML += '	</div>'		
-		sHTML += '	<div class="col-xs-2">'
+		sHTML += '	<div class="col-xs-2 hidden">'
 		sHTML += '		<button id="btnPlay_' + i + '" onclick="PronunciaParola(' + i + ')" class="btn btn-success btnPronunciaParola"><span class="glyphicon glyphicon-play"></span></button>'
 		sHTML += '	</div>'	
 		sHTML += '	<div class="col-xs-2">'
