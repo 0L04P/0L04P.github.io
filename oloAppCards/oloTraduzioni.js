@@ -105,8 +105,8 @@ function EliminaParolaDaArray(index){
 function ModificaParolaDaArray(index){
 	//index = index - 1;
 	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
-	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
-	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
+	$('#txtDaTrad').val(a[index].parola)
+	$('#txtNuovaTrad').val(a[index].traduzioni[0])
 	
 	/*if(confirm('Eliminare la parola salvata?')){
 		EliminaParolaDaArray(index);
@@ -119,8 +119,8 @@ function PronunciaParola(index){
 		$('#' + ID).fadeIn();
 	}, 1000);
 	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
-	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
-	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
+	$('#txtDaTrad').val(a[index].parola)
+	$('#txtNuovaTrad').val(a[index].traduzioni[0])
 	
 	pPronunciaParola()
 }	
