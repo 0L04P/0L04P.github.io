@@ -1,17 +1,20 @@
-self.VERSION = '17';
-const CACHE_NAME = `oloAppCards_CACHE_v` + self.VERSION;
+self.VERSION = '18';
+const CACHE_NAME = `oloAppCards_CACHE` + self.VERSION;
 
-// Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    cache.addAll([
-	'/',
-	'/oloTraduzioni.html',
-	'/oloAppCards.html',
-	'/oloTraduzioni.js',
-	'/oloAppCards.js',
-    ]);
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.addAll([
+		'/',
+		'/oloTraduzioni.html',
+		'/oloAppCards.html',
+		'/oloTraduzioni.js',
+		'/oloAppCards.js',
+      ]);
+    } catch (e) {
+      console.error('Failed to pre-cache resources during install:', e);
+    }
   })());
 });
 
@@ -19,32 +22,25 @@ self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
 
-    // Get the resource from the cache.
-    const cachedResponse = await cache.match(event.request);
-    if (cachedResponse) {
-      return cachedResponse;
-    } else {
-        try {
-          // If the resource was not in the cache, try the network.
-          const fetchResponse = await fetch(event.request);
+    try {
+      const cachedResponse = await cache.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-          // Save the resource in the cache and return it.
-         // cache.put(event.request, fetchResponse.clone());
+      const fetchResponse = await fetch(event.request);
 
-        if (
-            event.request.url.startsWith('chrome-extension') ||
-            event.request.url.includes('extension') ||
-            !(event.request.url.indexOf('http') === 0)
-        ) return;
-          //lo sposto qui
-        cache.put(event.request, fetchResponse.clone());
-          
-          return fetchResponse;
-        } catch (e) {
-          // The network failed.                    
-          console.log('The network failed:');
-		      console.log(e);
-        }
+      if (
+        event.request.url.startsWith('chrome-extension') ||
+        event.request.url.includes('extension') ||
+        !(event.request.url.indexOf('http') === 0)
+      ) return fetchResponse;
+
+      cache.put(event.request, fetchResponse.clone());
+      return fetchResponse;
+    } catch (e) {
+      console.error('Fetch failed; returning fallback page:', e);
+      return caches.match('/fallback.html');
     }
   })());
 });
