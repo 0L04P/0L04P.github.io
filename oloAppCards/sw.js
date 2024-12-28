@@ -1,4 +1,4 @@
-self.VERSION = '16';
+self.VERSION = '17';
 const CACHE_NAME = `oloAppCards_CACHE_v` + self.VERSION;
 
 // Use the install event to pre-cache all initial resources.
@@ -6,7 +6,11 @@ self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     cache.addAll([
-      'conanSito.html'
+	'/',
+	'/oloTraduzioni.html',
+	'/oloAppCards.html',
+	'/oloTraduzioni.js',
+	'/oloAppCards.js',
     ]);
   })());
 });
