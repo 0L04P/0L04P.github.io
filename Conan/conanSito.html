@@ -152,13 +152,13 @@
 				images.forEach(function (img) {
 				img.onerror = function () {
 					img.classList.add('hidden');					
-					let k = img.id.replace("img_", "");
-					$('#divNumPag_' + k).css('display', 'none');
+					/*let k = img.id.replace("img_", "");
+					$('#divNumPag_' + k).css('display', 'none');*/
 				};
-				img.onload = function () {
+				/*img.onload = function () {
 					let k = img.id.replace("img_", "");
 					$('#divNumPag_' + k).css('display', '');
-				};
+				};*/
 			});		
 		}
 
