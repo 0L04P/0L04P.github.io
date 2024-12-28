@@ -41,12 +41,9 @@ function pPronunciaParola(){
       }
 	  
       // Construct the TTS URL
-      const OLD_ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(
         word
       )}&tl=${language}`;
-
-  const ttsUrl = `https://cors-anywhere.herokuapp.com/https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodeURIComponent(word)}&tl=${language}`;
-
 
       // Set the audio source to the constructed URL
       const audioPlayer = document.getElementById("audioPlayer");
@@ -56,14 +53,12 @@ function pPronunciaParola(){
 }
 
 function pCambiatoDaTrad(){
-	let arr = JSON.parse(localStorage['olo_Traduzioni']).traduzioni.length
-	if(arr.length > 0){
-		console.log($('#txtDaTrad').val())
-		let a = arr.filter(o => o.parola.trim().toLowerCase() == $('#txtDaTrad').val().trim().toLowerCase())
-		if(a.length > 0){	
-			$('#txtNuovaTrad').val(a[0].traduzioni[0]);		
-		}
-	}	
+	
+	console.log($('#txtDaTrad').val())
+	let a = JSON.parse(localStorage['olo_Traduzioni']).filter(o => o.parola.trim().toLowerCase() == $('#txtDaTrad').val().trim().toLowerCase())
+	if(a.length > 0){	
+		$('#txtNuovaTrad').val(a[0].traduzioni[0]);		
+	}
 }
 
 function pasteFromClipboard(id){
@@ -100,7 +95,7 @@ function Aggiungi(){
 }
 
 function EliminaParolaDaArray(index){
-	let a = JSON.parse(localStorage['olo_Traduzioni']);
+	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
 	a.splice(index, 1);
 	localStorage["olo_Traduzioni"] = JSON.stringify(a);
 	console.log('Eliminata parola indice ' + index);
@@ -109,7 +104,7 @@ function EliminaParolaDaArray(index){
 
 function ModificaParolaDaArray(index){
 	//index = index - 1;
-	let a = JSON.parse(localStorage['olo_Traduzioni']);
+	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
 	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
 	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
 	
@@ -123,7 +118,7 @@ function PronunciaParola(index){
 	setTimeout(function(){
 		$('#' + ID).fadeIn();
 	}, 1000);
-	let a = JSON.parse(localStorage['olo_Traduzioni']);
+	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
 	$('#txtDaTrad').val(a[(index+1)%a.length].parola)
 	$('#txtNuovaTrad').val(a[(index+1)%a.length].traduzioni[0])
 	
@@ -149,24 +144,32 @@ function MyTrim(s){
 	
 }
 
+function creaOggettoTraduzioni(){	
+	let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => 
+				(MyTrim(a).toLowerCase() < b.parola.trim().toLowerCase())
+				? 1 : -1  )
+	return a;
+}
+
 function elenco(){
 	
 	let b = localStorage['olo_Traduzioni'] != undefined && JSON.parse(localStorage['olo_Traduzioni']).length > 0;
 	if(b == false){return false;}
 	
-	let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => 
+	/*let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => 
 				(MyTrim(a).toLowerCase() < b.parola.trim().toLowerCase())
-				? 1 : -1  )
+				? 1 : -1  )*/
+	let a = creaOggettoTraduzioni();
 	let sHTML = ''
 	for (i=a.length -1; i>= 0; --i){
 		sHTML += '<div class="col-xs-12 parolaCercata">'
-		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
+		sHTML += '	<div class="col-xs-6" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
 			sHTML += a[i].traduzioni[j] +'<br>'
 		}
 		sHTML += '	</div>'		
-		sHTML += '	<div class="col-xs-2 hidden">'
+		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button id="btnPlay_' + i + '" onclick="PronunciaParola(' + i + ')" class="btn btn-success btnPronunciaParola"><span class="glyphicon glyphicon-play"></span></button>'
 		sHTML += '	</div>'	
 		sHTML += '	<div class="col-xs-2">'
