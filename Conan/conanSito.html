@@ -18,6 +18,27 @@
 	</head>
 
 	<style>
+	.divNumeroPagina{
+		background: #edf0f3;
+		position: absolute;
+		transform: rotate(45deg);
+		height: 50px;
+		width: 50px;
+		border: solid 1px rgb(18 52 86);
+		margin-left: 0px;
+		border-radius: 20%;
+		margin-left: 5px;
+	}	
+	.lblNumeroPagina{
+		font-size: 30px;
+		color: #616263;
+		padding-left: 5px;
+		padding-top: 8px;
+		transform: rotate(-45deg);
+	}
+	.pagina_singola_cifra{
+		padding-left: 12px;
+	}
 	.pagina{
 		border-radius: 5px;
 		border: solid 1px white;
@@ -32,6 +53,13 @@
 		width: 90vw;    
 		margin-left:5vw; 
 		margin-top50px; 
+	}
+	.btnBackNext{
+		width: 100px;
+		font-size: 30px;
+		height: 42px;
+		padding-top: 0;
+		margin-top: -12px;		
 	}
 	 	
 	.btnToTop{
@@ -71,17 +99,27 @@
 				imageUrls.push(baseUrl + PageNumberToString(k,3)+ '.png');
 			}
 			
-			
+			//<div class='divNumeroPagina'><b class='lblNumeroPagina'>${index}</b></div>	
 			let sHTML = ``;
 			imageUrls.forEach(function(el, index){
-				
+				let lblClassi = 'lblNumeroPagina ';
+				if (index <= 9){
+					lblClassi += ' pagina_singola_cifra'
+				}
+								
 				sHTML+= `
-					<img src=${el} class='pagina' />
+					<div id='divNumPag_${index}' class="divNumeroPagina" style='display:none;'>
+						<label class='${lblClassi}'>${index}</label>
+					</div>			
+					<img id='img_${index}' src=${el} class='pagina' onError='aaa(this);  ' />
 				`;
 				
 			})
 			$('.MyPagina').html(sHTML);
-			Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+			
+			/*Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { 
+			img.onload = img.onerror = resolve; }
+			))).then(() => {
 				if(bScroll && localStorage["capitolo_scroll"] && localStorage["capitolo_scroll"] > 0){
 					let s = localStorage["capitolo_scroll"] ;
 					localStorage["capitolo_scroll"]  = 0;
@@ -90,14 +128,34 @@
 				}
 				pGestioneImgNoSource()
 
-			});
+			});*/
+			
+			if(bScroll && localStorage["capitolo_scroll"] && localStorage["capitolo_scroll"] > 0){
+					let s = localStorage["capitolo_scroll"] ;
+					localStorage["capitolo_scroll"]  = 0;
+					$("html, body").animate({ scrollTop: s}, 'fast'); 
+					return false;
+				}
+				pGestioneImgNoSource()
 		}
 		
-		function pGestioneImgNoSource(){
-			var images = document.querySelectorAll('img');
-			images.forEach(function (img) {
+		function aaa(q){
+		
+		debugger;
+		}
+		
+		function pGestioneImgNoSource(){			
+			console.log('*********pGestioneImgNoSource***********')
+				var images = document.querySelectorAll('img');
+				images.forEach(function (img) {
 				img.onerror = function () {
-					img.classList.add('hidden');
+					img.classList.add('hidden');					
+					let k = img.id.replace("img_", "");
+					$('#divNumPag_' + k).css('display', 'none');
+				};
+				img.onload = function () {
+					let k = img.id.replace("img_", "");
+					$('#divNumPag_' + k).css('display', '');
 				};
 			});		
 		}
@@ -132,10 +190,19 @@
  
 	<body  style = "background-color:#123456;">						
 		<div class="container" class="trad" style='padding-left:0; padding-top: 20px; padding-right: 0; margin-left: 0; margin-right: 0;    width: 99vw;'>			
-			<div class='col-xs-12 text-center'>
+			<div class='col-xs-3 text-center'>
+				<button class='btn btn-info btnBackNext'  style=' ' 
+					onclick="$('#txtCap').val(parseInt(localStorage['capitolo']) -1); creaCapitolo()">BACK</button>
+			</div>
+			<div class='col-xs-6 text-center'>			
+							
 				<input id='txtCap'  type='number' style='font-size: 30px;width: 100px;padding-left:25px;height:36px;' />
-				<button style='font-size:30px;height:42px;padding-top: 0;margin-top: -12px;' class='btn btn-info'  onclick='creaCapitolo()'>GO</button>
-			
+				<button style='font-size:30px;height:42px;padding-top: 0;margin-top: -12px;' class='btn btn-info'  onclick='creaCapitolo()'>GO</button>					
+							
+			</div>
+			<div class='col-xs-3 text-center'>
+				<button class='btn btn-info btnBackNext'  style=' ' 
+					onclick="$('#txtCap').val(parseInt(localStorage['capitolo']) + 1); creaCapitolo()">NEXT</button>
 			</div>
 			
 			<div class='col-xs-12 MyPagina' style='padding:0'>
