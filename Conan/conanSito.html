@@ -56,12 +56,13 @@
 				if (index <= 9){
 					lblClassi += ' pagina_singola_cifra'
 				}
-								
+				let isLazy = ''	
+				if(index > 0){  isLazy = ' loading="lazy" '}
 				sHTML+= `
 					<div id='divNumPag_${index}' class="divNumeroPagina" style='display:none;'>
 						<label class='${lblClassi}'>${index}</label>
 					</div>			
-					<img id='img_${index}' src=${el} class='pagina' onError='aaa(this);  ' />
+					<img id='img_${index}' src=${el} class='pagina' onError='aaa(this);  ' ${isLazy} />
 				`;
 				
 			})
