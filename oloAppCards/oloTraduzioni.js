@@ -83,7 +83,8 @@ function Aggiungi(){
 	}
 	let objParola = {
 		"parola": setInizialeMaiuscola($('#txtDaTrad').val()),
-		"traduzioni" : []
+		"traduzioni" : [],
+		"categoria" : []
 	}
 	objParola.traduzioni.push(setInizialeMaiuscola($('#txtNuovaTrad').val()));
 	a.push(objParola);
@@ -112,7 +113,9 @@ function ModificaParolaDaArray(index){
 		EliminaParolaDaArray(index);
 	};	*/	
 }
+
 function PronunciaParola(index){
+	//da errore perchè google ha blocccato le chiamate!
 	let ID = 'btnPlay_'+index;	
 	$('#' + ID).fadeOut();
 	setTimeout(function(){
@@ -151,24 +154,42 @@ function creaOggettoTraduzioni(){
 	return a;
 }
 
-function elenco(){
+function elenco(bSetCateg = false){
 	
 	let b = localStorage['olo_Traduzioni'] != undefined && JSON.parse(localStorage['olo_Traduzioni']).length > 0;
 	if(b == false){return false;}
 	
-	/*let a = JSON.parse(localStorage["olo_Traduzioni"]).sort( (a,b) => 
-				(MyTrim(a).toLowerCase() < b.parola.trim().toLowerCase())
-				? 1 : -1  )*/
 	let a = creaOggettoTraduzioni();
 	let sHTML = ''
+	let sHex = '';
 	for (i=a.length -1; i>= 0; --i){
-		sHTML += '<div class="col-xs-12 parolaCercata">'
+		
+		switch(a[i].categoria){
+			case CATEGORIE._verbo:
+				sHex = '#345678'; 
+				break;
+			case CATEGORIE._aggettivo:
+				sHex = '#856451'; 
+				break;
+			case CATEGORIE._cibo:
+				sHex = '#aff3ee'; 
+				break;
+			case CATEGORIE._interiezioni_modo_dire:
+				sHex = '#56aa10'; 
+				break;
+			default:
+				sHex = '#00cc12'; 
+				break;
+		}
+		
+		sHTML += '<div class="col-xs-12 parolaCercata" style="border: solid 2px ' + sHex + '">'
 		sHTML += '	<div class="col-xs-6" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
 			sHTML += a[i].traduzioni[j] +'<br>'
 		}
-		sHTML += '	</div>'		
+
+		sHTML += '</div>'		
 		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button id="btnPlay_' + i + '" onclick="PronunciaParola(' + i + ')" class="btn btn-success btnPronunciaParola"><span class="glyphicon glyphicon-play"></span></button>'
 		sHTML += '	</div>'	
@@ -177,12 +198,28 @@ function elenco(){
 		sHTML += '	</div>'	
 		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button onclick="EliminaParolaDaArray(' + i + ')" class="btn btn-warning btnElimina">X</button>'
-		sHTML += '	</div>'		
+		sHTML += '	</div>'	
+		if(bSetCateg == true){
+		sHTML += '	<div class="col-xs-12" style="padding:0; text-align: center;">'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._verbo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._verbo == a[i].categoria ? 'sottolineato' : '') + '">VERBO</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._aggettivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._aggettivo == a[i].categoria ? 'sottolineato' : '') + '">AGG.</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._cibo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._cibo == a[i].categoria ? 'sottolineato' : '') + '">CIBO</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._interiezioni_modo_dire + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._interiezioni_modo_dire == a[i].categoria ? 'sottolineato' : '') + '">MODO</button>'
+		sHTML += '	</div>'	
+		}		
 		sHTML += '</div>'						
 	}
 	 
 	$('#elenco').html(sHTML)
 	$('#elenco').fadeIn()
+}
+
+
+function SetCateg(i, tipoCateg){
+	let a = creaOggettoTraduzioni();
+	let parola = a[i].parola;
+	updateCategoria(parola, tipoCateg)
+	elenco()
 }
 
 function Gioca(){ 
@@ -203,13 +240,12 @@ function setInizialeMaiuscola(a){
 	return a.substring(0,1).toString().toUpperCase() + a.substring(1)
 }
 
-
 function IndicizzaParole(){
 	if(localStorage["olo_Traduzioni"] != undefined){
 		a = JSON.parse(localStorage["olo_Traduzioni"]);
 		if(a.length > 0){
 			let counter = 1;
-			a.forEach(o => { o["counter"] = counter; counter += 1; })
+			a.forEach(o => { o["counter"] = counter; o["categoria"] = ""; counter += 1; })
 			localStorage["olo_Traduzioni"] = JSON.stringify(a);			
 		}	else{
 		console.log("a.length = 0 ")
@@ -219,10 +255,7 @@ function IndicizzaParole(){
 	}	
 }
 
-
-
-
-function ImportaTradDefault(){
+function ImportaTradDefault(){	
 	if(typeof TRAD_DEFAULT !== 'undefined'){
 		let oldArrayTrad = JSON.parse(localStorage['olo_Traduzioni']);
 		let objNewTrad = JSON.parse(TRAD_DEFAULT);	
@@ -244,4 +277,29 @@ function ImportaTradDefault(){
 		alert('TRAD_DEFAULT non trovata!')
 		return false;
 	}		
+}
+const CATEGORIE = {
+	_verbo : 1,
+	_cibo : 2,
+	_aggettivo : 3,
+	_interiezioni_modo_dire : 4
+}
+function updateCategoria(parola, newCateg) {	
+	let array;
+	array = JSON.parse(localStorage['olo_Traduzioni']);
+
+	parola = parola.toUpperCase();
+	obj_parola = array.filter(o => o.parola.toUpperCase() == parola)	
+	 
+	array.forEach(o =>  { 
+						//o["counter"] = counter; o["categoria"] = "verbo"; counter += 1; 
+							if(o["parola"].toUpperCase() === parola){
+								o["categoria"] = newCateg;
+							}
+						}
+				 )
+	localStorage['olo_Traduzioni'] = JSON.stringify(array);
+}
+function prova(){
+	updateCategoria('hello', '2', 1);
 }

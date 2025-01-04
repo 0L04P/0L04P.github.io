@@ -75,6 +75,16 @@
     margin-top: 6px;
     font-weight: bold;	
 }
+.btnSetCateg{
+    height: 30px;
+    margin-bottom: 2px;
+    background: #09fb69;
+    color: #000;
+    font-weight: bold;
+}
+.sottolineato{
+	text-decoration: underline;
+}
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff; padding-top: 30px;">
@@ -97,9 +107,7 @@
 			<input id="txtNuovaTrad" class="form-control tradInput" style="font-size: 25px; font-weight: bold;">									
 		</div>
 		<div class='col-xs-4'>
-			<button class='btn btn2 btn-primary wdt100Perc' onclick='Aggiungi();'>
-				<span class='glyphicon glyphicon-plus'></span>
-			</button>		   		    
+			<button class='btn btn2 btn-primary wdt100Perc' onclick='Aggiungi();'>AGGIUNGI</button>		   		    
 		</div>
 		<div class='col-xs-4'>				  
 		    <button class='btn btn2 btn-warning wdt100Perc' id="playButton">
@@ -107,20 +115,20 @@
 			</button>
 		</div>
 		<div class='col-xs-4'>			
-			<button class='btn btn2 btn-primary wdt100Perc' onclick='Pulisci();' style='float: right; background-color: #584463'>
-				<span class='glyphicon glyphicon-erase'></span>
-			</button>	
+			<button class='btn btn2 btn-primary wdt100Perc' onclick='Pulisci();' style='float: right; background-color: #584463'>PULISCI</button>	
 		</div>
 		
 		<!-- Audio element to play the TTS audio -->
 		<audio id="audioPlayer" controls style="margin-top: 20px; display: none;"></audio>	
-		
+		<button onclick='elenco(false);' class='btn btn-success'>Aggiorna</button>
+		<button onclick='elenco(true);' class='btn btn-success'>Set Categorie</button>
 		<div class='col-xs-12' id="elenco" style="margin-top:30px; padding:0; font-size: 20px; width: 98vw; margin-left: -10px;">
 			 
 		</div>
+		
 		<button onclick='ImportaTradDefault();' class='btn btn-success'>IMPORT TRAD DEFAULT</button>
 		<button onclick='CLEAR_LS();' class='btn btn-danger'>PULISCI LOCAL STORAGE</button>
-		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>
+		<div class='col-xs-12 text-center NoPad' >
 			<label id='lblVersione'></label>
 		</div>
 	</div> 	
