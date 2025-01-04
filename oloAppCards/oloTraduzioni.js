@@ -219,7 +219,7 @@ function SetCateg(i, tipoCateg){
 	let a = creaOggettoTraduzioni();
 	let parola = a[i].parola;
 	updateCategoria(parola, tipoCateg)
-	elenco()
+	elenco(true)
 }
 
 function Gioca(){ 
