@@ -107,7 +107,9 @@
 			<input id="txtNuovaTrad" class="form-control tradInput" style="font-size: 25px; font-weight: bold;">									
 		</div>
 		<div class='col-xs-4'>
-			<button class='btn btn2 btn-primary wdt100Perc' onclick='Aggiungi();'>AGGIUNGI</button>		   		    
+			<button class='btn btn2 btn-primary wdt100Perc' onclick='Aggiungi();'>
+				<span class='glyphicon gluphicon-plus'></span>	
+			</button>		   		    
 		</div>
 		<div class='col-xs-4'>				  
 		    <button class='btn btn2 btn-warning wdt100Perc' id="playButton">
@@ -115,9 +117,11 @@
 			</button>
 		</div>
 		<div class='col-xs-4'>			
-			<button class='btn btn2 btn-primary wdt100Perc' onclick='Pulisci();' style='float: right; background-color: #584463'>PULISCI</button>	
+			<button class='btn btn2 btn-primary wdt100Perc' onclick='Pulisci();' style='float: right; background-color: #584463'>
+			<span class='glyphicon gluphicon-erase'></span>		
+			</button>	
 		</div>
-		
+		<div class='col-xs-12' style='height:10px;'>	</div>
 		<!-- Audio element to play the TTS audio -->
 		<audio id="audioPlayer" controls style="margin-top: 20px; display: none;"></audio>	
 		<button onclick='elenco(false);' class='btn btn-success'>Aggiorna</button>
