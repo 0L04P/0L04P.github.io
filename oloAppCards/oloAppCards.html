@@ -21,6 +21,7 @@ option{font-weight:bold;}
 </head>
 
 <style>
+			
 	.btnMyWarning{
 		color: #fff;
 		background-color: #f0ad4e;
@@ -129,9 +130,23 @@ option{font-weight:bold;}
 		font-size: 25px; 
 		margin-left: -30px; 		
 		white-space: pre;
+	}	
+	.coloreAggettivo{
+		background-color: #7ebf6a;
+		border-style: none;
 	}
-	
-
+	.coloreSostantivo{
+		background-color:#d1b3b3; 
+		border-style: none;
+	}
+	.coloreModo{
+		background-color:#56aa10;
+		border-style: none;
+	}
+	.coloreVerbo{
+		background-color:#0c7eef;
+		border-style: none;
+	}
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
@@ -150,11 +165,11 @@ option{font-weight:bold;}
 			</button>
 		</div>	
 		
-		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 90vw;padding: 3px;background: #1b4c7e;border-radius: 4px;'>
-			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">VERBO</button>
-			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">AGG.</button>
-			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">SOST.</button>
-			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">MODO DI DIRE</button>		
+		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 90vw;padding: 3px;border-radius: 4px;'>
+			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg coloreVerbo">VERBO</button>
+			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg coloreAggettivo">AGG.</button>
+			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg coloreSostantivo">SOST.</button>
+			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg coloreModo">MODO DI DIRE</button>		
 		</div> 
 		<div class='col-xs-12 ' style='height:10px;'></div>
 		<div class='col-xs-12 NoPad card'>			

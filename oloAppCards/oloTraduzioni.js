@@ -160,9 +160,7 @@ function creaOggettoTraduzioni(){
 				? 1 : -1  )
 	return a;
 }
-function elencoFiltraCateg(filtraCateg){	
-	elenco(false, '', filtraCateg);
-	
+function elencoFiltraCateg(filtraCateg){		
 	let b = $('#btnCateg_' + filtraCateg).attr('class').includes('CategSelezionata');
 	$('.btnGiocaCateg').removeClass('CategSelezionata');
 	if(b == false){
