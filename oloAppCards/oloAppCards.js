@@ -129,14 +129,14 @@ function pPopolaCarte_n(){
 		index_n_parole = 0;
 		
 	}else{
-		if(index_n_parole <= array_n_parole.length - 1){
+		if(index_n_parole <= array_n_parole.length ){
 			$('#lblParola').text(array_n_parole[index_n_parole].parola)
 			$('#lblParolaCopia').text(array_n_parole[index_n_parole].parola)
 			$('#lblSoluzione').text(array_n_parole[index_n_parole].traduzioni);
 			setSizeTraduzione();
 		}else{
 			//gioco finito
-			alert('FINITO')
+			alert('FINITO!!')
 		}
 	}	
 }
