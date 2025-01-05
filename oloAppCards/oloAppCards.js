@@ -12,22 +12,32 @@ $(document).ready(function(){
 	
 	/*Handle dei click*/	
 	$('#btnModalitaInf').on('click',function(){		 	
-		pModalita(-1)			
+		pModalita(-1);		
 	});
 	$('#btnModalita10').on('click',function(){		 	
-		pModalita(NUM_10)
+		pModalita(NUM_10);
+		index_n_parole = 1; 
+		pPopolaCarte_n(10);
 	});	
 	$('#btnCateg_1').on('click',function(){		 	
-		pModalita(NUM_10)
+		pModalita(NUM_10);
+		index_n_parole = 1; 
+		pPopolaCarte_n(10);
 	});	
 	$('#btnCateg_2').on('click',function(){		 	
-		pModalita(NUM_10)
+		pModalita(NUM_10);
+		index_n_parole = 1; 
+		pPopolaCarte_n(10);
 	});	
 	$('#btnCateg_3').on('click',function(){		 	
-		pModalita(NUM_10)
+		pModalita(NUM_10);
+		index_n_parole = 1; 
+		pPopolaCarte_n(10);
 	});	
 	$('#btnCateg_4').on('click',function(){		 	
-		pModalita(NUM_10)
+		pModalita(NUM_10);
+		index_n_parole = 1; 
+		pPopolaCarte_n(10);
 	});		
 });	
 
@@ -239,7 +249,7 @@ function setSizeTraduzione(){
 	}
 }
 
-function GiocaCateg(q, c){
+function GiocaCateg(q){
 	let id = q.id;
 	let b = $('#' + id).attr('class').includes('CategSelezionata');
 	
