@@ -290,7 +290,7 @@ function IndicizzaParole(){
 		a = JSON.parse(localStorage["olo_Traduzioni"]);
 		if(a.length > 0){
 			let counter = 1;
-			a.forEach(o => { o["counter"] = counter; o["categoria"] = ""; counter += 1; })
+			a.forEach(o => { o["counter"] = counter; counter += 1; })
 			localStorage["olo_Traduzioni"] = JSON.stringify(a);			
 		}	else{
 		console.log("a.length = 0 ")
