@@ -8,6 +8,7 @@
 		margin-left: 0px;
 		border-radius: 20%;
 		margin-left: 5px;
+	        display:none !important;
 	}	
 	.lblNumeroPagina{
 		font-size: 30px;
