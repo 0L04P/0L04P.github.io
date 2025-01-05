@@ -76,22 +76,29 @@ function ClearLS(){
 	 location.reload();
 }
 
-function Aggiungi(){		
+function Aggiungi(){	
+
+	if($('#txtDaTrad').val() == '' || $('#txtNuovaTrad').val() == ''){		
+		return false;
+	}
+
+	let parola = setInizialeMaiuscola($('#txtDaTrad').val());
 	let a = JSON.parse(localStorage["olo_Traduzioni"])
 	if(a.length == undefined){
 		a = [];
 	}
 	let objParola = {
-		"parola": setInizialeMaiuscola($('#txtDaTrad').val()),
+		"parola": parola,
 		"traduzioni" : [],
 		"categoria" : []
 	}
 	objParola.traduzioni.push(setInizialeMaiuscola($('#txtNuovaTrad').val()));
 	a.push(objParola);
 	localStorage["olo_Traduzioni"] = JSON.stringify(a);
-	elenco()
+	
 	$('.tradInput').val('')
 	IndicizzaParole();
+	elenco(true, parola)
 	return ''
 }
 
@@ -153,26 +160,41 @@ function creaOggettoTraduzioni(){
 				? 1 : -1  )
 	return a;
 }
-
-function elenco(bSetCateg = false){
+function elencoFiltraCateg(filtraCateg){	
+	elenco(false, '', filtraCateg);
 	
+	let b = $('#btnCateg_' + filtraCateg).attr('class').includes('CategSelezionata');
+	$('.btnGiocaCateg').removeClass('CategSelezionata');
+	if(b == false){
+		$('#btnCateg_' + filtraCateg).addClass('CategSelezionata');
+		elenco(false, '', filtraCateg);
+	}else{
+		elenco(false, '', '');
+	}	
+}
+
+function elenco(bSetCateg = false, parola = '', filtraCateg = '-1'){
+	filtraCateg = filtraCateg.toString(); 
 	let b = localStorage['olo_Traduzioni'] != undefined && JSON.parse(localStorage['olo_Traduzioni']).length > 0;
 	if(b == false){return false;}
 	
 	let a = creaOggettoTraduzioni();
+	if(filtraCateg != '-1'){
+		a = a.filter(o => o.categoria == filtraCateg);
+	}
 	let sHTML = ''
 	let sHex = '';
 	for (i=a.length -1; i>= 0; --i){
 		
 		switch(a[i].categoria){
 			case CATEGORIE._verbo:
-				sHex = '#345678'; 
+				sHex = '#0c7eef'; 
 				break;
 			case CATEGORIE._aggettivo:
-				sHex = '#856451'; 
+				sHex = '#7ebf6a'; 
 				break;
-			case CATEGORIE._cibo:
-				sHex = '#aff3ee'; 
+			case CATEGORIE._sostantivo:
+				sHex = '#d1b3b3'; 
 				break;
 			case CATEGORIE._interiezioni_modo_dire:
 				sHex = '#56aa10'; 
@@ -182,7 +204,7 @@ function elenco(bSetCateg = false){
 				break;
 		}
 		
-		sHTML += '<div class="col-xs-12 parolaCercata" style="border: solid 2px ' + sHex + '">'
+		sHTML += '<div id="divParolaCercata_' + a[i].counter + '" class="col-xs-12 parolaCercata" style="border: solid ' + sHex + '; border-left-width: 8px;">'
 		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
@@ -204,8 +226,8 @@ function elenco(bSetCateg = false){
 		if(bSetCateg == true){
 		sHTML += '	<div class="col-xs-12" style="padding:0; text-align: center;">'
 		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._verbo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._verbo == a[i].categoria ? 'sottolineato' : '') + '">VERBO</button>'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._aggettivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._aggettivo == a[i].categoria ? 'sottolineato' : '') + '">AGG.</button>'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._cibo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._cibo == a[i].categoria ? 'sottolineato' : '') + '">CIBO</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._aggettivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._aggettivo == a[i].categoria ? 'sottolineato' : '') + '">AGG/AVV</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._sostantivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._sostantivo == a[i].categoria ? 'sottolineato' : '') + '">SOST.</button>'
 		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._interiezioni_modo_dire + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._interiezioni_modo_dire == a[i].categoria ? 'sottolineato' : '') + '">MODO</button>'
 		sHTML += '	</div>'	
 		}		
@@ -213,14 +235,37 @@ function elenco(bSetCateg = false){
 	}
 	 
 	$('#elenco').html(sHTML)
-	$('#elenco').fadeIn()
+	$('#elenco').fadeIn();
+	
+	
+	if(parola != ''){
+		try{
+			//scroll alla parola!
+			parola = parola.toLowerCase();
+			
+			let Counter = a.filter(o => o.parola.toLowerCase() == parola)[0].counter;
+			let divID = "divParolaCercata_" + Counter;			
+			let divTop = $('#' + divID).offset().top - 200;
+			$("html, body").animate({ scrollTop: divTop }, "fast");			
+			$('#' + divID).removeClass('bbox');
+			$('#' + divID).addClass('bbox');		
+			console.log('Counter ' + Counter);
+		}catch(ex){
+				console.log('errore scroll!!!')
+		}		
+	}
 }
-
 
 function SetCateg(i, tipoCateg){
 	let a = creaOggettoTraduzioni();
 	let parola = a[i].parola;
-	updateCategoria(parola, tipoCateg)
+	//se c'è già una categoria ed è la stessa che ho passato adesso, la rimuovo, sennò la aggiungo
+	if(a[i].categoria == tipoCateg){		
+		updateCategoria(parola, '');
+	}else{
+		updateCategoria(parola, tipoCateg);
+	}
+	
 	elenco(true)
 }
 
@@ -282,7 +327,7 @@ function ImportaTradDefault(){
 }
 const CATEGORIE = {
 	_verbo : 1,
-	_cibo : 2,
+	_sostantivo : 2,
 	_aggettivo : 3,
 	_interiezioni_modo_dire : 4
 }
@@ -305,3 +350,4 @@ function updateCategoria(parola, newCateg) {
 function prova(){
 	updateCategoria('hello', '2', 1);
 }
+

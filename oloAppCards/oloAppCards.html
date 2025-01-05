@@ -21,11 +21,33 @@ option{font-weight:bold;}
 </head>
 
 <style>
-	.CategSelezionata, .CategSelezionata:focus, .CategSelezionata:focus-visible{
+	.btnMyWarning{
+		color: #fff;
+		background-color: #f0ad4e;
+		border-color: #eea236;
+	}
+	.CategSelezionata{
 		background-color: #ff1100 !important;
 		color: yellow !important;
 		border: solid 1px red !important;
 		font-weight: bold;
+	}
+	.CategSelezionata.focus, .CategSelezionata.focus-visible,
+	.CategSelezionata:focus, .CategSelezionata:focus-visible{
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px red !important;
+		font-weight: bold;
+	}
+	.CategSelezionata.active, .CategSelezionata:active {
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px red !important;
+		font-weight: bold;
+	}
+
+	.fontsize34px{
+		font-size:34px;
 	}
 	*{ 
 		font-family: 'M PLUS 2', sans-serif;
@@ -108,12 +130,14 @@ option{font-weight:bold;}
 		margin-left: -30px; 		
 		white-space: pre;
 	}
+	
+
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
 	<div class="container NoPad" style='margin-top:-65px;'>			
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
-			<button class='myBtn btn-warning' onclick='window.location.href="oloTraduzioni.html"' style='width: 100%; margin-left: -34px; height: 50px;'>
+			<button class='myBtn btn-warning' onclick='window.location.href="oloTraduzioni.html"' style='width: 100%; margin-left: -34px; height: 60px;'>
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;TRADUZIONI
 			</button>
 		</div>	
@@ -125,15 +149,12 @@ option{font-weight:bold;}
 				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;'>10</label>
 			</button>
 		</div>	
-		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;
-														width: 90vw;
-														padding: 3px;
-														background: #1b4c7e;
-														border-radius: 4px;'>
-			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">VERBO</button>
-			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">AGG.</button>
-			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">CIBO</button>
-			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">MODO DI DIRE</button>		
+		
+		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 90vw;padding: 3px;background: #1b4c7e;border-radius: 4px;'>
+			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">VERBO</button>
+			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">AGG.</button>
+			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">SOST.</button>
+			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="btn btnMyWarning btnGiocaCateg">MODO DI DIRE</button>		
 		</div> 
 		<div class='col-xs-12 ' style='height:10px;'></div>
 		<div class='col-xs-12 NoPad card'>			
@@ -168,7 +189,7 @@ option{font-weight:bold;}
 			<label id='lblVersione'></label>
 		</div>
 		
-		<div class='col-xs-12 ' style='height:50px;'></div>
+		<div class='col-xs-12 ' style='height:100px;'></div>
 </body> 
 <script>
 	if('serviceWorker' in navigator) {

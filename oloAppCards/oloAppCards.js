@@ -16,7 +16,19 @@ $(document).ready(function(){
 	});
 	$('#btnModalita10').on('click',function(){		 	
 		pModalita(NUM_10)
-	});			
+	});	
+	$('#btnCateg_1').on('click',function(){		 	
+		pModalita(NUM_10)
+	});	
+	$('#btnCateg_2').on('click',function(){		 	
+		pModalita(NUM_10)
+	});	
+	$('#btnCateg_3').on('click',function(){		 	
+		pModalita(NUM_10)
+	});	
+	$('#btnCateg_4').on('click',function(){		 	
+		pModalita(NUM_10)
+	});		
 });	
 
 function pModalita(n){
@@ -97,7 +109,8 @@ function pPopolaCarte_inf(){
 	let i = Math.floor(Math.random() * a.length);	 		
 	$('#lblParola').text(a[i].parola)
 	$('#lblParolaCopia').text(a[i].parola)
-	$('#lblSoluzione').text(a[i].traduzioni)	
+	$('#lblSoluzione').text(a[i].traduzioni);
+	setSizeTraduzione();
 }
 function pPopolaCarte_n(){
 	if(index_n_parole == 0){
@@ -109,7 +122,8 @@ function pPopolaCarte_n(){
 		if(index_n_parole <= array_n_parole.length - 1){
 			$('#lblParola').text(array_n_parole[index_n_parole].parola)
 			$('#lblParolaCopia').text(array_n_parole[index_n_parole].parola)
-			$('#lblSoluzione').text(array_n_parole[index_n_parole].traduzioni)
+			$('#lblSoluzione').text(array_n_parole[index_n_parole].traduzioni);
+			setSizeTraduzione();
 		}else{
 			//gioco finito
 			alert('FINITO')
@@ -149,7 +163,7 @@ function pCreaSubarrayDiNParole(n){
 			arrCompleto = arrCompletoFiltratoPerCateg;
 			
 		}else{
-			alert('Non ci sono ' + n +' traduzioni per la ategoria selezionata!');
+			alert('Non ci sono ' + n +' traduzioni per la categoria selezionata!');
 		}
 		
 	}else{
@@ -217,6 +231,13 @@ function pCreaSubarrayDiNParole(n){
 	
 }
 
+function setSizeTraduzione(){	
+	if($('#lblSoluzione').html().length >=15){
+		$('#lblSoluzione').addClass('fontsize34px');
+	}else{
+		$('#lblSoluzione').removeClass('fontsize34px');
+	}
+}
 
 function GiocaCateg(q, c){
 	let id = q.id;
