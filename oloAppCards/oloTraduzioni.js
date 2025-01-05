@@ -108,10 +108,10 @@ function ModificaParolaDaArray(index){
 	let a = creaOggettoTraduzioni();//JSON.parse(localStorage['olo_Traduzioni']);
 	$('#txtDaTrad').val(a[index].parola)
 	$('#txtNuovaTrad').val(a[index].traduzioni[0])
-	
-	/*if(confirm('Eliminare la parola salvata?')){
+	$("html, body").animate({ scrollTop: 0 }, "fast");
+	if(confirm('Eliminare la parola salvata?')){
 		EliminaParolaDaArray(index);
-	};	*/	
+	};
 }
 
 function PronunciaParola(index){
@@ -183,16 +183,18 @@ function elenco(bSetCateg = false){
 		}
 		
 		sHTML += '<div class="col-xs-12 parolaCercata" style="border: solid 2px ' + sHex + '">'
-		sHTML += '	<div class="col-xs-6" style="padding: 0 0 0 10px;">'
+		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
 			sHTML += a[i].traduzioni[j] +'<br>'
 		}
 
 		sHTML += '</div>'		
+		/*
 		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button id="btnPlay_' + i + '" onclick="PronunciaParola(' + i + ')" class="btn btn-success btnPronunciaParola"><span class="glyphicon glyphicon-play"></span></button>'
 		sHTML += '	</div>'	
+		*/
 		sHTML += '	<div class="col-xs-2">'
 		sHTML += '		<button onclick="ModificaParolaDaArray(' + i + ')" class="btn btn-warning btnModifica">M</button>'
 		sHTML += '	</div>'	

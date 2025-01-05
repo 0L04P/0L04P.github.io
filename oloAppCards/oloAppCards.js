@@ -140,6 +140,24 @@ function pCreaSubarrayDiNParole(n){
 	if(arrCompleto == undefined){
 		return []
 	}
+	
+	//***********
+	let CategSel = GetCategSelezionata();
+	if(CategSel != '-1'){
+		let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => o.categoria == CategSel)
+		if(arrCompletoFiltratoPerCateg.length >= n){
+			arrCompleto = arrCompletoFiltratoPerCateg;
+			
+		}else{
+			alert('Non ci sono ' + n +' traduzioni per la ategoria selezionata!');
+		}
+		
+	}else{
+		//NON FILTRO PER CATEGORIA, USO TUTTE LE PAROLE!
+	}
+	//***********
+	
+	
 	//15/12/2024 - escludo le parole già usate
 	let arrEscludiGiaUsate = [];
 	let arrEscludiGiaUsateNEW = [];	
@@ -164,8 +182,10 @@ function pCreaSubarrayDiNParole(n){
 	for(let j = 0; j<n; ++j){
 		
 		i = Math.floor(Math.random() * lungh);	
-		if(false && arrEscludiGiaUsate.length > 0){ //per ora NO nuovo siluppo da finire e testare!
+		if(false && arrEscludiGiaUsate.length > 0){ 
+			//----------------------------------------per ora NO nuovo siluppo da finire e testare!-----------------------------------------
 			//   ESCLUSIONI
+			/*
 			if(arrEscludiGiaUsate.includes(arrCompleto[i]["counter"].toString())){
 				console.log("VADO OLTRE " + arrCompleto[i]["counter"])
 			}else{
@@ -176,10 +196,10 @@ function pCreaSubarrayDiNParole(n){
 					j = j - 1;			
 				}
 			}
-			
+			*/
 			
 		}else{
-			//NO ESCLUSIONI
+			//NO ESCLUSIONI: per ora funziona solo questo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			//Aggiungo
 			if(arr.indexOf(arrCompleto[i]) == -1){			
 				arr[j] = arrCompleto[i];				
@@ -197,3 +217,23 @@ function pCreaSubarrayDiNParole(n){
 	
 }
 
+
+function GiocaCateg(q, c){
+	let id = q.id;
+	let b = $('#' + id).attr('class').includes('CategSelezionata');
+	
+	$('.btnGiocaCateg').removeClass('CategSelezionata');
+	if(b == false){
+		$('#' + id).addClass('CategSelezionata');
+	}	
+}
+
+
+function GetCategSelezionata(){	
+	if($('.CategSelezionata').length  == 0){
+			return '-1';
+	}
+	let id = $('.CategSelezionata').attr('id');
+	let Categ = id.replace('btnCateg_','');
+	return Categ;
+}

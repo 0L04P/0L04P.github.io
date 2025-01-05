@@ -21,6 +21,12 @@ option{font-weight:bold;}
 </head>
 
 <style>
+	.CategSelezionata, .CategSelezionata:focus, .CategSelezionata:focus-visible{
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px red !important;
+		font-weight: bold;
+	}
 	*{ 
 		font-family: 'M PLUS 2', sans-serif;
 		font-weight:400;		
@@ -29,7 +35,7 @@ option{font-weight:bold;}
 		height: 100vh;
 		display: flex;
 		justify-content: center;
-		padding-top: 150px;
+		padding-top: 90px;
 		padding-left:10vw;
 		background: #222;
 	}
@@ -119,6 +125,17 @@ option{font-weight:bold;}
 				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;'>10</label>
 			</button>
 		</div>	
+		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;
+														width: 90vw;
+														padding: 3px;
+														background: #1b4c7e;
+														border-radius: 4px;'>
+			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">VERBO</button>
+			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">AGG.</button>
+			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">CIBO</button>
+			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="btn btn-warning btnGiocaCateg">MODO DI DIRE</button>		
+		</div> 
+		<div class='col-xs-12 ' style='height:10px;'></div>
 		<div class='col-xs-12 NoPad card'>			
 			<div class='col-xs-12 NoPad carta front'>												
 				<div class='col-xs-12 NoPad' style='margin-top:50px;'>
@@ -150,7 +167,8 @@ option{font-weight:bold;}
 		<div class='col-xs-12 text-center NoPad' >
 			<label id='lblVersione'></label>
 		</div>
-	</div> 
+		
+		<div class='col-xs-12 ' style='height:50px;'></div>
 </body> 
 <script>
 	if('serviceWorker' in navigator) {
