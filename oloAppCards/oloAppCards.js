@@ -168,12 +168,13 @@ function pCreaSubarrayDiNParole(n){
 	//***********
 	let CategSel = GetCategSelezionata();
 	if(CategSel != '-1'){
-		let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => o.categoria == CategSel)
+		//let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => o.categoria == CategSel)
+		let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => check_binary(o.categoria, CategSel))
 		if(arrCompletoFiltratoPerCateg.length >= n){
 			arrCompleto = arrCompletoFiltratoPerCateg;
 			
 		}else{
-			alert('Non ci sono ' + n +' traduzioni per la categoria selezionata!');
+			alert('Non ci sono 10 traduzioni per la categoria selezionata!');
 		}
 		
 	}else{
@@ -265,6 +266,22 @@ function GetCategSelezionata(){
 			return '-1';
 	}
 	let id = $('.CategSelezionata').attr('id');
-	let Categ = id.replace('btnCateg_','');
-	return Categ;
+	/*let Categ = id.replace('btnCateg_','');
+	return Categ;*/
+	switch(id){
+		case "btnCateg_1": return "1";
+		case "btnCateg_2": return "10";
+		case "btnCateg_3": return "100";
+		case "btnCateg_4": return "1000";
+	}
+	return '-1';
+}
+function check_binary(i, j){
+	i = parseInt(i);
+	j = parseInt(j);
+	//"cast a byte"
+	i = '0B' + i;
+	j = '0B' + j;
+	
+	return i & j
 }

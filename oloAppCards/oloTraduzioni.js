@@ -184,25 +184,18 @@ function elenco(bSetCateg = false, parola = '', filtraCateg = '-1'){
 	let sHex = '';
 	for (i=a.length -1; i>= 0; --i){
 		
-		switch(a[i].categoria){
-			case CATEGORIE._verbo:
-				sHex = '#0c7eef'; 
-				break;
-			case CATEGORIE._aggettivo:
-				sHex = '#7ebf6a'; 
-				break;
-			case CATEGORIE._sostantivo:
-				sHex = '#d1b3b3'; 
-				break;
-			case CATEGORIE._interiezioni_modo_dire:
-				sHex = '#56aa10'; 
-				break;
-			default:
-				sHex = '#00cc12'; 
-				break;
+		sHex = '#00cc12'; 
+		if(     checkCategoria(a[i].categoria,CATEGORIE_BIT._verbo)){			
+			sHex = '#0c7eef'; 
+		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._aggettivo)){
+			sHex = '#7ebf6a'; 
+		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._sostantivo)){
+			sHex = '#d1b3b3'; 
+		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._interiezioni_modo_dire)){
+			sHex = '#56aa10'; 
 		}
 		
-		sHTML += '<div id="divParolaCercata_' + a[i].counter + '" class="col-xs-12 parolaCercata" style="border: solid ' + sHex + '; border-left-width: 8px;">'
+		sHTML += '<div id="divParolaCercata_' + a[i].counter + '" class="col-xs-12 parolaCercata" style="border: solid ' + sHex + '; border-left-width: 10px;" ondblclick="elenco(true, \'' + a[i].parola  + '\' )">'
 		sHTML += '	<div class="col-xs-8" style="padding: 0 0 0 10px;">'
 		sHTML += '		<b>' + a[i].parola  + '</b><br>'		
 		for (j = 0; j< a[i].traduzioni.length; ++j){
@@ -223,10 +216,10 @@ function elenco(bSetCateg = false, parola = '', filtraCateg = '-1'){
 		sHTML += '	</div>'	
 		if(bSetCateg == true){
 		sHTML += '	<div class="col-xs-12" style="padding:0; text-align: center;">'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._verbo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._verbo == a[i].categoria ? 'sottolineato' : '') + '">VERBO</button>'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._aggettivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._aggettivo == a[i].categoria ? 'sottolineato' : '') + '">AGG/AVV</button>'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._sostantivo + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._sostantivo == a[i].categoria ? 'sottolineato' : '') + '">SOST.</button>'
-		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE._interiezioni_modo_dire + ')" class="btn btn-warning btnSetCateg ' + (CATEGORIE._interiezioni_modo_dire == a[i].categoria ? 'sottolineato' : '') + '">MODO</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE_BIT._verbo + ')" class="btn btn-warning btnSetCateg ' + ((checkCategoria(a[i].categoria, CATEGORIE_BIT._verbo)) ? 'sottolineato' : '') + '">VERBO</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE_BIT._aggettivo + ')" class="btn btn-warning btnSetCateg ' + ((checkCategoria(a[i].categoria, CATEGORIE_BIT._aggettivo)) ? 'sottolineato' : '') + '">AGG/AVV</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE_BIT._sostantivo + ')" class="btn btn-warning btnSetCateg ' + ((checkCategoria(a[i].categoria, CATEGORIE_BIT._sostantivo)) ? 'sottolineato' : '') + '">SOST.</button>'
+		sHTML += '		<button onclick="SetCateg(' + i +', '+ CATEGORIE_BIT._interiezioni_modo_dire + ')" class="btn btn-warning btnSetCateg ' + ((checkCategoria(a[i].categoria, CATEGORIE_BIT._interiezioni_modo_dire)) ? 'sottolineato' : '') + '">MODO</button>'
 		sHTML += '	</div>'	
 		}		
 		sHTML += '</div>'						
@@ -258,7 +251,12 @@ function SetCateg(i, tipoCateg){
 	let a = creaOggettoTraduzioni();
 	let parola = a[i].parola;
 	//se c'è già una categoria ed è la stessa che ho passato adesso, la rimuovo, sennò la aggiungo
-	if(a[i].categoria == tipoCateg){		
+	/*if(a[i].categoria == tipoCateg){		
+		updateCategoria(parola, '');
+	}else{
+		updateCategoria(parola, tipoCateg);
+	}*/
+	if(checkCategoria(a[i].categoria, tipoCateg)){		
 		updateCategoria(parola, '');
 	}else{
 		updateCategoria(parola, tipoCateg);
@@ -323,29 +321,111 @@ function ImportaTradDefault(){
 		return false;
 	}		
 }
+/*
 const CATEGORIE = {
 	_verbo : 1,
 	_sostantivo : 2,
 	_aggettivo : 3,
 	_interiezioni_modo_dire : 4
 }
+*/
+const CATEGORIE_BIT = {
+	_verbo : 1,
+	_sostantivo : 10,
+	_aggettivo : 100,
+	_interiezioni_modo_dire : 1000
+}
 function updateCategoria(parola, newCateg) {	
 	let array;
 	array = JSON.parse(localStorage['olo_Traduzioni']);
-
-	parola = parola.toUpperCase();
-	obj_parola = array.filter(o => o.parola.toUpperCase() == parola)	
-	 
-	array.forEach(o =>  { 
-						//o["counter"] = counter; o["categoria"] = "verbo"; counter += 1; 
+	parola = parola.toUpperCase();	 
+	/*array.forEach(o =>  {						
 							if(o["parola"].toUpperCase() === parola){
-								o["categoria"] = newCateg;
+								let oldCateg = o["categoria"];
+								if(checkCategoria(oldCateg, newCateg) == true){
+									//la categoria selezionata è già presente nelle categorie presenti:
+									//la devo rimuovere!
+									o["categoria"] = (oldCateg ^ newCateg);
+								}else{
+									//la categoria selezionata non è ancora presente nelle categorie presenti:
+									//la devo aggiungere!
+									o["categoria"] = (oldCateg | newCateg);
+								}
+								
 							}
 						}
-				 )
+				 )*/
+				 
+	let f = array.filter(o => o.parola.toUpperCase() === parola);
+	let oldCateg = f[0].categoria;
+	if(checkCategoria(oldCateg, newCateg) == true){
+		//la categoria selezionata è già presente nelle categorie presenti:
+		//la devo rimuovere!
+		f[0].categoria = sum_binary(oldCateg, newCateg); //(oldCateg ^ newCateg);
+	}else{
+		//la categoria selezionata non è ancora presente nelle categorie presenti:
+		//la devo aggiungere!
+		f[0].categoria = diff_binary(oldCateg, newCateg); //(oldCateg | newCateg);
+	}					
 	localStorage['olo_Traduzioni'] = JSON.stringify(array);
 }
-function prova(){
-	updateCategoria('hello', '2', 1);
+
+function checkCategoria(valore, categoria){
+	/*let b = (categoria & valore) == categoria;
+	return b;*/
+	return check_binary(valore, categoria);
 }
+function setCategToBit(){	
+	if(localStorage["olo_Traduzioni"] != undefined){
+		a = JSON.parse(localStorage["olo_Traduzioni"]);
+		if(a.length > 0){
+			let counter = 1;
+			a.forEach(o => { 
+				switch(o["categoria"].toString()){
+					case "1": o["categoria"] = CATEGORIE_BIT._verbo; break;
+					case "2": o["categoria"] = CATEGORIE_BIT._sostantivo; break;
+					case "3": o["categoria"] = CATEGORIE_BIT._aggettivo; break;
+					case "4": o["categoria"] = CATEGORIE_BIT._interiezioni_modo_dire; break;
+				}
+				console.log(o["parola"] + '  categ = ' + o["categoria"])		
+					}
+				)
+			localStorage["olo_Traduzioni"] = JSON.stringify(a);			
+		}	else{
+		console.log("a.length = 0 ")
+	}		
+	}else{
+		console.log("olo_Traduzioni UNDEFINED")
+	}	
+}
+
+///operazioni binarie
+function sum_binary(i, j){
+	i = parseInt(i);
+	j = parseInt(j);
+	//"cast a byte"
+	i = '0B' + i;
+	j = '0B' + j;
+	
+	return (i | j).toString(2) //converto in base 2
+}
+function diff_binary(i, j){
+	i = parseInt(i);
+	j = parseInt(j);
+	//"cast a byte"
+	i = '0B' + i;
+	j = '0B' + j;
+	
+	return (i ^ j).toString(2) //converto in base 2
+}
+function check_binary(i, j){
+	i = parseInt(i);
+	j = parseInt(j);
+	//"cast a byte"
+	i = '0B' + i;
+	j = '0B' + j;
+	
+	return i & j
+}
+
 
