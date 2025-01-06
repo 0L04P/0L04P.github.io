@@ -212,6 +212,9 @@
 		<div class='col-xs-12 text-center NoPad' style='padding: 5px;'>
 			<button onclick='elenco(false);' class='MyBtn btnMyWarning' style='font-size: 18px; font-style: italic;'>Aggiorna</button>
 			<button onclick='elenco(true);' class='MyBtn btnMyWarning' style='font-size: 18px; font-style: italic;'>Set Categorie</button>	
+			<button onclick='ImportaTradDefault();' class='MyBtn btn-success'>IMPORT TRAD DEFAULT</button>
+			<button onclick='CLEAR_LS();' class='MyBtn btn-danger'>PULISCI LOCAL STORAGE</button>
+			<button onclick='setCategToBit();' class='MyBtn btn-danger'>setCategToBit()</button>
 		</div>
 		<div class='col-xs-12 text-center NoPad' style='padding: 5px;'>
 			<button id='btnCateg_1' onclick="elencoFiltraCateg('1')" class="MyBtn btnMyWarning btnGiocaCateg coloreVerbo">VERBO</button>
@@ -223,9 +226,7 @@
 			 
 		</div>
 		
-		<button onclick='ImportaTradDefault();' class='MyBtn btn-success'>IMPORT TRAD DEFAULT</button>
-		<button onclick='CLEAR_LS();' class='MyBtn btn-danger'>PULISCI LOCAL STORAGE</button>
-		<button onclick='setCategToBit();' class='MyBtn btn-danger'>setCategToBit()</button>
+		
 		<div class='col-xs-12 text-center NoPad' >
 			<label id='lblVersione'></label>
 		</div>

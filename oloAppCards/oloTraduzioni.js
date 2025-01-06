@@ -256,12 +256,12 @@ function SetCateg(i, tipoCateg){
 	}else{
 		updateCategoria(parola, tipoCateg);
 	}*/
-	if(checkCategoria(a[i].categoria, tipoCateg)){		
-		updateCategoria(parola, '');
+	/*if(checkCategoria(a[i].categoria, tipoCateg)){		
+		updateCategoria(parola, tipoCateg);
 	}else{
 		updateCategoria(parola, tipoCateg);
-	}
-	
+	}*/
+	updateCategoria(parola, tipoCateg);
 	elenco(true)
 }
 
@@ -339,33 +339,21 @@ function updateCategoria(parola, newCateg) {
 	let array;
 	array = JSON.parse(localStorage['olo_Traduzioni']);
 	parola = parola.toUpperCase();	 
-	/*array.forEach(o =>  {						
-							if(o["parola"].toUpperCase() === parola){
-								let oldCateg = o["categoria"];
-								if(checkCategoria(oldCateg, newCateg) == true){
-									//la categoria selezionata è già presente nelle categorie presenti:
-									//la devo rimuovere!
-									o["categoria"] = (oldCateg ^ newCateg);
-								}else{
-									//la categoria selezionata non è ancora presente nelle categorie presenti:
-									//la devo aggiungere!
-									o["categoria"] = (oldCateg | newCateg);
-								}
-								
-							}
-						}
-				 )*/
-				 
+					 
 	let f = array.filter(o => o.parola.toUpperCase() === parola);
 	let oldCateg = f[0].categoria;
+	
+	let a = diff_binary(oldCateg, newCateg);
+	let b = sum_binary(oldCateg, newCateg);
+	
 	if(checkCategoria(oldCateg, newCateg) == true){
 		//la categoria selezionata è già presente nelle categorie presenti:
 		//la devo rimuovere!
-		f[0].categoria = sum_binary(oldCateg, newCateg); //(oldCateg ^ newCateg);
+		f[0].categoria = diff_binary(oldCateg, newCateg); //(oldCateg ^ newCateg);
 	}else{
 		//la categoria selezionata non è ancora presente nelle categorie presenti:
 		//la devo aggiungere!
-		f[0].categoria = diff_binary(oldCateg, newCateg); //(oldCateg | newCateg);
+		f[0].categoria = sum_binary(oldCateg, newCateg); //(oldCateg | newCateg);
 	}					
 	localStorage['olo_Traduzioni'] = JSON.stringify(array);
 }
@@ -425,7 +413,8 @@ function check_binary(i, j){
 	i = '0B' + i;
 	j = '0B' + j;
 	
-	return i & j
+	//return i & j
+	return '0B' + (i & j).toString(2) == j.toString()
 }
 
 
