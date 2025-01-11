@@ -2,7 +2,7 @@ var esatte, sbagliate;
 var modalita;
 var array_n_parole;
 var index_n_parole;
-const NUM_10 = 11;
+const NUM_10 = 10;
 
 $(document).ready(function(){
 	initVariabiliRis();			
@@ -17,27 +17,27 @@ $(document).ready(function(){
 	$('#btnModalita10').on('click',function(){		 	
 		pModalita(NUM_10);
 		index_n_parole = 1; 
-		pPopolaCarte_n(10);
+		pPopolaCarte_n(NUM_10);
 	});	
 	$('#btnCateg_1').on('click',function(){		 	
 		pModalita(NUM_10);
 		index_n_parole = 1; 
-		pPopolaCarte_n(10);
+		pPopolaCarte_n(NUM_10);
 	});	
 	$('#btnCateg_2').on('click',function(){		 	
 		pModalita(NUM_10);
 		index_n_parole = 1; 
-		pPopolaCarte_n(10);
+		pPopolaCarte_n(NUM_10);
 	});	
 	$('#btnCateg_3').on('click',function(){		 	
 		pModalita(NUM_10);
 		index_n_parole = 1; 
-		pPopolaCarte_n(10);
+		pPopolaCarte_n(NUM_10);
 	});	
 	$('#btnCateg_4').on('click',function(){		 	
 		pModalita(NUM_10);
 		index_n_parole = 1; 
-		pPopolaCarte_n(10);
+		pPopolaCarte_n(NUM_10);
 	});		
 });	
 
@@ -58,6 +58,7 @@ function pModalita(n){
 	}
 	pPopolaCarte();
 	pSetRis();
+	$('#btnSoluzione').css('display', '');
 }
 
 function initVariabiliRis(){
@@ -127,26 +128,37 @@ function pPopolaCarte_n(){
 		//devo creare tutto
 		array_n_parole = pCreaSubarrayDiNParole(modalita);
 		index_n_parole = 0;
+		console.log('array_n_parole');
+		console.log(array_n_parole);
 		
 	}else{
 		if(index_n_parole <= array_n_parole.length ){
-			$('#lblParola').text(array_n_parole[index_n_parole].parola)
-			$('#lblParolaCopia').text(array_n_parole[index_n_parole].parola)
-			$('#lblSoluzione').text(array_n_parole[index_n_parole].traduzioni);
+			let indice = index_n_parole%array_n_parole.length;
+			console.log('indice:' + indice);
+			$('#lblParola').text(array_n_parole[indice].parola)
+			$('#lblParolaCopia').text(array_n_parole[indice].parola)
+			$('#lblSoluzione').text(array_n_parole[indice].traduzioni);
 			setSizeTraduzione();
 		}else{
 			//gioco finito
-			alert('FINITO!!')
+			//alert('FINITO!!')
+			let indovinate, sbagliate, tot
+			indovinate= parseInt($('#lblIndovinate').text());
+			sbagliate= parseInt($('#lblSbagliate').text());
+			tot= indovinate + sbagliate;
+			$('#lblParola').text('FINITO\n\nIndovinate\n' + indovinate + '/' + tot);
+			$('#btnSoluzione').css('display', 'none');
 		}
 	}	
 }
 
 function pSetRis(){
+	let sHtmlEsito
 	let t;
 	let testo;
-	if(esatte > 0 || sbagliate > 0){
+	/*if(esatte > 0 || sbagliate > 0){
 		t = parseInt(esatte) + parseInt(sbagliate);
-		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;		
+		testo = 'Sbagliate: ' + sbagliate + ' su ' + t;	
 	}else{
 		//partita non ancora avviata		
 		t = (modalita > 0) ? modalita : '-';		
@@ -154,9 +166,19 @@ function pSetRis(){
 		if(modalita > 0){
 			let mancanti = modalita - esatte - sbagliate;
 			testo += '\n' + '(Mancanti: ' + mancanti + ')';
-		}				
-	}	
-	$('#lblEsito').text(testo);	
+		}
+	}*/	
+	//$('#lblEsito').text(testo);		
+	////////
+	sHtmlEsito = `
+		<span class='glyphicon glyphicon-ok fontEsito' style='color:#00ee00'></span>
+		<span id='lblIndovinate' class='fontEsito' style='color:#00ee00'>${esatte}</span>&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span class='glyphicon glyphicon-remove fontEsito' style='color:#e32c2c'></span>
+		<span id='lblSbagliate' class='fontEsito' style='color:#e32c2c'>${sbagliate}</span>&nbsp;
+	`;
+	$('#divEsito').html(sHtmlEsito);
+	 
 }
 
 function pCreaSubarrayDiNParole(n){
