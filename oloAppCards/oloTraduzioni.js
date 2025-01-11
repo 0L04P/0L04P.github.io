@@ -190,7 +190,7 @@ function elenco(bSetCateg = false, parola = '', filtraCateg = '-1'){
 		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._aggettivo)){
 			sHex = '#7ebf6a'; 
 		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._sostantivo)){
-			sHex = '#d1b3b3'; 
+			sHex = '#5bff07'; 
 		}else if(checkCategoria(a[i].categoria,CATEGORIE_BIT._interiezioni_modo_dire)){
 			sHex = '#56aa10'; 
 		}
