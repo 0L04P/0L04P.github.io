@@ -273,11 +273,63 @@ function Visualizza(){
 	$('#lblTraduzione1').css('display', '');
 }
 
-function CLEAR_LS(){
-	localStorage["olo_Traduzioni"] = undefined
-	location.reload();
-
+function pGetTimestamp() {
+	return new Date().toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }) + ' ' + new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 }).replace(',', '.')
 }
+function CLEAR_LS(){
+	ClearLS();
+}
+function ClearLS(){
+	//creo backup
+	let timestamp = pGetTimestamp();
+	timestamp = timestamp.replaceAll(',', '_').replaceAll('.', '_').replaceAll('\/','_').replaceAll(':', '_').replaceAll('  ', '_').replaceAll(' ', '___').replaceAll('/', '_');
+	localStorage["bak_" + timestamp] = localStorage["olo_Traduzioni"];
+	localStorage["olo_Traduzioni"] = undefined;
+	location.reload();
+}
+function apriSetting(){
+	if($('#divSettings').is(':visible')){
+		$('#divSettings').fadeOut();
+	}else{
+		$('#divSettings').fadeIn();
+		getBakup();
+	}
+	
+}
+function getBakup(){	 
+	let sHTML = `<b>BACKUPS</b>
+				<table style='width: 100%'>`;
+	let array_nomi_bak = [];
+	// Iterate through all keys in localStorage
+	for (let i = 0; i < localStorage.length; i++) {
+		let key = localStorage.key(i);
+		if(key.substring(0,3) == 'bak'){
+			array_nomi_bak.push(key);
+			let nome = key.replace('bak_','');
+			sHTML += `<tr>
+						<th style='width: 60%;'>${nome}</th>
+						<th style='width: 20%;'>
+							<button class='btn btn-success' onclick='RipristinaBackup("${key}")'>
+								<span style='font-size: 25px;' class='glyphicon glyphicon-save-file'></span>
+							</button>
+						</th>
+						<th style='width: 20%;'>
+							<button class='btn btn-danger' onclick='localStorage.removeItem("${key}")'>
+								<span style='font-size: 25px;' class='glyphicon glyphicon-remove'></span>
+							</button>
+						</th>
+					  </tr>`;
+		}		
+	}
+	sHTML += `/<table>`
+	$('#divListaBackup').html(sHTML);
+	
+}
+function RipristinaBackup(key){
+	localStorage["olo_Traduzioni"] = localStorage[key];
+	location.reload();
+}
+
 
 function setInizialeMaiuscola(a){
 	return a.substring(0,1).toString().toUpperCase() + a.substring(1)
