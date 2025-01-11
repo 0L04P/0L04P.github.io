@@ -321,7 +321,7 @@ function getBakup(){
 					  </tr>`;
 		}		
 	}
-	sHTML += `/<table>`
+	sHTML += `<table>`
 	$('#divListaBackup').html(sHTML);
 	
 }
