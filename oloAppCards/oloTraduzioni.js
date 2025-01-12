@@ -469,4 +469,7 @@ function check_binary(i, j){
 	return '0B' + (i & j).toString(2) == j.toString()
 }
 
-
+function ToTop(velocita){
+	$("html, body").animate({ scrollTop: 0 }, velocita); 
+	return false;
+}
