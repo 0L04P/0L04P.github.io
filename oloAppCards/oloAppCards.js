@@ -9,7 +9,7 @@ $(document).ready(function(){
 	modalita = -1; //default infinito
 	pModalita(modalita);
 	pPopolaCarte();
-	randomFlag();
+	/*randomFlag();*/
 	
 	/*Handle dei click*/	
 	$('#btnModalitaInf').on('click',function(){		 	
