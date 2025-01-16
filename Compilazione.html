@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+ 
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+	</style>
+	<link rel="stylesheet" href="Aggiornamenti.css" ></link>
+	<script src="app.js" ></script>
+	<script src="Aggiornamenti.js" ></script>
+	<link rel="icon" type="image/x-icon" src="https://drive.google.com/file/d/1GqvK_O28n_CfQOmr08z6ZBNBJpDI8AWL/view?usp=sharing">
+	
+	<link rel="icon" href="BeS_favicon.png" sizes="32x32"/>
+	<link rel="icon" href="BeS_favicon.png" sizes="192x192"/>
+	<link rel="apple-touch-icon" href="BeS_favicon.png"/>
+	<link rel="manifest" href="manifest.json">
+	
+
+</head>
+ 
+<body  style = "background-color:#16293c; color:#ffffff;"  >
+
+<style>
+	.evidenziato{
+		color: yellow;
+	}
+	input[type=checkbox] {
+		transform: scale(1.5);
+		margin-right: 10px;
+		margin-left: 5px;
+		vertical-align: -5px;
+	}
+	label {
+		display: inline-block;
+		margin-bottom: 5px;
+		font-weight: normal;
+		max-width: 90%;
+	}
+</style>
+<script>
+function setEvidenziato(){
+$('.evidenziato').removeClass("evidenziato");
+$(this).addClass("evidenziato");
+}
+</SCRIPT>
+
+
+
+<div class="container-fluid" style="margin-left: 100px; margin-right: 100px;"> 
+	<h2 class="btn-titolo" onclick='window.location.reload(true);' style="text-align:center; margin-top: 0px; color: white; cursor:pointer; ">
+		Come compilare una versione
+	</h2>	
+	<div class='col-xs-12 text-right'>	
+		<a href="CreaFileVB.html" style="margin-left:100px; color: #ccc; font-size:18px;"><i>Crea BeS</i></a>
+		<a href="Errori.html" style="margin-left:100px; color: #ccc; font-size:18px;"><i>Errori comuni</i></a>
+		<a href="UpdateGithub.html" style="margin-left:100px; color: #ccc; font-size:18px;"><i>Carica su GitHub</i></a>
+		 
+	</div>
+	<div class='col-xs-12' style='font-size: 20px;'>
+		<ol>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_1'/>
+			<label for='chk_1'>Archiviare il sorgente</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_2'/>
+			<label for='chk_2'>Leggere l'ultima versione</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_3'/>
+			<label for='chk_3'>Lanciare il programma per vedere che, letta l'ultima versione, tutto funzioni</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_4'/>
+			<label for='chk_4'>Verificare che nelle RboWin non ci sia in chiaro il nome del database Master</label>
+			
+			<button class='btn btn-info' onclick='mostraiframe()'>Mostra</button>
+			<div id='IFRAME' class="overlay-content" style="display:none;">
+				<iframe src="Aggiornamenti.html" style="width: 1741px;height: 421px;border-radius: 5px;/* overflow: auto; */resize: both;"></iframe>
+			</div>			
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_5'/>
+			<label for='chk_5'>Se presente la cStart: aggiorno le la classe cStart con RboWin e Parametri</label>					
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_5bis'/>
+			<label for='chk_5bis'>Se presente la cGestioneTabelle: aggiorno la classe cGestioneTabelle</label>					
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_6'/>
+			<label for='chk_6'>Compila -> Pubblica </label>			
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_7'/>
+			<label for='chk_7'>Se da compilare il Servizio: imposto su 'Release' + Compila e prendo il compilato	</label>	
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_8'/>
+			<label for='chk_8'>Se da compilare un'applicazione Windows: imposto su 'Release' + Compila e prendo il compilato	</label>	
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_9'/>
+			<label for='chk_9'>Nella cartella del progetto (\\serversviluppo\Resource-SourceSafe\AppWeb\ArdesProduzione\VersioniCongelate\2023) creo la Cartella di versione con il nome della versione yyyyMMdd:
+			all'interno le sotto cartelle Compilato e Sorgente e la cartella con il ServizioCompilato</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_10'/>
+			<label for='chk_10'>Zippo eventuali cartelle precedenti</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_11'/>
+			<label for='chk_11'>Copio il sorgente nell'apposita cartella</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_12'/>
+			<label for='chk_12'>Copio il compilato nell'apposita cartella</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_13'/>
+			<label for='chk_13'>Copio il Servizio nell'apposita cartella</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_14'/>
+			<label for='chk_14'>Scollego il sorgente</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_15'/>
+			<label for='chk_15'>Riapro la soluzione e la rinomino con il numero di versione</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_16'/>
+			<label for='chk_16'>Rimuovere dai recenti di VisualStudio il progetto rinominato (da errore aprirlo)</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_17'/>
+			<label for='chk_17'>Dalla CboUtility pulisco la cartella del Sorgente (i.e. svuoto sottocartelle bin e obj)</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_28'/>
+			<label for='chk_28'>Verifico che le Note Operative siano aggiornate ed indico il numero di versione nelle ultime novità <br>
+			Copio le note operative nella cartella di versione</label>
+			</li>			
+			<li style='cursor: url("checkicon.png"), auto;' onclick='setEvidenziato();'><input type='checkbox' id='chk_18'/>
+			<label for='chk_18'>Dal DBManager creo il file .xml per l'allineamento del database e le copio nella cartella di versione</label>
+			</li>
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_19'/>
+			<label for='chk_19'>Se presente una tabella tabEventi creo un file con la query di insert e lo copio nella cartella di versione</label>
+			</li>	
+			<li onclick='setEvidenziato();'><input type='checkbox' id='chk_20'/>
+			<label for='chk_20'>Creo/Aggiorno la query per la gestione dei varchar(MAX) e la copio nella cartella di versione</label>
+			<i style='white-space: pre-line;'>
+			
+			/*query aggiornate al 16/01/25*/
+			DECLARE @NomeDatabase as varchar(100)
+			SET @NomeDatabase = 'CERTIFOR_MasterLift'
+
+			SELECT COUNT(*) AS [Righe_a_text]
+			FROM INFORMATION_SCHEMA.COLUMNS C
+			LEFT JOIN INFORMATION_SCHEMA.TABLES ON C.TABLE_NAME = INFORMATION_SCHEMA.TABLES.TABLE_NAME   
+			WHERE
+			C.TABLE_CATALOG = @NomeDatabase AND DATA_TYPE = 'text'  AND INFORMATION_SCHEMA.TABLES.TABLE_TYPE = 'BASE TABLE'
+
+			SELECT COUNT(*) AS [Righe_a_VarcharMAX]
+			FROM INFORMATION_SCHEMA.COLUMNS C
+			LEFT JOIN INFORMATION_SCHEMA.TABLES ON C.TABLE_NAME = INFORMATION_SCHEMA.TABLES.TABLE_NAME   
+			WHERE
+			C.TABLE_CATALOG = @NomeDatabase AND DATA_TYPE = 'varchar' AND CHARACTER_MAXIMUM_LENGTH = '-1'
+			 AND INFORMATION_SCHEMA.TABLES.TABLE_TYPE = 'BASE TABLE'
+
+			/***** NUOVO modo per reimpostare i text a varchar(MAX) *****/
+			/***** Cerca tutte le colonne di tipo text o Varchar(MAX) e creo la query per reimpostare eventuali text a Varchar(MAX) **********/
+			SELECT
+			'IF (SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ''' + C.TABLE_NAME + ''' AND COLUMN_NAME = ''' + C.COLUMN_NAME + ''') = ''text''
+			BEGIN
+			exec (''ALTER TABLE ' + C.TABLE_NAME + ' ALTER COLUMN ' + C.COLUMN_NAME + ' varchar(MAX) NULL'' )
+			END' as q
+
+			FROM INFORMATION_SCHEMA.COLUMNS C
+			LEFT JOIN INFORMATION_SCHEMA.TABLES ON C.TABLE_NAME = INFORMATION_SCHEMA.TABLES.TABLE_NAME
+			   
+			WHERE C.TABLE_CATALOG = @NomeDatabase AND INFORMATION_SCHEMA.TABLES.TABLE_TYPE = 'BASE TABLE'
+			AND (
+			(C.DATA_TYPE = 'text')
+			OR
+			( C.DATA_TYPE = 'varchar' AND C.CHARACTER_MAXIMUM_LENGTH = '-1')
+			)
+
+
+			---OLD
+			/*query aggiornate al 7/01/25*/
+			DECLARE @NomeDatabase as varchar(100)
+			SET @NomeDatabase = 'Ardes_Produzione'
+
+			SELECT COUNT(*) AS [Righe_a_text]
+			FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE
+			TABLE_CATALOG = @NomeDatabase AND DATA_TYPE = 'text'
+
+			SELECT COUNT(*) AS [Righe_a_VarcharMAX]
+			FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE
+			TABLE_CATALOG = @NomeDatabase AND DATA_TYPE = 'varchar' AND CHARACTER_MAXIMUM_LENGTH = '-1'
+
+			/***** NUOVO modo per reimpostare i text a varchar(MAX) *****/
+			/***** Cerca tutte le colonne di tipo text o Varchar(MAX) e creo la query per reimpostare eventuali text a Varchar(MAX) **********/
+			SELECT
+			'IF (SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ''' + TABLE_NAME + ''' AND COLUMN_NAME = ''' + COLUMN_NAME + ''') = ''text''
+			BEGIN
+			exec (''ALTER TABLE ' + TABLE_NAME + ' ALTER COLUMN ' + COLUMN_NAME + ' varchar(MAX) NULL'' )
+			END' as q
+
+			FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE TABLE_CATALOG = @NomeDatabase
+			AND (
+			(DATA_TYPE = 'text')
+			OR
+			( DATA_TYPE = 'varchar' AND CHARACTER_MAXIMUM_LENGTH = '-1')
+			)
+			</i>
+			</li>
+							
+		</ol>
+		
+		
+	</div>
+	
+	<div class='col-xs-12' style='height:50px;'></div>	
+</div>
+  
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' });
+}
+function mostraiframe(){
+	if($('#IFRAME').is(':visible') == false){
+		$('#IFRAME').fadeIn();
+	}else{
+		$('#IFRAME').fadeOut();
+	}
+}
+</script>
+
+</body>
+</html>
