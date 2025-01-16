@@ -21,7 +21,18 @@ option{font-weight:bold;}
 </head>
 
 <style>
-			
+	.bandiera{
+		width: 330px;
+		height: auto;
+		/*border: solid 1px #000;
+		border-radius: 2px;*/
+	}
+	.bandieraBack{
+	   width: 240px;
+		height: auto;
+		margin-top: -30px;
+	}				
+		
 	.btnMyWarning{
 		color: #fff;
 		background-color: #f0ad4e;
@@ -87,7 +98,7 @@ option{font-weight:bold;}
 		user-select: none;
 	}
 	.card{
-		height: 440px;
+		height: 500px;
 		width: 80vw;
 		position: relative;
 		transition: all 1s linear;
@@ -139,8 +150,7 @@ option{font-weight:bold;}
 		border-style: none;
 	}
 	.coloreSostantivo{
-		background-color:#5bff07; 
-		color:#000;
+		background-color:#d1b3b3; 
 		border-style: none;
 	}
 	.coloreModo{
@@ -157,24 +167,29 @@ option{font-weight:bold;}
 </style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
-	<div class="container NoPad" style='margin-top:-65px;'>			
+	<div class="container NoPad" style='margin-top:-65px; margin-left: -10px;'>			
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
 			<button class='myBtn btn-warning' onclick='window.location.href="oloTraduzioni.html"' style='width: 100%; margin-left: -34px; height: 60px;'>
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;TRADUZIONI
 			</button>
 		</div>	
 		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
-			<button id='btnModalitaInf' class='myBtn btn-warning' style='width: 40%; height: 45px; background: #ffa500; float:left;'>
+			<button id='btnModalitaInf' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; float:left;'>
 				<label style='font-size: 50px; margin-top: -28px;'>&infin;</label>
 			</button>
-			<button id='btnModalita10' class='myBtn btn-warning' style='width: 40%; height: 45px; background: #ffa500; margin-right: 5px;'>
+			<button id='btnModalita10' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; margin-right: 5px;'>
 				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;'>10</label>
+			</button>
+			<button id='btnModalitaFlag' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #b3b2cc; margin-right: 5px;'>
+				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;' onclick='giocaBandiere()'>
+					<img id='flagBtModalitaFlag' style=' width: 50px;  vertical-align: 0; margin-top: 4px;'/>
+				</label>
 			</button>
 		</div>	
 		
 		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 90vw;padding: 3px;border-radius: 4px;'>
 			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreVerbo">VERBO</button>
-			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreAggettivo">AGG/AVV</button>
+			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreAggettivo">AGG.</button>
 			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreSostantivo">SOST.</button>
 			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreModo">MODO DI DIRE</button>		
 		</div> 
@@ -182,7 +197,8 @@ option{font-weight:bold;}
 		<div class='col-xs-12 NoPad card'>			
 			<div class='col-xs-12 NoPad carta front'>												
 				<div class='col-xs-12 NoPad' style='margin-top:40px;'>
-					<label id='lblParola' style='white-space: pre;'>A</label>
+					<label id='lblParola'  class='lblParola' style='white-space: pre;'>A</label>
+					<img id='flag1' class='bandiera flag_to_guess' style='display:none; '/>
 				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
 					<button id='btnSoluzione' class='myBtn btn-danger' onclick='GetSoluzione()' style='width: 90%'>SOLUZIONE</button>
@@ -191,16 +207,17 @@ option{font-weight:bold;}
 			</div>
 			<div class='col-xs-12 NoPad carta back'>
 				<div class='col-xs-12 NoPad' style='margin-top:50px; color:#8f8f8f;'>
-					<label id='lblParolaCopia'></label>
+					<label id='lblParolaCopia' class='lblParola'></label>
+					<img id='flag2' class='bandiera bandieraBack flag_to_guess' />
 				</div>			
 				<div class='col-xs-12 NoPad' style='margin-top:20px;'>
-					<label  id='lblSoluzione'></label>
+					<label  id='lblSoluzione' style='white-space: pre-line;'></label>
 				</div>	
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'>
 					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>Indovinata</button>
 				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
-					<button class='myBtn btn-success' onclick='NextCard(1)' style='width: 90%'>Next Card</button>
+					<button class='myBtn btn-success' onclick='NextCard(1);' style='width: 90%'>Next Card</button>
 				</div>				
 			</div>
 		</div>
