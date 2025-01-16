@@ -1,0 +1,12 @@
+0 spostare in E:\APPS\_Aggiornamenti_MasterCert\2025\20250116 la cartella di versione (senza sorgente!)
+1 chiamare per dire che inizio
+1bis stop pool
+2 spostare in _OLD e _TODELETE vecchi compilati
+3 spostare in bin nuovo compilato
+4 Backup SQL in C:\_BackupAggiornamenti
+5 Lanciare xml (spunta RboWin SOLO SE manca la cStart!)
+6 lanciare eventuali query nelle note operative
+7 lanciare query qVarcharMax
+8 aggiungere web.config sul compilato dalla _OLD
+9 aggiornare numero versione sul web.config
+10 start pool
