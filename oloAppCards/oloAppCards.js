@@ -342,7 +342,7 @@ function giocaBandiere(){
 		$('#flag1').css('display', '');
 		$('#flag2').css('display', '');
 	}else{
-		if(index_n_parole <= ARRAY_BANDIERE.length ){
+		if(index_n_parole < ARRAY_BANDIERE.length ){
 			let indice = index_n_parole%ARRAY_BANDIERE.length;
 			console.log('indice:' + indice);
 			$('#flag1').attr('src', ARRAY_BANDIERE[indice].url);
