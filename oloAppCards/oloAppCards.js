@@ -373,7 +373,7 @@ function creaArrayFlags(){
 	let arrCapitali = [];
 	
 	const ARR_FLAG_LIST = Object.keys(FLAG_LIST);
-	for(let i = 1; i<=NUM_10; ++i){
+	for(let i = 1; i<=3*NUM_10; ++i){
 		let randomNumber = parseInt(Math.random()*kMAX);		
 		const randomKey = ARR_FLAG_LIST[randomNumber];
 		const soluz = FLAG_LIST[randomKey];
