@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
+option{font-weight:bold;}
+	*{ 
+		font-family: 'M PLUS 2', sans-serif;
+		font-weight:400;		
+	}
+	body{
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		padding-top: 90px;
+		padding-left:10vw;
+		background: #222;
+	}
+	.bandiera{
+		width: 85vw;
+		height: auto;
+		/*border: solid 1px #000;
+		border-radius: 2px;*/
+	}
+	.bandieraBack{
+	   width: 240px;
+		height: auto;
+		margin-top: -30px;
+	}				
+		
+	.btnMyWarning{
+		color: #fff;
+		background-color: #f0ad4e;
+		border-color: #eea236;
+	}
+	.CategSelezionata{
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px  #ff1100 !important;
+		font-weight: bold;
+	}
+	.CategSelezionata.focus, .CategSelezionata.focus-visible,
+	.CategSelezionata:focus, .CategSelezionata:focus-visible{
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px red !important;
+		font-weight: bold;
+	}
+	.CategSelezionata.active, .CategSelezionata:active {
+		background-color: #ff1100 !important;
+		color: yellow !important;
+		border: solid 1px red !important;
+		font-weight: bold;
+	}
+	.btnGiocaCateg {
+		font-size: 14px !important;
+	}
+
+	.fontsize34px{
+		font-size:34px;
+	}
+	.myBtn{
+		font-size:23px;
+	    display: inline-block;
+		margin-bottom: 0;
+		font-weight: 400;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		background-image: none;
+		border: 1px solid transparent;
+		padding: 6px 12px;		
+		line-height: 1.42857143;
+		border-radius: 4px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	.card{
+		height: 500px;
+		width: 90vw;
+		position: relative;
+		transition: all 1s linear;
+		transform-style: preserve-3d;		
+	}
+	.front,	.back{
+		height: 100%;
+		width: 100%;
+		text-align:center;
+		justify-content: center;
+		align-items: center;
+		font-size: 3em;
+		font-family: 'Lobster', cursive;
+		border-radius: 10px;
+		position: absolute;
+		padding-top:20px;
+	}
+	.front{
+		background: #08aeea;
+		z-index: 2;
+		backface-visibility: hidden;
+		border:solid 2px #0000ff;
+		border-radius:5px;		
+	}
+	.back{
+		background: #311e43;
+		z-index: 1;
+		transform: rotateY(180deg);
+		border:solid 2px #0000ff;
+		border-radius:5px;	
+	}
+	.NoPad{
+		padding:0
+	}
+	.container{
+		perspective: 1000px;
+	}	
+	.ModalitaSelezionata{
+		box-shadow: inset 0px 0px 6px 4px #07f4ff;
+		background-color: #7792ad !important;
+	}
+	.lblEsito{
+		font-size: 25px; 
+		margin-left: -30px; 		
+		white-space: pre;
+	}	
+	.coloreAggettivo{
+		background-color: #7ebf6a;
+		border-style: none;
+	}
+	.coloreSostantivo{
+		background-color:#d1b3b3; 
+		border-style: none;
+	}
+	.coloreModo{
+		background-color:#56aa10;
+		border-style: none;
+	}
+	.coloreVerbo{
+		background-color:#0c7eef;
+		border-style: none;
+	}
+	.fontEsito{
+		font-size:38px; 
+	}
+	
+
+
+
+ .switch {     
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .sliderLingua {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /*background-color: #ccc;*/
+	  background-color: transparent;
+	  border: solid 2px #fff;
+      transition: 0.4s;
+      border-radius: 34px;
+	  width: 100px;
+	  height: 38px;
+	  padding-left: 5px;
+	  box-sizing: content-box;	  
+    }
+
+    .sliderLingua:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 5px;
+    }
+
+    input:checked + .sliderLingua {
+      /*background-color: #4CAF50;	*/ 
+    }
+	.sliderLingua:before {	
+		margin-left:5px;
+	}
+	input:not(:checked) + .sliderLingua:before {		
+		background-image: url(https://flagcdn.com/h240/us.png);
+		background-size: cover;		
+		height: 30px;
+		width: 40px;
+		border-radius: 5px;
+		background-position: center;
+    }
+	
+    input:checked + .sliderLingua:before {
+		transform: translateX(45px);
+		background-image: url(https://flagcdn.com/h240/jp.png);
+		background-size: cover;		
+		height: 30px;
+		width: 40px;
+		border-radius: 5px;
+		background-position: center;
+    }			
+	
+	
+	.kana{
+		font-size:150px;
+	}
+	
+	
+	
+	 .sliderKana {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /*background-color: #ccc;*/
+	  background-color: transparent;
+	  border: solid 2px #fff;
+      transition: 0.4s;
+      border-radius: 34px;
+	  width: 100px;
+	  height: 38px;
+	  padding-left: 5px;
+	  box-sizing: content-box;	  
+    }
+
+    .sliderKana:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: #08aeea;
+      transition: 0.4s;
+      border-radius: 50px;
+    }
+
+    input:checked + .sliderKana {
+      /*background-color: #4CAF50;	*/ 
+    }
+	.sliderKana:before {	
+		margin-left:5px;
+	}
+	input:not(:checked) + .sliderKana:before {		
+		/*background-image: url(https://flagcdn.com/h240/us.png);
+		background-size: cover;	*/	
+		height: 30px;
+		width: 47px;
+		border-radius: 50px;
+		background-position: center;
+    }
+	
+    input:checked + .sliderKana:before {
+		transform: translateX(45px);
+		/*background-image: url(https://flagcdn.com/h240/jp.png);
+		background-size: cover;		*/
+		height: 30px;
+		width: 47px;
+		border-radius: 50px;
+		background-position: center;
+    }

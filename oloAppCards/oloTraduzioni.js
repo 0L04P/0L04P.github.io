@@ -27,7 +27,7 @@ $(document).ready(function(){
 		localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
 	}
 	elenco();
-
+    $('#txtNUM').val(localStorage["NUM"]);
 })
 
 function pPronunciaParola(){
@@ -473,3 +473,7 @@ function ToTop(velocita){
 	$("html, body").animate({ scrollTop: 0 }, velocita); 
 	return false;
 }
+function salvaNUM(){
+	localStorage["NUM"] = $('#txtNUM').val();
+}
+

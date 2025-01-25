@@ -10,161 +10,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src='ListaVariabili.js'></script>
   <script src='oloAppCards.js'></script>
   <link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/><!--Icona per il mobile-->
   <link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/><!--Icona per il mobile-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">  
   <style>
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300&display=swap');
-option{font-weight:bold;}
-</style>
+	
+  </style>
+  <link rel="stylesheet" href="oloAppCards.css">
 </head>
-
-<style>
-	.bandiera{
-		width: 85vw;
-		height: auto;
-		/*border: solid 1px #000;
-		border-radius: 2px;*/
-	}
-	.bandieraBack{
-	   width: 240px;
-		height: auto;
-		margin-top: -30px;
-	}				
-		
-	.btnMyWarning{
-		color: #fff;
-		background-color: #f0ad4e;
-		border-color: #eea236;
-	}
-	.CategSelezionata{
-		background-color: #ff1100 !important;
-		color: yellow !important;
-		border: solid 1px  #ff1100 !important;
-		font-weight: bold;
-	}
-	.CategSelezionata.focus, .CategSelezionata.focus-visible,
-	.CategSelezionata:focus, .CategSelezionata:focus-visible{
-		background-color: #ff1100 !important;
-		color: yellow !important;
-		border: solid 1px red !important;
-		font-weight: bold;
-	}
-	.CategSelezionata.active, .CategSelezionata:active {
-		background-color: #ff1100 !important;
-		color: yellow !important;
-		border: solid 1px red !important;
-		font-weight: bold;
-	}
-	.btnGiocaCateg {
-		font-size: 14px !important;
-	}
-
-	.fontsize34px{
-		font-size:34px;
-	}
-	*{ 
-		font-family: 'M PLUS 2', sans-serif;
-		font-weight:400;		
-	}
-	body{
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		padding-top: 90px;
-		padding-left:10vw;
-		background: #222;
-	}
-	.myBtn{
-		font-size:23px;
-	    display: inline-block;
-		margin-bottom: 0;
-		font-weight: 400;
-		text-align: center;
-		white-space: nowrap;
-		vertical-align: middle;
-		-ms-touch-action: manipulation;
-		touch-action: manipulation;
-		cursor: pointer;
-		background-image: none;
-		border: 1px solid transparent;
-		padding: 6px 12px;		
-		line-height: 1.42857143;
-		border-radius: 4px;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-	}
-	.card{
-		height: 500px;
-		width: 90vw;
-		position: relative;
-		transition: all 1s linear;
-		transform-style: preserve-3d;		
-	}
-	.front,	.back{
-		height: 100%;
-		width: 100%;
-		text-align:center;
-		justify-content: center;
-		align-items: center;
-		font-size: 3em;
-		font-family: 'Lobster', cursive;
-		border-radius: 10px;
-		position: absolute;
-		padding-top:20px;
-	}
-	.front{
-		background: #08aeea;
-		z-index: 2;
-		backface-visibility: hidden;
-		border:solid 2px #0000ff;
-		border-radius:5px;		
-	}
-	.back{
-		background: #311e43;
-		z-index: 1;
-		transform: rotateY(180deg);
-		border:solid 2px #0000ff;
-		border-radius:5px;	
-	}
-	.NoPad{
-		padding:0
-	}
-	.container{
-		perspective: 1000px;
-	}	
-	.ModalitaSelezionata{
-		box-shadow: inset 0px 0px 6px 4px #07f4ff;
-		background-color: #7792ad !important;
-	}
-	.lblEsito{
-		font-size: 25px; 
-		margin-left: -30px; 		
-		white-space: pre;
-	}	
-	.coloreAggettivo{
-		background-color: #7ebf6a;
-		border-style: none;
-	}
-	.coloreSostantivo{
-		background-color:#d1b3b3; 
-		border-style: none;
-	}
-	.coloreModo{
-		background-color:#56aa10;
-		border-style: none;
-	}
-	.coloreVerbo{
-		background-color:#0c7eef;
-		border-style: none;
-	}
-	.fontEsito{
-		font-size:38px; 
-	}
-</style>
  
 <body  style = "background-color:#123456; color:#ffffff;">
 	<div class="container NoPad" style='margin-top:-65px; margin-left: -20px;'>			
@@ -173,25 +28,60 @@ option{font-weight:bold;}
 				<span class='glyphicon glyphicon-arrow-left'></span>&nbsp;&nbsp;TRADUZIONI
 			</button>
 		</div>	
-		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
+		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>
 			<button id='btnModalitaInf' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; float:left;'>
-				<label style='font-size: 50px; margin-top: -28px;'>&infin;</label>
-			</button>
-			<button id='btnModalita10' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; margin-right: 5px;'>
-				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;'>10</label>
-			</button>
-			<button id='btnModalitaFlag' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #b3b2cc; margin-right: 5px;'>
-				<label style='font-size: 32px; font-weight: bold; margin-top: -7px;' onclick='giocaBandiere()'>
-					<img id='flagBtModalitaFlag' src='https://flagcdn.com/256x192/np.png' style=' width: 50px;  vertical-align: 0; margin-top: 4px; height: 40px; margin-top: 2px; width: auto;'/>
-				</label>
-			</button>
+			<label style='font-size: 50px; margin-top: -28px;'>&infin;</label>
+		</button>
+		<button id='btnModalita10' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; margin-right: 5px;'>
+			<label id='lblModalita10' style='font-size: 32px; font-weight: bold; margin-top: -7px;'>10</label>
+		</button>
+		<button id='btnModalitaFlag' class='myBtn btn-warning' style='width: 31%; height: 45px; background: #ffa500; margin-right: 5px;'> 
+			<label style='font-size: 32px; font-weight: bold; margin-top: -7px;'> 
+				<img id='flagBtModalitaFlag' src='https://flagcdn.com/256x192/np.png' style=' width: 50px;  vertical-align: 0; margin-top: 4px; height: 40px; margin-top: 2px; width: auto;'/>
+			</label> 
+		</button> 
+		<!-- nuova grafica per ora commentata -->
+			<!-- <div class='col-xs-6'> -->
+				<!-- <label class="switch"> -->
+					<!-- <input id='chkLingua' type="checkbox" onchange="pClickModalita10();"/> -->
+					<!-- <span class="slider" ></span> -->
+				<!-- </label> -->
+			<!-- </div> -->
+			<!-- <div class='col-xs-6'> -->
+				<!-- <button id='btnModalitaFlag' class='myBtn btn-warning' style='height: 45px; background: #b3b2cc; margin-right: 5px;'> -->
+					<!-- <label style='font-size: 32px; font-weight: bold; margin-top: -7px;'> -->
+						<!-- <img id='flagBtModalitaFlag' src='https://flagcdn.com/256x192/np.png' style=' width: 50px;  vertical-align: 0; margin-top: 4px; height: 40px; margin-top: 2px; width: auto;'/> -->
+					<!-- </label> -->
+				<!-- </button> -->
+			<!-- </div>		 -->
 		</div>	
-		
-		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 90vw;padding: 3px;border-radius: 4px;'>
-			<button id='btnCateg_1' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreVerbo">VERBO</button>
-			<button id='btnCateg_3' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreAggettivo">AGG.</button>
-			<button id='btnCateg_2' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreSostantivo">SOST.</button>
-			<button id='btnCateg_4' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreModo">MODO DI DIRE</button>		
+
+		<div class='col-xs-12 text-center NoPad' style='margin-left: -4vw;width: 98vw;padding: 3px;border-radius: 4px; height: 38px;'>
+			<div class='col-xs-3 NoPad' style='width:32%; margin-top: -5px;'>
+				<label class="switch">  
+					<input id='chkLingua' type="checkbox" onchange="pClickModalita10();"/>
+					<span class="sliderLingua" ></span>
+				</label>			
+			</div>
+			<div class='col-xs-3 NoPad' style='width:32%; margin-top: -5px;'>
+				<label id='switchTipoKana'  class="switch" style='font-size: 30px;width: 100%;margin-top: -3px;color: yellow;'>ァ&nbsp;&nbsp;ぁ
+					<input id='chkTipoKana' type="checkbox" onchange="pClickModalita10();"/>
+					<span class="sliderKana" ></span>
+				</label>			
+			</div>
+			<div class='col-xs-3 NoPad' style='width:17%'>
+				<button id='btnCateg_1' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreVerbo">VERBO</button>
+			</div>
+			<div class='col-xs-3 NoPad' style='width:17%'>
+				<button id='btnCateg_3' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreAggettivo">AGG</button>
+			</div>
+			<div class='col-xs-3 NoPad' style='width:17%'>
+				<button id='btnCateg_2' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreSostantivo">SOST</button>
+			</div>
+			<div class='col-xs-3 NoPad' style='width:17%'>
+				<button id='btnCateg_4' onclick="GiocaCateg(this)" class="myBtn  btnMyWarning btnGiocaCateg coloreModo">MODO</button>
+			</div>
+	
 		</div> 
 		<div class='col-xs-12 ' style='height:10px;'></div>
 		<div class='col-xs-12 NoPad card'>			
