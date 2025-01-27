@@ -118,10 +118,23 @@
 	}
 	
 	function scriviEsito(testo){
+		let s = '';
+		if(sessionStorage['OGGI'] != getOggi()){
+			sessionStorage['OGGI'] = getOggi()
+			s+= '___________' + sessionStorage['OGGI']  + '___________'
+		}
+	
+	
 		let oldtesto = $('#lblEsito').text()
-		$('#lblEsito').text(oldtesto + '\n' + testo)
+		$('#lblEsito').text(oldtesto + '\n' + s + testo)
 		$("html, body").animate({ scrollTop: 10000}, 'fast'); 
 	
+	}
+	
+	function getOggi(){
+		let d = (new Date())
+		let s = d.getDate() + '-' + (1+d.getMonth()) + '-' + d.getFullYear()	
+		return s;
 	}
 	
 	</script>
