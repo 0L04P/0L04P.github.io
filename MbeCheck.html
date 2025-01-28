@@ -131,11 +131,17 @@
 	
 	}
 	
-	function getOggi(){
-		let d = (new Date())
-		let s = d.getDate() + '-' + (1+d.getMonth()) + '-' + d.getFullYear()	
-		return s;
-	}
+	function getOggi(bOrario = false){
+	let d = (new Date())
+	let s = p(d.getDate()) + '-' + p((1+d.getMonth())) + '-' + p(d.getFullYear()) 
+	if(bOrario){	s+= ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+	return s;
+}
+
+function p(s){	
+	s = '00' + s;
+	return s.substr(s.length -2,2);
+}
 	
 	</script>
 </body> 
