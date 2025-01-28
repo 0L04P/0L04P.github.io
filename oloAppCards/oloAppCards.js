@@ -289,7 +289,8 @@ function pCreaSubarrayDiNParole(n){
 	}
 	let MAXIMUM = 3*NUM_10;
 	let iter = 0;
-	for(let j = 0; j<n; ++j){
+	let j = 0;
+	while(arrEscludiGiaUsateNEW.length <= n){
 	 
 		
 		i = Math.floor(Math.random() * lungh);	
@@ -317,7 +318,10 @@ function pCreaSubarrayDiNParole(n){
 			}else{
 				j = j - 1;			
 			}
-			arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"])
+			if(arrEscludiGiaUsateNEW.includes(arrCompleto[i]["counter"]) == false){
+				arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"]);
+				j += 1;
+			}
 		}			
 		
 		iter +=1;
