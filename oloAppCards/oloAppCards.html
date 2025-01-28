@@ -103,12 +103,23 @@
 				<div class='col-xs-12 NoPad' style='margin-top:20px;'>
 					<label  id='lblSoluzione' style='white-space: pre-line;'></label>
 				</div>	
-				<div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'>
-					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>Indovinata</button>
-				</div>				
-				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
-					<button class='myBtn btn-success' onclick='NextCard(1);' style='width: 90%'>Next Card</button>
-				</div>				
+				<!-- <div class='col-xs-12 NoPad' style='position: absolute; bottom:90px;'> -->
+					<!-- <button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%'>Indovinata</button> -->
+				<!-- </div>				 -->
+				<!-- <div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'> -->
+					<!-- <button class='myBtn btn-success' onclick='NextCard(1);' style='width: 90%'>Next Card</button> -->
+				<!-- </div>				 -->
+				<div class='col-xs-6 NoPad' style='position: absolute; bottom:15px;'>
+					<button class='myBtn btn-primary' onclick='NextCard(0)' style='width: 90%; height: 60px; '>
+					<span class="glyphicon glyphicon-ok fontEsito" style="colorr:#fff"></span>
+
+					</button>
+				</div>
+				<div class='col-xs-6 NoPad' style='position: absolute; bottom: 15px; right: 0;'>
+					<button class='myBtn btn-success' onclick='NextCard(1);' style='width: 90%; height: 60px; '>
+						<span class="glyphicon glyphicon-remove fontEsito" style="colorr:#fff"></span>
+					</button>
+				</div>
 			</div>
 		</div>
 		<div id='divEsito' class='col-xs-12 text-center NoPad' style='margin-top:20px; margin-left: -15px;'>	
