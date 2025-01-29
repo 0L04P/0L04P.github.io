@@ -148,13 +148,18 @@ function NextCard(i){
 		//HO INDOVINATO
 		esatte += 1;
 		pSetRis();		
-		removeParolaSbagliata($('#lblParola').html().trim());
+		if(isLinguaInglese() && ($('#btnModalitaInf').hasClass('ModalitaSelezionata') ||$('#btnModalita10').hasClass('ModalitaSelezionata')) ){
+			removeParolaSbagliata($('#lblParola').html().trim());
+		}
+		
 		pCambiacarta()		
 	}else{
 		//HO SBAGLIATO
 		sbagliate += 1;
-		pSetRis();	
-		addParolaSbagliata($('#lblParola').html().trim());		
+		pSetRis();			
+		if(isLinguaInglese() && ($('#btnModalitaInf').hasClass('ModalitaSelezionata') ||$('#btnModalita10').hasClass('ModalitaSelezionata')) ){
+			addParolaSbagliata($('#lblParola').html().trim());
+		}		
 		pCambiacarta()			
 	}
 	
@@ -240,7 +245,12 @@ function pPopolaCarte_n(){
 	if(index_n_parole == 0){
 		//devo creare tutto
 		if(isLinguaInglese()){
-			array_n_parole = pCreaSubarrayDiNParole(modalita);
+			if(modalita != 'H'){
+				array_n_parole = pCreaSubarrayDiNParole(modalita);				
+			}else{
+				array_n_parole = pCreaArraySbagliate();
+			}
+			
 			$('.lblParola').removeClass('kana');
 		}else{
 			if(isHiragana()){				
@@ -340,7 +350,7 @@ function pCreaSubarrayDiNParole(n){
 	let iter = 0;
 	//for(let j = 0; j<n; ++j){
 	let j = 0;
-	while(arrEscludiGiaUsateNEW.length <= n){
+	while(arrEscludiGiaUsateNEW.length < n){
 	 
 		
 		i = Math.floor(Math.random() * lungh);	
@@ -379,6 +389,8 @@ function pCreaSubarrayDiNParole(n){
 		if(iter == MAXIMUM){j = n+1; console.log('*************')	}		
 	}
 	sessionStorage["arrEscludiGiaUsate"] = JSON.stringify(arrEscludiGiaUsate);
+	
+	console.log(arr)
 	return arr;
 	
 }
@@ -471,7 +483,7 @@ function creaArrayFlags(){
 	let arrCapitali = [];
 	
 	const ARR_FLAG_LIST = Object.keys(FLAG_LIST);
-	for(let i = 1; i<=3*NUM_10; ++i){
+	for(let i = 1; i<=NUM_10; ++i){
 		let randomNumber = parseInt(Math.random()*NUM_MAX_FLAG);		
 		const randomKey = ARR_FLAG_LIST[randomNumber];
 		const soluz = FLAG_LIST[randomKey];
@@ -555,4 +567,44 @@ function isLinguaInglese(){
 function isHiragana(){	
 	let b = $('#chkTipoKana').prop('checked') ? false : true;
 	return b;
+}
+
+
+function pCreaSubarrayDiNParole_Sbagliate(){
+	let arrSb = [];
+	let t = 0
+	let arrSbTot = JSON.parse(localStorage["ParoleSbagliate"]);
+	while (arrSb.length < NUM_10){
+		
+		let i = Math.floor(Math.random() * arrSbTot.length);
+		if(!arrSb.includes(arrSbTot[i].parola)){
+			arrSb.push(arrSbTot[i].parola);
+			arrSbTot.splice(i, 1)			
+		}
+		console.log(t + '  ' + arrSb)
+		
+		if(t > 50){return arrSb;}
+		t+=1;
+	}
+	return arrSb
+}
+function pCreaArraySbagliate(){
+	let arrSb = pCreaSubarrayDiNParole_Sbagliate();
+	let arr = [];
+	let obj = JSON.parse(localStorage["olo_Traduzioni"])
+
+	for(let i = 0; i<arrSb.length; ++i){
+		arr.push(obj.filter(o=>o.parola == arrSb[i])[0])						
+	}
+	return arr;			
+}
+
+
+
+
+
+
+function elencoFiltraCategHard(){
+	modalita = 'H'
+	pClickModalita10();
 }

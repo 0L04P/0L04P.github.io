@@ -72,8 +72,18 @@ function pasteFromClipboard(id){
 }
 
 function ClearLS(){
-	localStorage["olo_Traduzioni"] = undefined;
+	if(confirm('ELIMINARE LS???')){
+		localStorage["olo_Traduzioni"] = undefined;
 	 location.reload();
+	}
+	
+}
+function ClearLS_paroleDifficili(){
+	if(confirm('ELIMINARE LS ParoleSbagliate???')){
+		localStorage["ParoleSbagliate"] = undefined;
+	    location.reload();
+	}
+	
 }
 
 function Aggiungi(){	

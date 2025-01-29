@@ -12,6 +12,9 @@ option{font-weight:bold;}
 		padding-left:10vw;
 		background: #222;
 	}
+	.padTop0{
+		padding-top: 0 !important;
+	}
 	.bandiera{
 		width: 85vw;
 		height: auto;
@@ -57,6 +60,7 @@ option{font-weight:bold;}
 	}
 	.myBtn{
 		font-size:23px;
+		 
 	    display: inline-block;
 		margin-bottom: 0;
 		font-weight: 400;
@@ -127,26 +131,33 @@ option{font-weight:bold;}
 	.coloreAggettivo{
 		background-color: #7ebf6a;
 		border-style: none;
+		width: 95%;
 	}
 	.coloreSostantivo{
 		background-color:#d1b3b3; 
 		border-style: none;
+		width: 95%;
 	}
 	.coloreModo{
 		background-color:#56aa10;
 		border-style: none;
+		width: 95%;
 	}
 	.coloreVerbo{
 		background-color:#0c7eef;
 		border-style: none;
+		width: 95%;
+	}
+	.coloreHard{
+		border:yellow;
+		background:yellow;
+		color:red;	
+		width: 95%;		
 	}
 	.fontEsito{
 		font-size:38px; 
 	}
 	
-
-
-
  .switch {     
       display: inline-block;
       width: 60px;
