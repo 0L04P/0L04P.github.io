@@ -245,7 +245,7 @@ function pPopolaCarte_n(){
 	if(index_n_parole == 0){
 		//devo creare tutto
 		if(isLinguaInglese()){
-			if(modalita != 'H'){
+			if($('#btnCateg_HARD').hasClass('CategSelezionata') == false){
 				array_n_parole = pCreaSubarrayDiNParole(modalita);				
 			}else{
 				array_n_parole = pCreaArraySbagliate();
