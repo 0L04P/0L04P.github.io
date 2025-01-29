@@ -170,6 +170,10 @@ function elencoFiltraCateg(filtraCateg){
 		elenco(false, '', '');
 	}	
 }
+function elencoFiltraCategHard(){
+	
+	
+}
 
 function elenco(bSetCateg = false, parola = '', filtraCateg = '-1'){
 	filtraCateg = filtraCateg.toString(); 
@@ -476,4 +480,7 @@ function ToTop(velocita){
 function salvaNUM(){
 	localStorage["NUM"] = $('#txtNUM').val();
 }
+
+
+
 

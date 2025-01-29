@@ -147,15 +147,64 @@ function NextCard(i){
 	if(i==0){
 		//HO INDOVINATO
 		esatte += 1;
-		pSetRis();			
+		pSetRis();		
+		removeParolaSbagliata($('#lblParola').html().trim());
 		pCambiacarta()		
 	}else{
 		//HO SBAGLIATO
 		sbagliate += 1;
-		pSetRis();		
+		pSetRis();	
+		addParolaSbagliata($('#lblParola').html().trim());		
 		pCambiacarta()			
 	}
 	
+}
+
+function addParolaSbagliata(parolaSbagliata){	
+	let arr;
+	let obj = {};
+	
+	if(localStorage["ParoleSbagliate"] == undefined){		
+		obj["parola"] = parolaSbagliata;
+		obj["count"] = 1;
+		arr = [];
+		arr.push(obj);
+		localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+	}else{
+		arr = JSON.parse(localStorage["ParoleSbagliate"]);
+		let q = arr.filter(o => o.parola == parolaSbagliata)
+		if(q.length == 1){			
+			q[0].count+=1;
+			localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+		}else{
+			obj["parola"] = parolaSbagliata;
+			obj["count"] = 1;
+			arr.push(obj);		
+			localStorage["ParoleSbagliate"] = JSON.stringify(arr);			
+		}		 				
+	}		
+}
+
+function removeParolaSbagliata(parolaSbagliata){	
+	let arr;
+	let obj = {};
+	
+	if(localStorage["ParoleSbagliate"] == undefined){		
+		return false;
+	}else{
+		arr = JSON.parse(localStorage["ParoleSbagliate"]);
+		let q = arr.filter(o => o.parola == parolaSbagliata)
+		if(q.length == 1){
+
+			if(q[0].count == 1){				
+				arr = arr.filter(o => o.parola != parolaSbagliata)
+				localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+			}else{
+				q[0].count+=-1;
+				localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+			}						
+		}		 				
+	}		
 }
 
 function pCambiacarta(){	
@@ -289,6 +338,7 @@ function pCreaSubarrayDiNParole(n){
 	}
 	let MAXIMUM = 3*NUM_10;
 	let iter = 0;
+	//for(let j = 0; j<n; ++j){
 	let j = 0;
 	while(arrEscludiGiaUsateNEW.length <= n){
 	 
@@ -318,6 +368,7 @@ function pCreaSubarrayDiNParole(n){
 			}else{
 				j = j - 1;			
 			}
+			//arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"])
 			if(arrEscludiGiaUsateNEW.includes(arrCompleto[i]["counter"]) == false){
 				arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"]);
 				j += 1;
@@ -420,7 +471,7 @@ function creaArrayFlags(){
 	let arrCapitali = [];
 	
 	const ARR_FLAG_LIST = Object.keys(FLAG_LIST);
-	for(let i = 1; i<=NUM_10; ++i){
+	for(let i = 1; i<=3*NUM_10; ++i){
 		let randomNumber = parseInt(Math.random()*NUM_MAX_FLAG);		
 		const randomKey = ARR_FLAG_LIST[randomNumber];
 		const soluz = FLAG_LIST[randomKey];
