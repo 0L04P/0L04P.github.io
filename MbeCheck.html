@@ -134,7 +134,7 @@
 	function getOggi(bOrario = false){
 	let d = (new Date())
 	let s = p(d.getDate()) + '-' + p((1+d.getMonth())) + '-' + p(d.getFullYear()) 
-	if(bOrario){	s+= ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+	if(bOrario){	s+= ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());}
 	return s;
 }
 
