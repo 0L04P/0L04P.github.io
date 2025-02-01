@@ -1,4 +1,4 @@
-self.VERSION = '45';
+self.VERSION = '46';
 const CACHE_NAME = `oloAppCards_CACHE` + self.VERSION;
 
 self.addEventListener('install', event => {
