@@ -14,6 +14,7 @@ $(document).ready(function(){
 	}else if(localStorage["Lingua"] == 'JPN'){
 		$('#chkLingua').prop('checked', true);
 	}
+	JSON.parse(localStorage['ParoleSbagliate']).length > NUM_10 ? $('#btnCateg_HARD').fadeIn() : $('#btnCateg_HARD').fadeOut();
 	initVariabiliRis();			
 	//modalita = -1; //default infinito
 	//pModalita(modalita);
