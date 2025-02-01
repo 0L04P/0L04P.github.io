@@ -24,6 +24,8 @@ $(document).ready(function(){
 	/*Handle dei click*/	
 	$('#btnModalitaInf').on('click',function(){	
 		$('#chkLingua').prop('checked', false);
+		$('#divHint').css('display', 'none');
+		HINT = 0;
 		pCambiaLingua();		
 		pModalita(-1);		 	
 	});
@@ -48,6 +50,9 @@ $(document).ready(function(){
 	});	
 	 
 	$('#btnModalitaFlag').on('click',function(){
+		$('#divHint').css('display', 'none');
+		HINT = 0;
+		$('#btnHint').fadeOut();
 		$('.card').css('transform','') ; //setto sempre la carte frontale, non il retro
 		$('.flag1').css('display','none');
 		
@@ -89,6 +94,8 @@ function pCambiaLingua(){
 }
 
 function pClickModalita10(){
+	$('#divHint').css('display', 'none');
+	HINT = 0;
 	pModalita(NUM_10);
 	index_n_parole = 1; 
 	pPopolaCarte_n(NUM_10);	
@@ -134,6 +141,8 @@ function GetSoluzione(){
 }
 
 function NextCard(i){
+	
+	
 	if($('.bandieraBack').is(':visible')){
 		modalita = 1994;
 	}
@@ -147,7 +156,14 @@ function NextCard(i){
 	
 	if(i==0){
 		//HO INDOVINATO
-		esatte += 1;
+		if(HINT == 0){
+			//NO INDIZI
+			esatte += 1;
+		}else{
+			//1 inidzio
+			esatte += HINT;
+		}
+		
 		pSetRis();		
 		if(isLinguaInglese() && ($('#btnModalitaInf').hasClass('ModalitaSelezionata') ||$('#btnModalita10').hasClass('ModalitaSelezionata')) ){
 			removeParolaSbagliata($('#lblParola').html().trim());
@@ -163,6 +179,9 @@ function NextCard(i){
 		}		
 		pCambiacarta()			
 	}
+	
+	$('#divHint').css('display', 'none');
+	HINT = 0;
 	
 }
 
@@ -251,7 +270,7 @@ function pPopolaCarte_n(){
 			}else{
 				array_n_parole = pCreaArraySbagliate();
 			}
-			
+				
 			$('.lblParola').removeClass('kana');
 		}else{
 			if(isHiragana()){				
@@ -279,9 +298,10 @@ function pPopolaCarte_n(){
 			//gioco finito
 			//alert('FINITO!!')
 			let indovinate, sbagliate, tot
-			indovinate= parseInt($('#lblIndovinate').text());
-			sbagliate= parseInt($('#lblSbagliate').text());
-			tot= indovinate + sbagliate;
+			indovinate= $('#lblIndovinate').text();
+			//sbagliate= $('#lblSbagliate').text();
+			//tot= indovinate + sbagliate;
+			tot = NUM_10
 			let sHtml = '<br><br><button class="btn btn-primary" style="background: transparent;" onclick="pClickModalita10();"><span style="font-size:65px;" class="glyphicon glyphicon-refresh"></span></button>'
 			$('#lblParola').html('FINITO\n\nIndovinate\n' + indovinate + '/' + tot + sHtml);
 			$('#btnSoluzione').css('display', 'none');
@@ -304,6 +324,26 @@ function pSetRis(){
 	$('#divEsito').html(sHtmlEsito);	 
 }
 
+function pCheckTotTradCateg(){
+	let arrCompleto = JSON.parse(localStorage["olo_Traduzioni"])
+	if(arrCompleto == undefined){
+		alert('Non ci sono traduzioni salvate!');
+		return false;
+	}	
+	let CategSel = GetCategSelezionata();
+	if(CategSel != '-1'){		
+		let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => check_binary(o.categoria, CategSel))
+		if(arrCompletoFiltratoPerCateg.length >= NUM_10){
+			return true;				
+		}else{
+			alert('Non ci sono '  + NUM_10 + ' traduzioni per la categoria selezionata!');
+			return false;
+		}		
+	}	
+	return true;	
+}
+
+
 function pCreaSubarrayDiNParole(n){
 	let arrCompleto = JSON.parse(localStorage["olo_Traduzioni"])
 	if(arrCompleto == undefined){
@@ -319,7 +359,7 @@ function pCreaSubarrayDiNParole(n){
 			arrCompleto = arrCompletoFiltratoPerCateg;
 			
 		}else{
-			alert('Non ci sono 10 traduzioni per la categoria selezionata!');
+			alert('Non ci sono 10 traduzioni per la categoria selezionata!');			
 		}
 		
 	}else{
@@ -408,10 +448,15 @@ function GiocaCateg(q){
 	let id = q.id;
 	let b = $('#' + id).attr('class').includes('CategSelezionata');
 	
+	
+	
 	$('.btnGiocaCateg').removeClass('CategSelezionata');
 	if(b == false){
 		$('#' + id).addClass('CategSelezionata');
 	}	
+	$('#divHint').css('display', 'none');
+	HINT = 0;
+	if(pCheckTotTradCateg() == false){return false;}
 }
 
 function GetCategSelezionata(){	
@@ -437,6 +482,17 @@ function check_binary(i, j){
 	j = '0B' + j;
 	
 	return i & j
+}
+
+const CATEGORIE_BIT = {
+	_verbo : 1,
+	_sostantivo : 10,
+	_aggettivo : 100,
+	_interiezioni_modo_dire : 1000
+}
+
+function checkCategoria(valore, categoria){
+	return check_binary(valore, categoria);
 }
 
 /**************************** GIOCA BANDIERE *******************************************************************/
@@ -608,4 +664,38 @@ function pCreaArraySbagliate(){
 function elencoFiltraCategHard(){
 	modalita = 'H'
 	pClickModalita10();
+}
+var HINT;
+function GetHint(){
+	if(HINT == undefined || HINT == 0){
+		HINT = 0.5;
+		let sHTML = '';	
+		let parola = JSON.parse(localStorage["olo_Traduzioni"]).filter(o => o.parola == $('#lblParola').html())[0];	
+		if(checkCategoria(parola.categoria,CATEGORIE_BIT._interiezioni_modo_dire)){
+			sHTML += '<b class="bHint">MODO</b>&nbsp;&nbsp;&nbsp;&nbsp;'
+		}
+		if(checkCategoria(parola.categoria,CATEGORIE_BIT._aggettivo)){
+			sHTML += '<b class="bHint">AGG/AVV</b>&nbsp;&nbsp;&nbsp;&nbsp;'
+		}
+		if(checkCategoria(parola.categoria,CATEGORIE_BIT._sostantivo)){
+			sHTML += '<b class="bHint">SOST</b>&nbsp;&nbsp;&nbsp;&nbsp;'
+		}
+		if(checkCategoria(parola.categoria,CATEGORIE_BIT._verbo)){
+			sHTML += '<b class="bHint">VERBO</b>&nbsp;&nbsp;&nbsp;&nbsp;'
+		}
+		
+		let iniziale = parola.traduzioni[0].substring(0,1).toUpperCase();
+		sHTML += '<b id="lblHintIniziale" class="bHint  style="display:none; margin-top:10px;"> Iniziale: ' + iniziale + '</b>';
+		
+		$('#divHint').html(sHTML);	
+		$('#divHint').fadeIn();		
+		return true;		
+	}
+	else if(HINT == 0.5){
+		HINT = 0.25;
+		$('#lblHintIniziale').css('display', 'inline');
+		return true;	
+	}
+	
+	
 }

@@ -31,12 +31,15 @@ option{font-weight:bold;}
 		color: #fff;
 		background-color: #f0ad4e;
 		border-color: #eea236;
-	}
-	.CategSelezionata{
-		background-color: #ff1100 !important;
-		color: yellow !important;
-		border: solid 1px  #ff1100 !important;
-		font-weight: bold;
+	}	
+	.CategSelezionata { 
+		background-color: #ff1100 !important; 
+		color: yellow !important; 
+		border: solid 1px  #ff1100 !important; 
+		font-weight: bold !important; 
+		text-decoration: underline; 
+		/* border: inset 2px yellow !important; */ 
+		box-shadow: 0 0 5px 0px #4bff10 !important; 
 	}
 	.CategSelezionata.focus, .CategSelezionata.focus-visible,
 	.CategSelezionata:focus, .CategSelezionata:focus-visible{
@@ -286,3 +289,18 @@ option{font-weight:bold;}
 		border-radius: 50px;
 		background-position: center;
     }
+	
+	.lblParola{
+		white-space: pre-line;
+	}
+	
+	.bHint{
+		font-size: 25px;
+		color: #555;
+		padding: 5px;
+		border-radius: 5px;
+		border: 2px solid #f0ad4e;
+	}
+	#lblHintIniziale{
+		display:none;
+	}

@@ -95,10 +95,14 @@
 		<div class='col-xs-12 NoPad card'>			
 			<div class='col-xs-12 NoPad carta front'>												
 				<div class='col-xs-12 NoPad' style='margin-top:40px;'>
-					<label id='lblParola'  class='lblParola' style='white-space: pre;'>A</label>
+					<label id='lblParola'  class='lblParola'>A</label>
+					<div id='divHint' style='display:none'>
+					
+					</div>
 					<img id='flag1' class='bandiera flag_to_guess' style='display:none; '/>
 				</div>				
 				<div class='col-xs-12 NoPad' style='position: absolute; bottom:20px;'>
+				    <button id='btnHint' class='myBtn btn-warning' onclick='GetHint()' style='width: 90%'>HINT</button>
 					<button id='btnSoluzione' class='myBtn btn-danger' onclick='GetSoluzione()' style='width: 90%'>SOLUZIONE</button>
 				</div>
 							
