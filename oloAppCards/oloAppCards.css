@@ -304,3 +304,56 @@ option{font-weight:bold;}
 	#lblHintIniziale{
 		display:none;
 	}
+	
+.scrollable-div {
+    /*margin-top: 40px;*/
+    /*height: 200px;*/
+    overflow-y: auto;
+    border: none;
+}
+#divCartaFront_Parola{
+	height:85%;
+}
+#divCartaFront_Btn{
+	height:15%;
+}
+
+
+
+
+/***************************/
+ /* width */
+/*gestita come attributo del div*/
+.scrollable-div::-webkit-scrollbar {
+	width: 8px;
+	/*scrollbar orizzonatle: va usata height,scrollbar verticale va usata width!*/
+}
+
+/* Track */
+.scrollable-div::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #ffa500; 
+  border-radius: 10px;
+}
+
+/* Handle */
+.scrollable-div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #29639d;
+  outlinee: 5px solid #00ff00;
+}      
+
+.lblEsitoOk{
+	white-space:pre;
+	color:yellow !important;
+	font-size:30px;
+}
+.lblEsitoErr{
+	white-space:pre;
+	color:red !important;
+	font-size:30px;
+}
+.lblEsitoErr_i{
+	white-space:pre;
+	color:red !important;
+	font-size:28px;
+}

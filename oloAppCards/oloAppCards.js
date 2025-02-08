@@ -3,7 +3,7 @@ var modalita;
 var array_n_parole;
 var index_n_parole;
 var NUM_10;
-
+var strHTML_esito;
 $(document).ready(function(){
 	SetNUM_10();
 	$('#lblModalita10').html(NUM_10); 
@@ -94,6 +94,7 @@ function pCambiaLingua(){
 }
 
 function pClickModalita10(){
+	strHTML_esito = '';
 	$('#divHint').css('display', 'none');
 	HINT = 0;
 	pModalita(NUM_10);
@@ -159,6 +160,7 @@ function NextCard(i){
 		if(HINT == 0){
 			//NO INDIZI
 			esatte += 1;
+			strHTML_esito += '<div class="col-xs-12 NoPad text-left"><label class="lblEsitoOk"><span class="glyphicon glyphicon-ok">&nbsp;'+$('#lblParola').text()+'</span></label></div>'
 		}else{
 			//1 inidzio
 			esatte += HINT;
@@ -173,6 +175,7 @@ function NextCard(i){
 	}else{
 		//HO SBAGLIATO
 		sbagliate += 1;
+		strHTML_esito += '<div class="col-xs-12 NoPad text-left"><label class="lblEsitoErr"><span class="glyphicon glyphicon-remove">&nbsp;'+$('#lblParola').text()+'&nbsp;\n<i class="lblEsitoErr_i">'+ $('#lblSoluzione').text()  + '</i></span></label></div>'
 		pSetRis();			
 		if(isLinguaInglese() && ($('#btnModalitaInf').hasClass('ModalitaSelezionata') ||$('#btnModalita10').hasClass('ModalitaSelezionata')) ){
 			addParolaSbagliata($('#lblParola').html().trim());
@@ -303,7 +306,8 @@ function pPopolaCarte_n(){
 			//tot= indovinate + sbagliate;
 			tot = NUM_10
 			let sHtml = '<br><br><button class="btn btn-primary" style="background: transparent;" onclick="pClickModalita10();"><span style="font-size:65px;" class="glyphicon glyphicon-refresh"></span></button>'
-			$('#lblParola').html('FINITO\n\nIndovinate\n' + indovinate + '/' + tot + sHtml);
+			sHtml += '<div class="col-xs-12" style="height:10px;"></div><div class="col-xs-12">' + strHTML_esito + '</div>'
+			$('#lblParola').html('<span style="margin-top:-40px;">FINITO</span>\nIndovinate\n' + indovinate + '/' + tot + sHtml);
 			$('#btnSoluzione').css('display', 'none');
 			$('.lblParola').removeClass('kana');
 		}
