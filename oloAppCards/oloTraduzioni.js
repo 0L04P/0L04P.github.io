@@ -25,10 +25,13 @@ $(document).ready(function(){
  
 	if(localStorage["olo_Traduzioni"] === undefined || localStorage["olo_Traduzioni"] === 'undefined'){
 		localStorage["olo_Traduzioni"] = JSON.stringify({"traduzioni" : []})
-	}
-	elenco();
+	}	
     $('#txtNUM').val(localStorage["NUM"]);
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+    elenco();
+});
 
 function pPronunciaParola(){
 	// Get the input word and language

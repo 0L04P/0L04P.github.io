@@ -343,17 +343,38 @@ option{font-weight:bold;}
 }      
 
 .lblEsitoOk{
-	white-space:pre;
+	white-space:pre-line;
 	color:yellow !important;
 	font-size:30px;
 }
 .lblEsitoErr{
-	white-space:pre;
+	white-space:pre-line;
 	color:red !important;
 	font-size:30px;
 }
 .lblEsitoErr_i{
-	white-space:pre;
+	white-space:pre-line;
 	color:red !important;
 	font-size:28px;
+	margin-left: 50px;
 }
+.divInfoErrori{
+	box-shadow: 2px 2px 7px 0px #123456;
+    padding: 0px;
+    margin: 1%;
+    width: 98%;
+    border-radius: 5px;
+}
+
+/*effetto grafico del loading:*/
+	.rotazione {
+		animation: rotation 4s infinite linear;
+	}
+	@keyframes rotation {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(359deg);
+		}
+	}

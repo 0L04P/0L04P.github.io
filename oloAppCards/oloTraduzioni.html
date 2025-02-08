@@ -17,12 +17,24 @@
 	.wdt100Perc{
 		width:100%
 	}
+	/*effetto grafico del loading:*/
+	.rotazione {
+		animation: rotation 2s infinite linear;
+	}
+	@keyframes rotation {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(359deg);
+		}
+	}
   </style>
 </head>
 
 <style>
 	.btnToTop{
-border: solid 1px #ffff00;
+	border: solid 1px #ffff00;
     border-radius: 50%;
     /* padding: 4px 7px 5px 3px; */
     font-size: 45px;
@@ -184,15 +196,20 @@ border: solid 1px #ffff00;
 	
 </style>
  
+<!-- <body  style = "background-color:#123456; color:#ffffff;"> -->
+	<!-- <div class="container" class="trad">		 -->
+		<!-- <div class='col-xs-12 text-center NoPad' style='margin-bottom:20px; margin-top: 20px; '>	 -->
+			<!-- <button class='MyBtn btn-warning NoPad' onclick='Gioca()' style='padding:0; width: 100%;  margin-left: -34px; height: 60px; font-size:30px; height: 60px;'> -->
+				<!-- <span class='glyphicon glyphicon-arrow-right'></span>&nbsp;&nbsp;GIOCA -->
+			<!-- </button> -->
+		<!-- </div> -->
 <body  style = "background-color:#123456; color:#ffffff;">
-	<div class="container" class="trad">		
-		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px; margin-top: 20px;'>	
-			<button class='MyBtn btn-warning' onclick='Gioca()' style='width: 100%;
-    margin-left: -34px;
-    height: 60px; font-size:30px; height: 60px;'>
+	<div class="container trad NoPad" style='margin-top:-65px; margin-bottom:20px; margin-top: 20px;'>			
+		<div class='col-xs-12 text-center NoPad' style='margin-bottom:20px;'>	
+			<button class='MyBtn btn-warning' onclick='Gioca();' style='margin-left: -20px; padding: 0; width: 110%; font-size: 30px; height: 60px;'>
 				<span class='glyphicon glyphicon-arrow-right'></span>&nbsp;&nbsp;GIOCA
 			</button>
-		</div>
+		</div>		
 		<div class='col-xs-12' style='height:10px;'></div>
 		<div class='col-xs-12'>
 			<input id="txtDaTrad" class="form-control tradInput" style="font-size: 25px; font-weight: bold;" >					
@@ -260,7 +277,11 @@ border: solid 1px #ffff00;
 			<button id='btnCateg_1000' onclick="elencoFiltraCateg('1000')" class="MyBtn btnMyWarning btnGiocaCateg coloreModo">MODO</button>					
 		</div> 
 		<div class='col-xs-12' id="elenco" style="margin-top:10px; padding:0; font-size: 20px; width: 98vw; margin-left: -10px;">
-			 
+			<svg class="rotazione" viewBox="0 0 160 160" style="margin-left:33vw; width:33vw; margin-top: 80px;">
+				<circle r="70" cx="80" cy="80" fill="transparent" stroke="#123456" stroke-width="12px"></circle>
+				<circle r="70" cx="80" cy="80" fill="transparent" stroke="#5bff07" stroke-width="12px" 
+							stroke-dasharray="439.6px" stroke-dashoffset="109.9px"></circle>
+			</svg>
 		</div>
 		
 		<div class="col-xs-12" style="position:fixed; bottom:10px; left:39%;">

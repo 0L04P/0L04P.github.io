@@ -5,6 +5,7 @@ var index_n_parole;
 var NUM_10;
 var strHTML_esito;
 $(document).ready(function(){
+	/*
 	SetNUM_10();
 	$('#lblModalita10').html(NUM_10); 
 	if(localStorage["Lingua"] == undefined){
@@ -15,12 +16,9 @@ $(document).ready(function(){
 		$('#chkLingua').prop('checked', true);
 	}
 	JSON.parse(localStorage['ParoleSbagliate']).length > NUM_10 ? $('#btnCateg_HARD').fadeIn() : $('#btnCateg_HARD').fadeOut();
-	initVariabiliRis();			
-	//modalita = -1; //default infinito
-	//pModalita(modalita);
-	//pPopolaCarte();
-	/*randomFlag();*/
+	initVariabiliRis();				
 	pCambiaLingua();	
+	*/
 	/*Handle dei click*/	
 	$('#btnModalitaInf').on('click',function(){	
 		$('#chkLingua').prop('checked', false);
@@ -44,11 +42,9 @@ $(document).ready(function(){
 	$('#btnCateg_4').on('click',function(){		 	
 		pClickModalita10();	
 	});	
-
 	$('#chkLingua').on('change',function(){	
 		pCambiaLingua();
-	});	
-	 
+	});		
 	$('#btnModalitaFlag').on('click',function(){
 		$('#divHint').css('display', 'none');
 		HINT = 0;
@@ -70,6 +66,21 @@ $(document).ready(function(){
 		}, 600)			
 	});			 
 });	
+
+document.addEventListener("DOMContentLoaded", function () {
+	SetNUM_10();
+	$('#lblModalita10').html(NUM_10); 
+	if(localStorage["Lingua"] == undefined){
+		localStorage["Lingua"] = 'USA'
+	}else if(localStorage["Lingua"] == 'USA'){
+		
+	}else if(localStorage["Lingua"] == 'JPN'){
+		$('#chkLingua').prop('checked', true);
+	}
+	JSON.parse(localStorage['ParoleSbagliate']).length > NUM_10 ? $('#btnCateg_HARD').fadeIn() : $('#btnCateg_HARD').fadeOut();
+	initVariabiliRis();				
+	pCambiaLingua();
+});
 
 
 function SetNUM_10(){	
@@ -160,7 +171,7 @@ function NextCard(i){
 		if(HINT == 0){
 			//NO INDIZI
 			esatte += 1;
-			strHTML_esito += '<div class="col-xs-12 NoPad text-left"><label class="lblEsitoOk"><span class="glyphicon glyphicon-ok">&nbsp;'+$('#lblParola').text()+'</span></label></div>'
+			strHTML_esito += '<div class="col-xs-12 NoPad text-left" style="overflow-x: hidden;"><label class="lblEsitoOk"><span class="glyphicon glyphicon-ok">&nbsp;<label>'+$('#lblParola').text()+'</label></span></label></div>'
 		}else{
 			//1 inidzio
 			esatte += HINT;
@@ -175,7 +186,7 @@ function NextCard(i){
 	}else{
 		//HO SBAGLIATO
 		sbagliate += 1;
-		strHTML_esito += '<div class="col-xs-12 NoPad text-left"><label class="lblEsitoErr"><span class="glyphicon glyphicon-remove">&nbsp;'+$('#lblParola').text()+'&nbsp;\n<i class="lblEsitoErr_i">'+ $('#lblSoluzione').text()  + '</i></span></label></div>'
+		strHTML_esito += '<div class="col-xs-12 NoPad text-left"><label class="lblEsitoErr"><span class="glyphicon glyphicon-remove">&nbsp;<label>'+$('#lblParola').text()+'</label>\n<i class="lblEsitoErr_i">'+ $('#lblSoluzione').text()  + '</i></span></label></div>'				
 		pSetRis();			
 		if(isLinguaInglese() && ($('#btnModalitaInf').hasClass('ModalitaSelezionata') ||$('#btnModalita10').hasClass('ModalitaSelezionata')) ){
 			addParolaSbagliata($('#lblParola').html().trim());
@@ -286,8 +297,8 @@ function pPopolaCarte_n(){
 		}
 				
 		index_n_parole = 0;
-		console.log('array_n_parole');
-		console.log(array_n_parole);
+		//console.log('array_n_parole');
+		//console.log(array_n_parole);
 		
 	}else{
 		if(index_n_parole <= array_n_parole.length ){
@@ -305,9 +316,10 @@ function pPopolaCarte_n(){
 			//sbagliate= $('#lblSbagliate').text();
 			//tot= indovinate + sbagliate;
 			tot = NUM_10
-			let sHtml = '<br><br><button class="btn btn-primary" style="background: transparent;" onclick="pClickModalita10();"><span style="font-size:65px;" class="glyphicon glyphicon-refresh"></span></button>'
-			sHtml += '<div class="col-xs-12" style="height:10px;"></div><div class="col-xs-12">' + strHTML_esito + '</div>'
-			$('#lblParola').html('<span style="margin-top:-40px;">FINITO</span>\nIndovinate\n' + indovinate + '/' + tot + sHtml);
+			let sHtml = '<div class="col-xs-12" style="height:5px;"></div>'
+			sHtml+= '<div class="col-xs-12"><button class="btn btn-primary" style="background: transparent;" onclick="pClickModalita10();"><span style="font-size:65px;" class="rotazione glyphicon glyphicon-refresh"></span></button></div>'
+			sHtml += '<div class="col-xs-12" style="height:5px;"></div><div class="col-xs-12 divInfoErrori">' + strHTML_esito + '</div>'
+			$('#lblParola').html('<span style="margin-top:-40px;">Indovinate\n' + indovinate + '/' + tot + sHtml);
 			$('#btnSoluzione').css('display', 'none');
 			$('.lblParola').removeClass('kana');
 		}
@@ -347,8 +359,7 @@ function pCheckTotTradCateg(){
 	return true;	
 }
 
-
-function pCreaSubarrayDiNParole(n){
+function pCreaSubarrayDiNParole_NEW(n){
 	let arrCompleto = JSON.parse(localStorage["olo_Traduzioni"])
 	if(arrCompleto == undefined){
 		return []
@@ -363,7 +374,51 @@ function pCreaSubarrayDiNParole(n){
 			arrCompleto = arrCompletoFiltratoPerCateg;
 			
 		}else{
-			alert('Non ci sono 10 traduzioni per la categoria selezionata!');			
+			alert('Non ci sono ' + NUM_10 + ' traduzioni per la categoria selezionata!');			
+		}
+		
+	}else{
+		//NON FILTRO PER CATEGORIA, USO TUTTE LE PAROLE!
+	}
+	//***********
+	let lungh = arrCompleto.length
+	let arr = [];
+	let i;
+	if(n >= lungh){
+		return arrCompleto
+	}
+	let arrRet = [];
+	let arrIndiciRandom = pCreaArrayIndiciDistinti(arrCompleto.length, n);
+	let indice;
+	for(let i = 0; i<n; ++i){
+		indice = arrIndiciRandom[i];
+		arrRet.push(arrCompleto[indice])
+		
+	}
+	return arrRet;
+	
+}
+
+function pCreaSubarrayDiNParole(n){
+	return pCreaSubarrayDiNParole_NEW(n);
+}
+
+function pCreaSubarrayDiNParole_OLD(n){
+	let arrCompleto = JSON.parse(localStorage["olo_Traduzioni"])
+	if(arrCompleto == undefined){
+		return []
+	}
+	
+	//***********
+	let CategSel = GetCategSelezionata();
+	if(CategSel != '-1'){
+		//let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => o.categoria == CategSel)
+		let arrCompletoFiltratoPerCateg = arrCompleto.filter(o => check_binary(o.categoria, CategSel))
+		if(arrCompletoFiltratoPerCateg.length >= n){
+			arrCompleto = arrCompletoFiltratoPerCateg;
+			
+		}else{
+			alert('Non ci sono ' + NUM_10 + ' traduzioni per la categoria selezionata!');			
 		}
 		
 	}else{
@@ -391,10 +446,11 @@ function pCreaSubarrayDiNParole(n){
 	if(n >= lungh){
 		return arrCompleto
 	}
-	let MAXIMUM = 3*NUM_10;
+	let MAXIMUM = 30*NUM_10;
 	let iter = 0;
 	//for(let j = 0; j<n; ++j){
 	let j = 0;
+	let ar = new Set();
 	while(arrEscludiGiaUsateNEW.length < n){
 	 
 		
@@ -418,16 +474,18 @@ function pCreaSubarrayDiNParole(n){
 		}else{
 			//NO ESCLUSIONI: per ora funziona solo questo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			//Aggiungo
-			if(arr.indexOf(arrCompleto[i]) == -1){			
-				arr[j] = arrCompleto[i];				
-			}else{
-				j = j - 1;			
-			}
-			//arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"])
-			if(arrEscludiGiaUsateNEW.includes(arrCompleto[i]["counter"]) == false){
-				arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"]);
-				j += 1;
-			}
+			if(setIndiciUsati.has(i) == false){
+				if(arr.indexOf(arrCompleto[i]) == -1){			
+					arr[j] = arrCompleto[i];				
+				}else{
+					j = j - 1;			
+				}
+				//arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"])
+				if(arrEscludiGiaUsateNEW.includes(arrCompleto[i]["counter"]) == false){
+					arrEscludiGiaUsateNEW.push(arrCompleto[i]["counter"]);
+					j += 1;
+				}
+			}			
 		}			
 		
 		iter +=1;
@@ -435,7 +493,9 @@ function pCreaSubarrayDiNParole(n){
 	}
 	sessionStorage["arrEscludiGiaUsate"] = JSON.stringify(arrEscludiGiaUsate);
 	
-	console.log(arr)
+	console.log('n = ' + n)
+	console.log('arr.length = ' + arr.length)
+	console.log('--------- ')
 	return arr;
 	
 }
@@ -568,7 +628,6 @@ function randomFlag(){
 }
 
 /**************************** GIOCA HIRAGANA *******************************************************************/
-
 function creaArrayHiragana(){
 	const startCode = 0x3041;
 	const endCode = 0x3093;
@@ -630,7 +689,6 @@ function isHiragana(){
 	return b;
 }
 
-
 function pCreaSubarrayDiNParole_Sbagliate(){
 	let arrSb = [];
 	let t = 0
@@ -659,11 +717,6 @@ function pCreaArraySbagliate(){
 	}
 	return arr;			
 }
-
-
-
-
-
 
 function elencoFiltraCategHard(){
 	modalita = 'H'
@@ -702,4 +755,15 @@ function GetHint(){
 	}
 	
 	
+}
+
+function pCreaArrayIndiciDistinti(lungTot, lungRet){
+	let arrRet = [];
+	let arrIndici = [...Array(lungTot).keys()].map(i => i );		
+	while(arrRet.length < lungRet){
+		let i = Math.floor(Math.random() * arrIndici.length);
+		arrRet.push(arrIndici[i]);
+		arrIndici.splice(i,1)		
+	}
+	return arrRet
 }
