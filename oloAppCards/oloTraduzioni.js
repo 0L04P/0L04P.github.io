@@ -297,12 +297,14 @@ function CLEAR_LS(){
 	ClearLS();
 }
 function ClearLS(){
-	//creo backup
-	let timestamp = pGetTimestamp();
-	timestamp = timestamp.replaceAll(',', '_').replaceAll('.', '_').replaceAll('\/','_').replaceAll(':', '_').replaceAll('  ', '_').replaceAll(' ', '___').replaceAll('/', '_');
-	localStorage["bak_" + timestamp] = localStorage["olo_Traduzioni"];
-	localStorage["olo_Traduzioni"] = undefined;
-	location.reload();
+	if(confirm("ELIMINRE I LOCAL STORAGE DELLE TRADUZIONI?")){
+			//creo backup
+		let timestamp = pGetTimestamp();
+		timestamp = timestamp.replaceAll(',', '_').replaceAll('.', '_').replaceAll('\/','_').replaceAll(':', '_').replaceAll('  ', '_').replaceAll(' ', '___').replaceAll('/', '_');
+		localStorage["bak_" + timestamp] = localStorage["olo_Traduzioni"];
+		localStorage["olo_Traduzioni"] = undefined;
+		location.reload();		
+	}
 }
 function apriSetting(){
 	if($('#divSettings').is(':visible')){
