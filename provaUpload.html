@@ -23,7 +23,7 @@
 	font-weight:400;		
  }
 .img{
-	max-width:99%;
+	max-width:100%;
 	border-radius:10px;
 }
 </style>
@@ -2515,32 +2515,32 @@ SOFTWARE.
  <script src='provaUpload.js'></script>
  
 <body  style = "background-color:#123456; color:#ffffff;">
-	<div class="container" style="">
-		<h4 id="titolo" style="margin-bottom:0px">test upload</h4>
-		
+	<div class="container-fluid" style="">
+		<h4 id="titolo" style="margin-bottom:0px; text-align: center;">test upload</h4>
+		<div class='col-xs-12'>
+			<input id='txtFoto1' type='file' style='width:100%;' onchange='UploadFoto()'/>
+		</div>
 		<div class='col-xs-12 col-md-4'>
 			<h4>1 - MOL</h4>
-			<input id='txtFoto1' type='file' onchange='UploadFoto(1)'/>
+			
 			<img id='img1' class='img'/>
 			<label id='lbl1'></label>
+			<label id='lblGPS1'></label>
 		</div>
 		
 		<div class='col-xs-12 col-md-4'>
 			<h4>2 - CLASSICO</h4>
-			<input id='txtFoto2' type='file'  onchange='UploadFoto(2)'/>
+			
 			<img id='img2' class='img'/>
-			<label id='lbl2'></label>
+			<label id='lbl2'></label>			
 		</div>
 		
 		<div class='col-xs-12 col-md-4'>
 			<h4>3 - CLASSICO NO RESIZE</h4>
-			<input id='txtFoto3' type='file'  onchange='UploadFoto(3)'/>
+			
 			<img id='img3' class='img'/>
-			<label id='lbl3'></label>
-		</div>
-		
-
-		
+			<label id='lbl3'></label>			
+		</div>		
 	</div> 	
 </body> 
 </html>

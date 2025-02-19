@@ -1,5 +1,5 @@
-function UploadFoto(id) {
-	switch(id){
+function UploadFoto() {
+	/*switch(id){
 		case 1:			
 			pPromessaUploadFoto();
 			
@@ -10,18 +10,22 @@ function UploadFoto(id) {
 		case 3:
 			PromessaUploadFoto_Base(false);
 			break;
-	}    	
+	} */  
+pPromessaUploadFoto(); 	
+PromessaUploadFoto_Base(true);
+PromessaUploadFoto_Base(false);
 }
 
 
 function scriviSize(k){
 	setTimeout(function(){
-		let i = new Image()
+		let i = new Image();		
 		i.src = $('#img'+k).attr('src');
+		let s = new Blob([i.src]).size;
 		$('#lbl' +k).html(`naturalWidth = ${i.naturalWidth} \t
 					 naturalHeight = ${i.naturalHeight} \t
 					 width = ${i.width} \t
-					 height = ${i.height}\n\n
+					 height = ${i.height}\t\t\t SIZE = ${new Intl.NumberFormat().format(s)}
 					 `)
 					 /*naturalWidth = ${$('#img'+k).attr('naturalWidth')} \t
 					 naturalHeight = ${$('#img'+k).attr('naturalHeight')} \t
@@ -52,15 +56,23 @@ function pPromessaUploadFoto() {
             canvas.height = img.naturalHeight * scaleFactor;
 
             context.drawImage(img, 0, 0, width, canvas.height);
-
+						
             // Read original file data
             var reader = new FileReader();
             reader.readAsDataURL(foto);
             reader.onloadend = function () {
                 let FotoDaCaricare_Modificata;
-
+               
                 if (/jpg|jpeg/i.test(foto.name)) {
                     let exifObj = piexif.load(reader.result);
+					if(exifObj.GPS[0] != undefined){
+					/***/
+					let lon = exifObj.GPS[4][0][0]*exifObj.GPS[4][0][1] + "°" + exifObj.GPS[4][1][0]*exifObj.GPS[4][1][1] + "' " + exifObj.GPS[3];
+					let lat = exifObj.GPS[2][0][0]*exifObj.GPS[2][0][1] + "°" + exifObj.GPS[2][1][0]*exifObj.GPS[2][1][1] + "' " + exifObj.GPS[1];
+					$('#lblGPS1').html(lat  + ' - ' + lon);
+					/***/	
+					}
+					
 
                     /*************************************************************/
                     // The resulting photo may appear rotated:
@@ -93,9 +105,9 @@ function pPromessaUploadFoto() {
 function PromessaUploadFoto_Base(bResize){	
 	var foto 
 	if(bResize){
-		foto = $("#txtFoto2").prop('files')[0]; 		
+		foto = $("#txtFoto1").prop('files')[0]; 		
 	}else{
-		foto = $("#txtFoto3").prop('files')[0]; 
+		foto = $("#txtFoto1").prop('files')[0]; 
 	}
 		  			
     const blobURL = URL.createObjectURL(foto);
@@ -103,7 +115,7 @@ function PromessaUploadFoto_Base(bResize){
     img.src = blobURL;	
     img.onload = function () {
         URL.revokeObjectURL(foto);
-
+				
         var canvas = document.createElement("canvas");
         var context = canvas.getContext("2d");
         let width ;
@@ -141,4 +153,5 @@ function GetWidthResize(originalWidth) {
     else return MAX_WIDTH
 }
 
+ 
 
