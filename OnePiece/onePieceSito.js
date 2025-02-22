@@ -23,8 +23,11 @@ $(document).on('scroll', function(){
 const MAX_NUM_PAGINE= 25;
 function pCreaCapitolo(numeroVolume, bScroll = false){	
 	let numeroCapitolo = $('#txtCap').val();
+	if(numeroCapitolo < 100){
+		numeroCapitolo = PageNumberToString(numeroCapitolo,3)
+	}		
 	localStorage["capitolo"] = numeroCapitolo;
-	localStorage["numeroVolume"] = numeroVolume // $('#txtCap').val();
+	localStorage["numeroVolume"] = numeroVolume;
 	$('#cmbVolume').val(numeroVolume);
 	let chapter = ChapterNumberToString($('#txtCap').val());
 	let imageUrls = [];	
