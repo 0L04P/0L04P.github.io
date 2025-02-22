@@ -3,14 +3,14 @@
     "name": "onePieceSito",
     "short_name": "onePieceSito",
     "description": "onePieceSito",
-    "start_url": "/onePiece/onePieceSito.html",
+    "start_url": "/OnePiece/onePieceSito.html",
     "background_color": "#16293c",
     "theme_color": "#16293c",
     "orientation": "any",
     "display": "fullscreen",
     "icons": [
         {
-            "src": "/onePiece/icona.png",
+            "src": "/OnePiece/icona.png",
             "sizes": "512x512",
             "purpose": "maskable"
         }
