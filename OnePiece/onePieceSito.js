@@ -6,8 +6,8 @@ $(document).ready(function(){
 		installPrompt = event;			
 	});
 	
-	if(localStorage["capitolo"] != undefined && localStorage["capitolo"] > 0){			
-		$('#txtCap').val(parseInt(localStorage["capitolo"]))
+	if(localStorage["OP_capitolo"] != undefined && localStorage["OP_capitolo"] > 0){			
+		$('#txtCap').val(parseInt(localStorage["OP_capitolo"]))
 		creaCapitolo(true)		
 	}	
 
@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 				
 $(document).on('scroll', function(){
-	//localStorage["capitolo_scroll"] = window.scrollY
+	//localStorage["OP_capitolo_scroll"] = window.scrollY
 })
 
 const MAX_NUM_PAGINE= 25;
@@ -26,8 +26,8 @@ function pCreaCapitolo(numeroVolume, bScroll = false){
 	if(numeroCapitolo < 100){
 		numeroCapitolo = PageNumberToString(numeroCapitolo,3)
 	}		
-	localStorage["capitolo"] = numeroCapitolo;
-	localStorage["numeroVolume"] = numeroVolume;
+	localStorage["OP_capitolo"] = numeroCapitolo;
+	localStorage["OP_numeroVolume"] = numeroVolume;
 	$('#cmbVolume').val(numeroVolume);
 	let chapter = ChapterNumberToString($('#txtCap').val());
 	let imageUrls = [];	
@@ -54,9 +54,9 @@ function pCreaCapitolo(numeroVolume, bScroll = false){
 	})
 	$('.MyPagina').html(sHTML);
 		
-	if(bScroll && localStorage["capitolo_scroll"] && localStorage["capitolo_scroll"] > 0){
-			let s = localStorage["capitolo_scroll"] ;
-			localStorage["capitolo_scroll"]  = 0;
+	if(bScroll && localStorage["OP_capitolo_scroll"] && localStorage["OP_capitolo_scroll"] > 0){
+			let s = localStorage["OP_capitolo_scroll"] ;
+			localStorage["OP_capitolo_scroll"]  = 0;
 			$("html, body").animate({ scrollTop: s}, 'fast'); 
 			return false;
 	}
