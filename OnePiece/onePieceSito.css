@@ -71,7 +71,10 @@
 #cmbVolume{
 	width:100px;
 }
-	
+.btn-info{
+	background-color: #0000ff;
+	border-color: #001429;
+}
 	
 	
 	
