@@ -108,7 +108,7 @@ function Aggiungi(){
 	objParola.traduzioni.push(setInizialeMaiuscola($('#txtNuovaTrad').val()));
 	a.push(objParola);
 	localStorage["olo_Traduzioni"] = JSON.stringify(a);
-	
+	addParolaSbagliata(parola, 4);
 	$('.tradInput').val('')
 	IndicizzaParole();
 	elenco(true, parola)
@@ -496,6 +496,30 @@ function salvaNUM(){
 	localStorage["NUM"] = $('#txtNUM').val();
 }
 
+function addParolaSbagliata(parolaSbagliata, k = 1){	
+	let arr;
+	let obj = {};
+	
+	if(localStorage["ParoleSbagliate"] == undefined){		
+		obj["parola"] = parolaSbagliata;
+		obj["count"] = k;
+		arr = [];
+		arr.push(obj);
+		localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+	}else{
+		arr = JSON.parse(localStorage["ParoleSbagliate"]);
+		let q = arr.filter(o => o.parola == parolaSbagliata)
+		if(q.length == 1){			
+			q[0].count+=1;
+			localStorage["ParoleSbagliate"] = JSON.stringify(arr);
+		}else{
+			obj["parola"] = parolaSbagliata;
+			obj["count"] = k;
+			arr.push(obj);		
+			localStorage["ParoleSbagliate"] = JSON.stringify(arr);			
+		}		 				
+	}		
+}
 
 
 
