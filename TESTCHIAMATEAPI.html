@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>TEST CHIAMATA API</title>
+  <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png"> <!--FAVICON-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!--script src='index.js'></script-->
+  <link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/><!--Icona per il mobile-->
+  <link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/><!--Icona per il mobile-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
+</head>
+
+<style>
+
+</style>
+ 
+<body  style = "background-color:#123456; color:#ffffff; padding-bottom: 200px;">
+	
+	
+	<div class="container" style="">
+		<br>
+		<button class='btn btn-success' onclick='TestChiamataOgniTotSecondi(5);'>test chiamata ogni 5 secondi</button>	
+		<br/>
+		<label id='lblEsito' style='white-space: pre;'></label>
+	</div> 
+	
+	<script>
+	const url_API = 'http://test.leonardoinformatica.com/Val_WS/ComuneWs.svc/TestChiamataWS';
+ 
+	function pCheckApi(url){
+		
+		const MyJson = '{}';
+		a = new Date()
+		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
+		console.log(ora)
+		 $.ajax({			 
+			"crossDomain": true,
+			"async": false,
+			"url": url,
+			"method": "POST",
+			"data": MyJson,
+			"contentType": "application/json; charset=utf-8",
+			 
+			 success: function(output, status, xhr) {   
+				scriviEsito(ora + ' - ' + "TUTTO OK")		
+			 },
+			 error: function(output) {
+				
+				switch(output.status.toString().substring(0,1)){
+				case '4': 
+					console.log('Error in API call: metodo non trovato! (' + output.status.toString() + ')')	
+					scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + ')')					
+					break;
+				case '5': 
+					console.log('Error in API call:  errore generico! (' + output.status.toString() + ')')
+					scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + ')')
+					break;
+				}			
+			 }		
+		  }); 				    		
+	}	
+	 
+	function TestChiamataOgniTotSecondi(iSecondi = 5){	
+		pCheckApi(url_API);
+		let iMilliSecondi = 1000 * iSecondi;		
+		let a = new Date()
+		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
+		scriviEsito(ora + ' - ' +"Avviato timer di " + iSecondi + " secondi")
+		setTimeout(function(){					
+			TestChiamataOgniTotSecondi(iSecondi)
+		}, iMilliSecondi);			
+	}
+	
+	function scriviEsito(testo){
+		let s = '';
+		if(sessionStorage['OGGI'] != getOggi()){
+			sessionStorage['OGGI'] = getOggi()
+			s+= '___________' + sessionStorage['OGGI']  + '___________\n'
+		}
+	
+	
+		let oldtesto = $('#lblEsito').text()
+		$('#lblEsito').text(oldtesto + '\n' + s + testo)
+		$("html, body").animate({ scrollTop: 10000}, 'fast'); 
+	
+	}
+	
+	function getOggi(bOrario = false){
+	let d = (new Date())
+	let s = p(d.getDate()) + '-' + p((1+d.getMonth())) + '-' + p(d.getFullYear()) 
+	if(bOrario){	s+= ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());}
+	return s;
+}
+
+function p(s){	
+	s = '00' + s;
+	return s.substr(s.length -2,2);
+}
+	
+	</script>
+</body> 
+</html>
