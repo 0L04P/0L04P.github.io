@@ -1,4 +1,4 @@
-const MAX_NUM_FOTO = 6;
+const MAX_NUM_FOTO = 23;
 
  
 (function () {
@@ -10,7 +10,7 @@ const MAX_NUM_FOTO = 6;
 
 function Gioca(){
 	let randomnumber = Math.ceil(Math.random()*MAX_NUM_FOTO);
-	let nomefoto = pFormatta(randomnumber) + '.png';
+	let nomefoto = pFormatta(randomnumber) + '.jpg';
 	let sURL = 'https://0l04p.github.io/oloAppCards/DixitCards/';
 	sURL += nomefoto;
 	$('#imgGioca').attr('src', sURL);
