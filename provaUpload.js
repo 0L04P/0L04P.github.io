@@ -22,10 +22,8 @@ function scriviSize(k){
 		let i = new Image();		
 		i.src = $('#img'+k).attr('src');
 		let s = new Blob([i.src]).size;
-		$('#lbl' +k).html(`naturalWidth = ${i.naturalWidth} \t
-					 naturalHeight = ${i.naturalHeight} \t
-					 width = ${i.width} \t
-					 height = ${i.height}\t\t\t SIZE = ${new Intl.NumberFormat().format(s)}
+		$('#lbl' +k).html(`width = ${i.width} \n
+					 height = ${i.height}\n SIZE = ${new Intl.NumberFormat().format(s)}
 					 `)
 					 /*naturalWidth = ${$('#img'+k).attr('naturalWidth')} \t
 					 naturalHeight = ${$('#img'+k).attr('naturalHeight')} \t
