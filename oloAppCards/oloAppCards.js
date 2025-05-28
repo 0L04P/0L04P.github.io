@@ -80,8 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	JSON.parse(localStorage['ParoleSbagliate']).length > NUM_10 ? $('#btnCateg_HARD').fadeIn() : $('#btnCateg_HARD').fadeOut();
 	initVariabiliRis();				
 	pCambiaLingua();
+
+	pFondoPagina();
 });
 
+function pFondoPagina(altroTesto = ''){
+	let sFondoPagina= JSON.parse(localStorage['olo_Traduzioni']).length + ' parole ' + altroTesto;
+	$('#lblFondoPagina').html(sFondoPagina)
+	return sFondoPagina;
+}
 
 function SetNUM_10(){	
 	if(localStorage["NUM"] != undefined){
@@ -512,7 +519,7 @@ function GiocaCateg(q){
 	let id = q.id;
 	let b = $('#' + id).attr('class').includes('CategSelezionata');
 	
-	
+	pFondoPagina(NUM_10);
 	
 	$('.btnGiocaCateg').removeClass('CategSelezionata');
 	if(b == false){
