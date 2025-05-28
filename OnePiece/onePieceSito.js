@@ -151,12 +151,7 @@ function pPopolaCmbVolumi(){
 	
 	$('#cmbVolume').html(sHTML);
 }		
-		
-		
-		
-		
-		
-		
+
 function getVolumeFromPage(p){
 	let ret = '';
 	if(p.toString().length <= 3){
@@ -165,7 +160,9 @@ function getVolumeFromPage(p){
 		ret = objVolumi['CAP' + PageNumberToString(p,4)]
 	}	
 	if(!ret){
-		ret = Math.floor(p/10) - 1
-	}
-	return ret.replace('VOL', '');
-}		
+		ret = Math.floor(p/10) - 1;
+		return ret;
+	}else{
+		return ret.replace('VOL', '');
+	}		
+}	
