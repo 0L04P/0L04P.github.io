@@ -519,8 +519,6 @@ function GiocaCateg(q){
 	let id = q.id;
 	let b = $('#' + id).attr('class').includes('CategSelezionata');
 	
-	pFondoPagina(NUM_10);
-	
 	$('.btnGiocaCateg').removeClass('CategSelezionata');
 	if(b == false){
 		$('#' + id).addClass('CategSelezionata');
