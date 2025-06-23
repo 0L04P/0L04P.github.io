@@ -37,7 +37,7 @@
 	const urlREAL = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlli';
 	const urlFAKE = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlliiiiii';
 	function pChiamiApi(url){
-		
+		 
 		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
 		
 		 $.ajax({			 
@@ -105,12 +105,13 @@
 		pChiamiApi(urlFAKE)	
 	}
 		
-	function VerificaCheMbeFunzionaOgniTot(iMinuti = 10){	
+	function VerificaCheMbeFunzionaOgniTot(iMinuti = 5){	
 		pCheckApi(urlREAL);
 		let iMilliSecondi = 60 * 1000 * iMinuti;		
 		let a = new Date()
-		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
-		scriviEsito(ora + ' - ' +"Avviato timer di " + iMinuti + " minuti")
+		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
+		//scriviEsito(ora + ' - ' +"Avviato timer di " + iMinuti + " minuti")
+		console.log(ora + ' - ' +"Avviato timer di " + iMinuti + " minuti");
 		setTimeout(function(){		
 			//pCheckApi(urlREAL);
 			VerificaCheMbeFunzionaOgniTot(iMinuti)
