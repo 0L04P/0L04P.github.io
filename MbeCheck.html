@@ -69,7 +69,7 @@
 		
 		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
 		a = new Date()
-		let ora = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds()
+		let ora = a.getHours().toString().padStart(2, "0") + ':' + a.getMinutes().toString().padStart(2, "0") + ':' + a.getSeconds().toString().padStart(2, "0")
 		console.log(ora)
 		 $.ajax({			 
 			"crossDomain": true,
@@ -140,8 +140,10 @@
 }
 
 function p(s){	
-	s = '00' + s;
+	/*s = '00' + s;
 	return s.substr(s.length -2,2);
+	*/
+	return s.padStart(2, "0");
 }
 	
 	</script>
