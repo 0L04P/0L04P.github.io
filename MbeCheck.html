@@ -63,15 +63,15 @@ VerificaCheMbeFunzionaOgniTot(5);
 				switch(output.status.toString().substring(0,1)){
 				case '4': 
 					alert('Error in API call: metodo non trovato! (' + output.status.toString() + ')')
-						scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + ')')		
+						scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + '-' + output.statusText + ')')	
 					break;
 				case '5': 
 					alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
-						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
 					break;
 					default:
 						alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
-						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
 				}			
 			 }		
 		  }); 				    		
@@ -98,14 +98,17 @@ VerificaCheMbeFunzionaOgniTot(5);
 				
 				switch(output.status.toString().substring(0,1)){
 				case '4': 
-					console.log('Error in API call: metodo non trovato! (' + output.status.toString() + ')')	
-					scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + ')')					
+					alert('Error in API call: metodo non trovato! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + '-' + output.statusText + ')')	
 					break;
 				case '5': 
-					console.log('Error in API call:  errore generico! (' + output.status.toString() + ')')
-					scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + ')')
+					alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
 					break;
-				}			
+					default:
+						alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
+				}		
 			 }		
 		  }); 				    		
 	}
@@ -161,5 +164,6 @@ function p(s){
 	</script>
 </body> 
 </html>
+
 
 
