@@ -1,4 +1,4 @@
-const CACHE_NAME = `onePieceSitoCache_v6`;
+const CACHE_NAME = `onePieceSitoCache_v7`;
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
@@ -43,3 +43,4 @@ self.addEventListener('fetch', event => {
     }
   })());
 });
+
