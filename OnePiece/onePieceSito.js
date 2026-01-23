@@ -20,7 +20,7 @@ $(document).on('scroll', function(){
 	//localStorage["OP_capitolo_scroll"] = window.scrollY
 })
 
-const MAX_NUM_PAGINE= 25;
+const MAX_NUM_PAGINE=3;
 function pCreaCapitolo(numeroVolume, bScroll = false){	
 	let numeroCapitolo = $('#txtCap').val();
 	if(numeroCapitolo < 100){
@@ -160,9 +160,36 @@ function getVolumeFromPage(p){
 		ret = objVolumi['CAP' + PageNumberToString(p,4)]
 	}	
 	if(!ret){
-		ret = Math.floor(p/10) - 1;
+		
+		if(localStorage["VOL_" + $('#txtCap').val()]){
+			ret = localStorage["VOL_" + $('#txtCap').val()];
+		}else{			
+			ret = Math.floor(p/10) - 1;
+		}					
 		return ret;
 	}else{
 		return ret.replace('VOL', '');
 	}		
 }	
+
+
+function salvaVolume(){
+	
+	localStorage["VOL_" + $('#txtCap').val()] = $('#txtNumVolumeManuale').val();
+	 $('#divVolManuale').fadeOut();
+	 creaCapitolo();
+}
+
+function ApriSalvaVolume(){
+	if(localStorage["VOL_" + $('#txtCap').val()]){
+		
+		$('#txtNumVolumeManuale').val(localStorage["VOL_" + $('#txtCap').val()]);
+	}
+	 $('#divVolManuale').fadeIn();
+}
+
+function ChiudiSalvaVolume(){
+	
+	 $('#divVolManuale').fadeOut();
+	 $('#txtNumVolumeManuale').val('')
+}
