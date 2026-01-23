@@ -186,6 +186,9 @@ function ApriSalvaVolume(){
 		$('#txtNumVolumeManuale').val(localStorage["VOL_" + $('#txtCap').val()]);
 	}
 	 $('#divVolManuale').fadeIn();
+	 
+	 let c = Math.floor($('#txtCap').val()/10) - 1;
+	 $('#lblStima').html('Stima: ' + c)
 }
 
 function ChiudiSalvaVolume(){
