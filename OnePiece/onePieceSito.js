@@ -20,7 +20,7 @@ $(document).on('scroll', function(){
 	//localStorage["OP_capitolo_scroll"] = window.scrollY
 })
 
-const MAX_NUM_PAGINE=3;
+const MAX_NUM_PAGINE=25;
 function pCreaCapitolo(numeroVolume, bScroll = false){	
 	let numeroCapitolo = $('#txtCap').val();
 	if(numeroCapitolo < 100){
@@ -195,4 +195,5 @@ function ChiudiSalvaVolume(){
 	
 	 $('#divVolManuale').fadeOut();
 	 $('#txtNumVolumeManuale').val('')
+
 }
