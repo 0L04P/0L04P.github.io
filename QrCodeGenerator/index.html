@@ -1,10 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
-<title>Cross-Browser QRCode generator for Javascript</title>
-	<link rel="icon" href="https://0l04p.github.io/QrCodeGenerator/qr.ico" sizes="32x32">
-		<link rel="icon" href="https://0l04p.github.io/QrCodeGenerator/qr.ico" sizes="192x192">
-		<link rel="apple-touch-icon" href="https://0l04p.github.io/QrCodeGenerator/qr.ico">
+<title>Generatore di QrCode</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -27,11 +24,17 @@
 	border-radius:5px;
     padding: 5px;
 }
-
+.titolo{
+	text-align: center;
+    background: #ffa500;
+    border-radius: 5px;
+    width: 50%;
+    margin-left: 25%;
+}
 </style>
 
 <div class='col-xs-12'>
-<h4>Generatore di QrCodes</H4>
+<h4>Generatore di QrCode</h4>
 <button class='btn btn-primary' onclick='agg()'>AGG</button>
 
 <button class='btn btn-warning' onclick='pQrDaText()'>QrCodes da textarea</button>
@@ -51,10 +54,13 @@
 
 <script type="text/javascript">
 function pulisci(){$('#divElencoQrCodes').html(''); $('#txta').val('');}
-function agg(){
+function agg(k = 0){
 	let i = $('.qr').length;
 	i += 1;
-	let s = sHTML.replace('$i$', i).replace('$i$', i).replace('$i$', i).replace('$i$', i);
+	if(k == 0){
+		k = i;
+	}
+	let s = sHTML.replace('$i$', k).replace('$i$', k).replace('$i$', k).replace('$i$', k);
 	$('#divElencoQrCodes').append(s);
 }
 
@@ -81,7 +87,7 @@ function pQrDaText(){
 	$('#txta').val().trim().replaceAll("\t", "===").replaceAll("\n", "===").replaceAll(" ", "===").split("===").forEach(function (item) {
 		if(item != ''){
 			i+=1;
-			agg();
+			
 			
 			let qrCode_Codice = '';
 			let qrCode_Descr = '';
@@ -94,19 +100,21 @@ function pQrDaText(){
 				qrCode_Descr = s[1];
 			}
 			
-			if(qrCode_Codice == '0000'){			 
-				$('#divElencoQrCodes').append('<div class="col-xs-12" style="border-top:solid 3px black; margin-top:10px;"></div>');
+			if(qrCode_Codice == '0000'){					
+				$('#divElencoQrCodes').append('<div class="col-xs-12" style="border-top:solid 3px black; margin-top:10px;"><h2 class="titolo">'+qrCode_Descr+'</h2></div>');
+				console.log(qrCode_Descr)
 			}else{
-			$('#text_' + i).val(qrCode_Codice);	
-			$('#lbl_' + i).html(qrCode_Descr);	
-			makeCode(i);
+				agg(i);
+				$('#text_' + i).val(qrCode_Codice);	
+				$('#lbl_' + i).html(qrCode_Descr);	
+				makeCode(i);
 			}			
 						
 		}  
 	});
 }
  
- const sHTML = `	<div class='col-xs-12 col-md-3' style='padding-top:10px;'>
+ const sHTML = `	<div class='col-xs-12 col-sm-6 col-md-4 col-lg-3' style='padding-top:10px;'>
 		<input id="text_$i$" type="text" class="form-control" style="width:220px; font-weight:bold; font-size: 20px;" onchange="makeCode($i$)"/> 
 		<div id="qrcode_$i$" class="qr"></div>
 		<label id='lbl_$i$'></label>
