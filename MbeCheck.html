@@ -3,76 +3,167 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>TITOLO</title>
-  <meta name="color-scheme" content="light">
+  <title>MBE Check</title>
+  <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png"> <!--FAVICON-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-</script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
-</script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
-
-<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="qrcode.js"></script>
-
-
-  <link rel="icon" type="image/x-icon" href="https://0l04p.github.io/logo152.png"> <!--FAVICON-->  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <!--script src='index.js'></script-->
   <link href='https://0l04p.github.io/logo120.png' rel='apple-touch-icon' sizes='120×120'/><!--Icona per il mobile-->
   <link href='https://0l04p.github.io/logo152.png' rel='apple-touch-icon' sizes='152×152'/><!--Icona per il mobile-->
-
-
-<script type="text/javascript">
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	width : 100,
-	height : 100
-});
-
-function makeCode () {		
-	var elText = document.getElementById("text");
-	
-	if (!elText.value) {
-		alert("Input a text");
-		elText.focus();
-		return;
-	}
-	
-	qrcode.makeCode(elText.value);
-}
-
-makeCode();
-
-$("#text").
-	on("blur", function () {
-		makeCode();
-	}).
-	on("keydown", function (e) {
-		if (e.keyCode == 13) {
-			makeCode();
-		}
-	});
-</script>
- 
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
 </head>
 
 <style>
-	#qrcode {
-	  width:160px;
-	  height:160px;
-	  margin-top:15px;
-	}
+
 </style>
  
-<body  style = " ">
-	<div class="container-fluid" style="">
+<body  style = "background-color:#123456; color:#ffffff; padding-bottom: 200px;">
+	<div class="container" style="">
+		<h4 id="titolo" style="margin-bottom: 20px">MBE API CHECK</h4><br><br><br><br>
+		<button class='btn btn-success' onclick='ChiamiApiReal();'>TEST API MBE APP</button>		
+	</div> 
 	
+	<div class="container" style="">
+		<br>
+		<button class='btn btn-success' onclick='VerificaCheMbeFunzionaOgniTot(5);'>MBE API CHECK - ogni 5 minuti</button>	
+		<br/>
+		<label id='lblEsito' style='white-space: pre;'></label>
+	</div> 
+	
+	<script>
+	const urlREAL = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlli';
+	const urlFAKE = 'https://mbe.gruppolercari.com/WS/ComuneWs.svc/GetLinguaControlliiiiii';
 
+$(document).ready(function(){
+VerificaCheMbeFunzionaOgniTot(5);
 	
-		<input id="text" type="text" value="123" class="form-control" style="width:150px;" />
-		<br />
-		<div id="qrcode" style="width:150px;">
-		</div>	 
-	 </div>
+})
+		
+	function pChiamiApi(url){
+		let ora = a.getHours().toString().padStart(2, "0") + ':' + a.getMinutes().toString().padStart(2, "0") + ':' + a.getSeconds().toString().padStart(2, "0")
+		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
+		
+		 $.ajax({			 
+			"crossDomain": true,
+			"async": false,
+			"url": url,
+			"method": "POST",
+			"data": MyJson,
+			"contentType": "application/json; charset=utf-8",
+			 
+			 success: function(output, status, xhr) {   
+				//alert('Metodo trovato! (' + xhr.status.toString() + ')\n\n' + output.d)	;
+				 scriviEsito(ora + ' - ' + "TUTTO OK")		
+			 },
+			 error: function(output) {
+				
+				switch(output.status.toString().substring(0,1)){
+				case '4': 
+					//alert('Error in API call: metodo non trovato! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + '-' + output.statusText + ')')	
+					break;
+				case '5': 
+					//alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
+					break;
+					default:
+						//alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
+				}			
+			 }		
+		  }); 				    		
+	}
+	
+	function pCheckApi(url){
+		
+		const MyJson = '{ "Form" : "~/appLogin.html", "Token" : "" }';
+		a = new Date()
+		let ora = a.getHours().toString().padStart(2, "0") + ':' + a.getMinutes().toString().padStart(2, "0") + ':' + a.getSeconds().toString().padStart(2, "0")
+		console.log(ora)
+		 $.ajax({			 
+			"crossDomain": true,
+			"async": false,
+			"url": url,
+			"method": "POST",
+			"data": MyJson,
+			"contentType": "application/json; charset=utf-8",
+			 
+			 success: function(output, status, xhr) {   
+				scriviEsito(ora + ' - ' + "TUTTO OK")		
+			 },
+			 error: function(output) {
+				
+				switch(output.status.toString().substring(0,1)){
+				case '4': 
+					//alert('Error in API call: metodo non trovato! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call: metodo non trovato! (' + output.status.toString() + '-' + output.statusText + ')')	
+					break;
+				case '5': 
+					//alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
+					break;
+					default:
+						//alert('Error in API call:  errore generico! (' + output.status.toString() + ')')
+						scriviEsito(ora + ' - ' + 'Error in API call:  errore generico! (' + output.status.toString() + '-' + output.statusText + ')')
+				}		
+			 }		
+		  }); 				    		
+	}
+	
+	function ChiamiApiReal(){
+		pChiamiApi(urlREAL)	
+	}
+	function ChiamiApiFake(){
+		pChiamiApi(urlFAKE)	
+	}
+		
+	function VerificaCheMbeFunzionaOgniTot(iMinuti = 5){	
+		pCheckApi(urlREAL);
+		let iMilliSecondi = 60 * 1000 * iMinuti;		
+		let a = new Date()
+		let ora = a.getHours().toString().padStart(2, "0") + ':' + a.getMinutes().toString().padStart(2, "0") + ':' + a.getSeconds().toString().padStart(2, "0");
+		//scriviEsito(ora + ' - ' +"Avviato timer di " + iMinuti + " minuti")
+		console.log(ora + ' - ' +"Avviato timer di " + iMinuti + " minuti");
+		setTimeout(function(){		
+			//pCheckApi(urlREAL);
+			VerificaCheMbeFunzionaOgniTot(iMinuti)
+		}, iMilliSecondi);			
+	}
+	
+	function scriviEsito(testo){
+		let s = '';
+		if(sessionStorage['OGGI'] != getOggi()){
+			sessionStorage['OGGI'] = getOggi()
+			s+= '___________' + sessionStorage['OGGI']  + '___________\n'
+		}
+	
+	
+		let oldtesto = $('#lblEsito').text()
+		$('#lblEsito').text(oldtesto + '\n' + s + testo)
+		$("html, body").animate({ scrollTop: 10000}, 'fast'); 
+	
+	}
+	
+	function getOggi(bOrario = false){
+	let d = (new Date())
+	let s = p(d.getDate()) + '-' + p((1+d.getMonth())) + '-' + p(d.getFullYear()) 
+	if(bOrario){	s+= ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());}
+	return s;
+}
+
+function p(s){	
+	/*s = '00' + s;
+	return s.substr(s.length -2,2);
+	*/
+	return s.toString().padStart(2, "0");
+}
+	
+	</script>
 </body> 
 </html>
+
+
+
