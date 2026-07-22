@@ -126,7 +126,7 @@ for(let j =0; j<t; ++j){
 	let base64 =  $('img')[j].src.replace("data:image/png;base64,", "")
 	let link = document.createElement("a");
 	link.href = `data:image/png;base64,${base64}`;
-	link.download = $('#text_' + j).val().trim() + ".png";
+	link.download = $('#text_' + (j+1)).val().trim() + ".png";
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link);
